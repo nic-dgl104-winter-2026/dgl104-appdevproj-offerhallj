@@ -1,3 +1,5 @@
+import { User } from "../../dist/user/User.js";
+
 const USER_TABLE = "user_table";
 
 export class UserRepository {
@@ -49,8 +51,7 @@ export class UserRepository {
     
     }
 
-    public createUser(): boolean {
-        const newUser = { username: "test", password: "123", email: "email@email.com" };
+    public createUser(newUser: User): boolean {
         const transaction = this._db?.transaction([USER_TABLE], "readwrite");
         const objectStore = transaction?.objectStore(USER_TABLE);
         const query = objectStore?.add(newUser);

@@ -1,3 +1,4 @@
+import { User } from "../../dist/user/User.js";
 const USER_TABLE = "user_table";
 export class UserRepository {
     static get Instance() {
@@ -36,9 +37,8 @@ export class UserRepository {
             table === null || table === void 0 ? void 0 : table.createIndex("activeToken", "activeToken", { unique: false });
         });
     }
-    createUser() {
+    createUser(newUser) {
         var _a;
-        const newUser = { username: "test", password: "123", email: "email@email.com" };
         const transaction = (_a = this._db) === null || _a === void 0 ? void 0 : _a.transaction([USER_TABLE], "readwrite");
         const objectStore = transaction === null || transaction === void 0 ? void 0 : transaction.objectStore(USER_TABLE);
         const query = objectStore === null || objectStore === void 0 ? void 0 : objectStore.add(newUser);

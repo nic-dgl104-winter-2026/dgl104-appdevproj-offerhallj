@@ -28,7 +28,7 @@ export class LoginService {
     }
 
     /** Compares the value of the authentication cookie against the value stored for the user in the database to determine if the login is valid */
-    private validateAuthenticationCookie(cooke: string): boolean {
+    private validateAuthenticationCookie(cookie: string): boolean {
         return true;
     }
 }
