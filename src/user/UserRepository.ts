@@ -1,23 +1,23 @@
-// I used this article to help get started with IndexedDB
-// https://blog.logrocket.com/using-indexeddb-complete-guide/
-
-const USER_DATABASE = "user_database";
+const USER_TABLE = "user_table";
 
 export class UserRepository {
     private static _intance: UserRepository;
     private _db: IDBDatabase | undefined;
-
+    
     static get Instance(): UserRepository {
         if (UserRepository._intance == null) UserRepository._intance = new UserRepository();
         return UserRepository._intance;
     }
-
+    
     constructor() {
         this.openDatabase();
     }
     
+    // I used this article to help get started with IndexedDB
+    // https://blog.logrocket.com/using-indexeddb-complete-guide/
+    /** Open the USER_TABLE with indexedDB */
     private openDatabase() {
-        const request = window.indexedDB.open(USER_DATABASE, 1);
+        const request = window.indexedDB.open(USER_TABLE, 1);
     
         request.addEventListener("error", () => {
             console.log("Error opening database");
@@ -38,14 +38,26 @@ export class UserRepository {
     
             this._db.onerror = () => {
                 console.error('Error loading database.');
-                };
-            }
-        );
+            };
+
+            const table = this._db?.createObjectStore(USER_TABLE, { keyPath: "id", autoIncrement:true});
+            table?.createIndex("username", "username", { unique: true});
+            table?.createIndex("password", "password", { unique: false});
+            table?.createIndex("email", "email", { unique: true});
+            table?.createIndex("activeToken", "activeToken", { unique: false});
+        });
     
-        const table = this._db?.createObjectStore(USER_DATABASE, { keyPath: "id", autoIncrement:true});
-        table?.createIndex("username", "username", { unique: true});
-        table?.createIndex("password", "password", { unique: false});
-        table?.createIndex("email", "email", { unique: true});
-        table?.createIndex("activeToken", "activeToken", { unique: false});
+    }
+
+    public createUser(): boolean {
+        const newUser = { username: "test", password: "123", email: "email@email.com" };
+        const transaction = this._db?.transaction([USER_TABLE], "readwrite");
+        const objectStore = transaction?.objectStore(USER_TABLE);
+        const query = objectStore?.add(newUser);
+        query?.addEventListener("success", () => {
+
+        });
+
+        return true;
     }
 }
