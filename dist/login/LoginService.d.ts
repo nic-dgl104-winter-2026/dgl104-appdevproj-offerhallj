@@ -1,6 +1,11 @@
+import { User } from "../../dist/user/User.js";
 export declare class LoginService {
     private static _instance;
     static get Intance(): LoginService;
+    /** Attempt to create an account and login */
+    createAccountAndLogin(user: User, callback: (result: boolean) => void): void;
+    /** Attempt to log the user in with the current credentials and return the result through the callback */
+    logIn(username: string, password: string, callback: (result: boolean) => void): void;
     /** Determines whether a user is currently logged in by getting and validating the authentication cookie */
     isLoggedIn(): boolean;
     /** Returns the value stored at AUTHENtICATION_COOKIE or undefined if the cookie is not found */

@@ -3,6 +3,8 @@ export declare class User {
     username: string;
     password: string;
     email: string;
+    activeToken: string;
     constructor(username: string, password: string, email: string);
+    setActiveToken(value: string): void;
 }
 //# sourceMappingURL=User.d.ts.map

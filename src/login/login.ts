@@ -1,7 +1,7 @@
-import { UserRepository } from "../../dist/user/UserRepository.js";
+import { LoginService } from "../../dist/login/LoginService.js";
 import { User } from "../../dist/user/User.js";
 
-const repo = UserRepository.Instance;
+const login = LoginService.Intance;
 const usernameInput = document.getElementById("username") as HTMLInputElement;
 const passwordInput = document.getElementById("password") as HTMLInputElement;
 const emailInput = document.getElementById("email") as HTMLInputElement;
@@ -13,11 +13,10 @@ function createUser(e: SubmitEvent) {
     e.preventDefault();
     
     let newUser = new User(usernameInput.value, passwordInput.value, emailInput.value);
-    repo.createUser(newUser, onCreateUserResponse);
+    login.createAccountAndLogin(newUser, createAccountAndLoginResponse);
 }
 
 /** Handle the result of the createUser operation */
-function onCreateUserResponse(result: boolean, auth: string) {
-    if (result) console.log("The user was created!");
-    else console.log("An error occurred!");
+function createAccountAndLoginResponse(result: boolean) {
+    if (!result) console.log("failed to create the account");
 }

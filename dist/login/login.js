@@ -1,7 +1,7 @@
 var _a;
-import { UserRepository } from "../../dist/user/UserRepository.js";
+import { LoginService } from "../../dist/login/LoginService.js";
 import { User } from "../../dist/user/User.js";
-const repo = UserRepository.Instance;
+const login = LoginService.Intance;
 const usernameInput = document.getElementById("username");
 const passwordInput = document.getElementById("password");
 const emailInput = document.getElementById("email");
@@ -10,13 +10,11 @@ const emailInput = document.getElementById("email");
 function createUser(e) {
     e.preventDefault();
     let newUser = new User(usernameInput.value, passwordInput.value, emailInput.value);
-    repo.createUser(newUser, onCreateUserResponse);
+    login.createAccountAndLogin(newUser, createAccountAndLoginResponse);
 }
 /** Handle the result of the createUser operation */
-function onCreateUserResponse(result, auth) {
-    if (result)
-        console.log("The user was created!");
-    else
-        console.log("An error occurred!");
+function createAccountAndLoginResponse(result) {
+    if (!result)
+        console.log("failed to create the account");
 }
 //# sourceMappingURL=login.js.map
