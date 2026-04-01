@@ -3,8 +3,7 @@ import { Repository } from "../repository.js";
 export declare class UserRepository extends Repository<UserRepository> {
     static get Instance(): UserRepository;
     constructor();
-    /** Open the USER_TABLE with indexedDB */
-    private openDatabase;
+    createTable(callback: () => void): void;
     /** Attempt to add a user to the database and invoke the callback with the result and authorization token */
     createUser(newUser: User, callback: (result: boolean) => void): void;
     /** Determine whether the username and password pair match the information in the database and return an authentication token if so */

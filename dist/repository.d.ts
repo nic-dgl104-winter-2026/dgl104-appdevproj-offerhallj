@@ -6,5 +6,7 @@ export declare abstract class Repository<T> extends Singleton<T> {
     protected readonly _delayedExecution: (() => void)[];
     /** Execute any functions which were delayed due to the database not being open at the time the function was called */
     protected perfomDelayedExecution(): void;
+    protected openDatabase(table: string, version: number): void;
+    abstract createTable(callback: () => void): void;
 }
 //# sourceMappingURL=repository.d.ts.map

@@ -16,4 +16,39 @@ export abstract class Repository<T> extends Singleton<T> {
         this._delayedExecution.splice(0, this._delayedExecution.length - 1);
     }
 
+    protected openDatabase(table: string, version: number) {
+        const request = window.indexedDB.open(table, version);
+
+        request.addEventListener("error", () => {
+            console.log(`Could not open ${table}`);
+            }
+        );
+
+        request.addEventListener("success", () => {
+            console.log(`Successfully opened ${table}`);    
+            this._db = request.result;
+            this._dbIsOpen = true;
+            this.perfomDelayedExecution();
+            }
+        );
+
+        // I was having an issue getting result from the EventTarget; 
+        // after doing a bit of post I found this article that said to typecast it
+        // https://stackoverflow.com/questions/75953640/how-to-get-event-target-result-in-javascript-indexdb-typescript-working
+        request.addEventListener("upgradeneeded", init => {
+            this._db = (init.target as IDBOpenDBRequest).result;
+    
+            this._db.onerror = () => {
+                console.error('Error loading database.');
+            };
+
+            this.createTable(() => {
+                this._dbIsOpen = true;
+                this.perfomDelayedExecution();
+            });
+
+        });
+    }
+
+    abstract createTable(callback: () => void): void;
 }
