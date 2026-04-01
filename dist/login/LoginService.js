@@ -32,6 +32,11 @@ export class LoginService {
             }
         });
     }
+    /** Clear the authentication token */
+    logout() {
+        console.log("logged out");
+        document.cookie = `${AUTHENTICATION}=;max-age=-1`;
+    }
     /** Determines whether a user is currently logged in by getting and validating the authentication cookie */
     isLoggedIn(callback) {
         let cookie = this.getAuthenticationCookie();

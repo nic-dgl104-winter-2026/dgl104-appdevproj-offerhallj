@@ -6,6 +6,8 @@ export declare class LoginService {
     createAccountAndLogin(user: User, callback: (result: boolean) => void): void;
     /** Attempt to log the user in with the current credentials and return the result through the callback */
     logIn(username: string, password: string, callback: (result: boolean) => void): void;
+    /** Clear the authentication token */
+    logout(): void;
     /** Determines whether a user is currently logged in by getting and validating the authentication cookie */
     isLoggedIn(callback: (result: boolean) => void): void;
     /** Returns the value stored at AUTHENtICATION or undefined if the cookie is not found */
