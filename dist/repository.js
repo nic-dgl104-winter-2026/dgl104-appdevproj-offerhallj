@@ -36,5 +36,11 @@ export class Repository {
             });
         });
     }
+    /** Get the objectstore for the provided table using the provided transaction method */
+    getObjectStore(table, method) {
+        var _a;
+        const transaction = (_a = this._db) === null || _a === void 0 ? void 0 : _a.transaction([table], method);
+        return transaction === null || transaction === void 0 ? void 0 : transaction.objectStore(table);
+    }
 }
 //# sourceMappingURL=repository.js.map

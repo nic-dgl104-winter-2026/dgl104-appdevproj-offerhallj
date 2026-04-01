@@ -48,5 +48,11 @@ export abstract class Repository<T> {
         });
     }
 
+    /** Get the objectstore for the provided table using the provided transaction method */
+    protected getObjectStore(table: string, method: IDBTransactionMode): IDBObjectStore | undefined {
+        const transaction = this._db?.transaction([table], method);
+        return transaction?.objectStore(table); 
+    }
+
     abstract createTable(callback: () => void): void;
 }

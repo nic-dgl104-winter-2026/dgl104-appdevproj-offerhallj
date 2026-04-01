@@ -9,15 +9,32 @@ export class TaskService {
             TaskService._instance = new TaskService();
         return TaskService._instance;
     }
+    /** Create a new task and add it to the database */
     createNewTask(title, description, due, priority, callback) {
-        const username = logService.getCurrentUser();
-        if (username == undefined) {
-            console.log("Error! You must be logged in to create a task.");
+        const user = this.getUser();
+        if (user == undefined) {
             callback(false);
             return;
         }
-        const newTask = new Task(title, description, new Date(due), priority, username);
+        const newTask = new Task(title, description, new Date(due), priority, user);
         repo.createTask(newTask, callback);
+    }
+    /** Get all of the tasks for the current user */
+    getAllTasks(callback) {
+        const user = this.getUser();
+        if (user == undefined) {
+            callback(false, []);
+            return;
+        }
+        repo.getAllTasksForUser(user, callback);
+    }
+    /** Try to get the username for the current user; print an error if undefined and return the result */
+    getUser() {
+        const username = logService.getCurrentUser();
+        if (username == undefined) {
+            console.log("Error! You must be logged in to create a task.");
+        }
+        return username;
     }
 }
 //# sourceMappingURL=TaskService.js.map

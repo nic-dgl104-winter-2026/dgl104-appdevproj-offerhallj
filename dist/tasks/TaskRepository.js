@@ -23,6 +23,7 @@ export class TaskRepository extends Repository {
         table === null || table === void 0 ? void 0 : table.createIndex("user", "user", { unique: false });
         callback();
     }
+    /** Add a new task to the database */
     createTask(newTask, callback) {
         var _a;
         if (!this._dbIsOpen) {
@@ -38,6 +39,25 @@ export class TaskRepository extends Repository {
         });
         query === null || query === void 0 ? void 0 : query.addEventListener("error", () => {
             callback(false);
+        });
+    }
+    // I used this article to figure out how to use cursors in indexedDB to iterate over the table
+    // https://medium.com/@kamresh485/a-comprehensive-guide-to-cursors-in-indexeddb-navigating-and-manipulating-data-with-ease-2793a2e01ba3
+    getAllTasksForUser(user, callback) {
+        if (!this._dbIsOpen) {
+            this._delayedExecution.push(() => this.getAllTasksForUser(user, callback));
+            return;
+        }
+        const objectStore = this.getObjectStore(TASK_TABLE, "readonly");
+        const cursorRequest = objectStore === null || objectStore === void 0 ? void 0 : objectStore.openCursor();
+        cursorRequest === null || cursorRequest === void 0 ? void 0 : cursorRequest.addEventListener("success", (e) => {
+            let cursor = e.target.result;
+            if (cursor) {
+                // Access the current record
+                console.log(cursor.value);
+                // Move to the next record
+                cursor.continue();
+            }
         });
     }
 }

@@ -13,16 +13,31 @@ export class TaskService {
         return TaskService._instance;
     }
 
+    /** Create a new task and add it to the database */
     public createNewTask(title: string, description: string, due: string, priority: string, callback: (result: boolean) => void) {
+        const user = this.getUser();
+        if(user == undefined) { callback(false); return; }
+
+        const newTask = new Task(title, description, new Date(due), <TaskPriority> priority, user);
+
+        repo.createTask(newTask, callback);
+    }
+
+    /** Get all of the tasks for the current user */
+    public getAllTasks(callback: (result: boolean, tasks: Task[]) => void) {
+        const user = this.getUser();
+        if(user == undefined) { callback(false, []); return; }
+
+        repo.getAllTasksForUser(user, callback);
+    }
+
+    /** Try to get the username for the current user; print an error if undefined and return the result */
+    private getUser(): string | undefined {
         const username = logService.getCurrentUser();
         if (username == undefined) {
             console.log("Error! You must be logged in to create a task.")
-            callback(false);
-            return;
         }
 
-        const newTask = new Task(title, description, new Date(due), <TaskPriority> priority, username);
-
-        repo.createTask(newTask, callback);
+        return username;
     }
 }

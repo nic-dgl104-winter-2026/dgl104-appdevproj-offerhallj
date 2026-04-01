@@ -1,6 +1,12 @@
+import { Task } from "../../dist/tasks/Task.js";
 export declare class TaskService {
     private static _instance;
     static get Instance(): TaskService;
+    /** Create a new task and add it to the database */
     createNewTask(title: string, description: string, due: string, priority: string, callback: (result: boolean) => void): void;
+    /** Get all of the tasks for the current user */
+    getAllTasks(callback: (result: boolean, tasks: Task[]) => void): void;
+    /** Try to get the username for the current user; print an error if undefined and return the result */
+    private getUser;
 }
 //# sourceMappingURL=TaskService.d.ts.map
