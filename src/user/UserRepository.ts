@@ -51,14 +51,18 @@ export class UserRepository {
     
     }
 
-    public createUser(newUser: User): boolean {
+    // I realized in my testing that returning a value from this method wasn't working because the value was being returned before the database finished processing
+    // rather than returning a value, I decided to implement a callback so I can handle the result when the database is finished 
+    public createUser(newUser: User, callback: (result: boolean, auth: string) => void) {
         const transaction = this._db?.transaction([USER_TABLE], "readwrite");
         const objectStore = transaction?.objectStore(USER_TABLE);
         const query = objectStore?.add(newUser);
         query?.addEventListener("success", () => {
-
+            callback(true, "auth");
         });
 
-        return true;
+        query?.addEventListener("error", () => {
+            callback(false, "");
+        })
     }
 }

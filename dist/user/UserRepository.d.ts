@@ -6,6 +6,6 @@ export declare class UserRepository {
     constructor();
     /** Open the USER_TABLE with indexedDB */
     private openDatabase;
-    createUser(newUser: User): boolean;
+    createUser(newUser: User, callback: (result: boolean, auth: string) => void): void;
 }
 //# sourceMappingURL=UserRepository.d.ts.map

@@ -37,14 +37,19 @@ export class UserRepository {
             table === null || table === void 0 ? void 0 : table.createIndex("activeToken", "activeToken", { unique: false });
         });
     }
-    createUser(newUser) {
+    // I realized in my testing that returning a value from this method wasn't working because the value was being returned before the database finished processing
+    // rather than returning a value, I decided to implement a callback so I can handle the result when the database is finished 
+    createUser(newUser, callback) {
         var _a;
         const transaction = (_a = this._db) === null || _a === void 0 ? void 0 : _a.transaction([USER_TABLE], "readwrite");
         const objectStore = transaction === null || transaction === void 0 ? void 0 : transaction.objectStore(USER_TABLE);
         const query = objectStore === null || objectStore === void 0 ? void 0 : objectStore.add(newUser);
         query === null || query === void 0 ? void 0 : query.addEventListener("success", () => {
+            callback(true, "auth");
         });
-        return true;
+        query === null || query === void 0 ? void 0 : query.addEventListener("error", () => {
+            callback(false, "");
+        });
     }
 }
 //# sourceMappingURL=UserRepository.js.map
