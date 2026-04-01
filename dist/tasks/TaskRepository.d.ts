@@ -8,5 +8,6 @@ export declare class TaskRepository extends Repository<TaskRepository> {
     /** Add a new task to the database */
     createTask(newTask: Task, callback: (result: boolean) => void): void;
     getAllTasksForUser(user: string, callback: (result: boolean, tasks: Task[]) => void): void;
+    deleteTask(taskID: number, callback: (result: boolean) => void): void;
 }
 //# sourceMappingURL=TaskRepository.d.ts.map

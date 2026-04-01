@@ -1,6 +1,8 @@
 import { User } from "../../dist/user/User.js";
 import { Repository } from "../repository.js";
 const USER_TABLE = "user_table";
+// I used this resource to get started with indexedDB
+// https://blog.logrocket.com/using-indexeddb-complete-guide/
 export class UserRepository extends Repository {
     static get Instance() {
         if (UserRepository._instance == null)

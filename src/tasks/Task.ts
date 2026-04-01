@@ -8,6 +8,8 @@ export class Task {
     public priority: TaskPriority = TaskPriority.Low;
     public user: string = "";
 
+    // todo: implement subtasks as a task[] array; create a taskparent column in the database
+
     constructor(title: string, description: string, dueDate: Date, priority: TaskPriority, user: string) {
         this.title = title;
         this.description = description;

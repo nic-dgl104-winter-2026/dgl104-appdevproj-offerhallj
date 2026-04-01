@@ -25,14 +25,12 @@ export class TaskRepository extends Repository {
     }
     /** Add a new task to the database */
     createTask(newTask, callback) {
-        var _a;
         if (!this._dbIsOpen) {
             this._delayedExecution.push(() => this.createTask(newTask, callback));
             return;
         }
         // perform the database transaction
-        const transaction = (_a = this._db) === null || _a === void 0 ? void 0 : _a.transaction([TASK_TABLE], "readwrite");
-        const objectStore = transaction === null || transaction === void 0 ? void 0 : transaction.objectStore(TASK_TABLE);
+        const objectStore = this.getObjectStore(TASK_TABLE, "readwrite");
         const query = objectStore === null || objectStore === void 0 ? void 0 : objectStore.add(newTask);
         query === null || query === void 0 ? void 0 : query.addEventListener("success", () => {
             callback(true);
@@ -61,6 +59,16 @@ export class TaskRepository extends Repository {
                 return;
             }
             callback(true, tasks);
+        });
+    }
+    deleteTask(taskID, callback) {
+        const objectStore = this.getObjectStore(TASK_TABLE, "readwrite");
+        const query = objectStore === null || objectStore === void 0 ? void 0 : objectStore.delete(taskID);
+        query === null || query === void 0 ? void 0 : query.addEventListener("success", () => {
+            callback(true);
+        });
+        query === null || query === void 0 ? void 0 : query.addEventListener("error", () => {
+            callback(false);
         });
     }
 }

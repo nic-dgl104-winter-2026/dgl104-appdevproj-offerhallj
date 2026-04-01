@@ -36,8 +36,7 @@ export class TaskRepository extends Repository<TaskRepository> {
         }
 
         // perform the database transaction
-        const transaction = this._db?.transaction([TASK_TABLE], "readwrite");
-        const objectStore = transaction?.objectStore(TASK_TABLE);
+        const objectStore = this.getObjectStore(TASK_TABLE, "readwrite");
         const query = objectStore?.add(newTask);
 
         query?.addEventListener("success", () => {
@@ -72,5 +71,18 @@ export class TaskRepository extends Repository<TaskRepository> {
 
             callback(true, tasks);
         });
+    }
+
+    public deleteTask(taskID: number, callback: (result: boolean) => void) {
+        const objectStore = this.getObjectStore(TASK_TABLE, "readwrite");
+        const query = objectStore?.delete(taskID);
+        
+        query?.addEventListener("success", () => {
+            callback(true);
+        })
+
+        query?.addEventListener("error", () => {
+            callback(false);
+        })
     }
 }

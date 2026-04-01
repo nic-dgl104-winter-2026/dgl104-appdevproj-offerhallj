@@ -8,12 +8,21 @@ class TaskView {
         this._element = this.createHTMLElement();
     }
     createHTMLElement() {
-        let tr = document.createElement("tr");
+        const tr = document.createElement("tr");
         tr.appendChild(this.createCellForValue(this._task.title));
         tr.appendChild(this.createCellForValue(this._task.description));
         tr.appendChild(this.createCellForValue(this._task.dueDate.getDate().toString()));
         tr.appendChild(this.createCellForValue(this._task.priority));
         tr.appendChild(this.createCellForValue(this._task.status));
+        const buttonCell = document.createElement("td");
+        let deleteButton = document.createElement("button");
+        deleteButton.textContent = "Delete";
+        deleteButton.addEventListener("click", () => service.deleteTask(this._task, (r) => {
+            if (r)
+                deleteTaskView(this);
+        }));
+        buttonCell.appendChild(deleteButton);
+        tr.appendChild(buttonCell);
         return tr;
     }
     createCellForValue(val) {
@@ -21,6 +30,7 @@ class TaskView {
         td.textContent = val;
         return td;
     }
+    // private createButton
     get Element() {
         return this._element;
     }
@@ -62,8 +72,15 @@ function createTask(e) {
         drawTaskView(newTaskView);
     });
 }
-const taskViews = [];
+function deleteTaskView(taskView) {
+    const element = taskView.Element;
+    taskBody.removeChild(element);
+    const index = taskViews.indexOf(taskView);
+    if (index >= 0)
+        taskViews.splice(index, 1);
+}
 const service = TaskService.Instance;
+const taskViews = [];
 const createTitleInput = document.getElementById("create-title");
 const createDescriptionInput = document.getElementById("create-description");
 const createDueInput = document.getElementById("create-duedate");

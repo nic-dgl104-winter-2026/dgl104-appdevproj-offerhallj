@@ -32,6 +32,13 @@ export class TaskService {
         repo.getAllTasksForUser(user, callback);
     }
 
+    public deleteTask(task: Task , callback: (result: boolean) => void) {
+        if (task.id == undefined) { callback(false); return; }
+        const taskID: number = task.id;
+
+        repo.deleteTask(taskID, callback);
+    }
+
     /** Try to get the username for the current user; print an error if undefined and return the result */
     private getUser(): string | undefined {
         const username = logService.getCurrentUser();

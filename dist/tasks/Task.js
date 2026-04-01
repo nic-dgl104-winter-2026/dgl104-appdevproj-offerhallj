@@ -1,4 +1,5 @@
 export class Task {
+    // todo: implement subtasks as a task[] array; create a taskparent column in the database
     constructor(title, description, dueDate, priority, user) {
         this.title = "";
         this.description = "";

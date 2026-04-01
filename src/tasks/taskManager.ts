@@ -12,12 +12,21 @@ class TaskView {
     }
 
     private createHTMLElement(): HTMLElement {
-        let tr = document.createElement("tr");
+        const tr = document.createElement("tr");
         tr.appendChild(this.createCellForValue(this._task.title));
         tr.appendChild(this.createCellForValue(this._task.description));
         tr.appendChild(this.createCellForValue(this._task.dueDate.getDate().toString()));
         tr.appendChild(this.createCellForValue(this._task.priority));
         tr.appendChild(this.createCellForValue(this._task.status));
+        const buttonCell = document.createElement("td");
+        let deleteButton = document.createElement("button");
+        deleteButton.textContent = "Delete";
+        deleteButton.addEventListener("click", () => service.deleteTask(this._task, (r) => {
+            if (r) deleteTaskView(this);
+        }));
+
+        buttonCell.appendChild(deleteButton);
+        tr.appendChild(buttonCell);
         return tr;
     }
 
@@ -27,10 +36,13 @@ class TaskView {
         return td;
     }
 
+    // private createButton
+
     public get Element(): HTMLElement {
         return this._element;
     }
 }
+
 /** Retrieve all tasks for the current user from the database, convert them to taskViews, and draw them */
 function getAllTasks() {
     service.getAllTasks((result, tasks) => {
@@ -82,9 +94,16 @@ function createTask(e: SubmitEvent) {
     )
 }
 
-const taskViews: TaskView[] = [];
+function deleteTaskView(taskView: TaskView) {
+    const element = taskView.Element;
+    taskBody.removeChild(element);
+    const index = taskViews.indexOf(taskView);
+    if (index >= 0) taskViews.splice(index, 1);
+}
 
 const service = TaskService.Instance;
+const taskViews: TaskView[] = [];
+
 const createTitleInput = document.getElementById("create-title") as HTMLInputElement;
 const createDescriptionInput = document.getElementById("create-description") as HTMLInputElement;
 const createDueInput = document.getElementById("create-duedate") as HTMLInputElement;
