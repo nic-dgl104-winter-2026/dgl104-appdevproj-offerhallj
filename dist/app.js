@@ -1,8 +1,26 @@
-var _a;
 import { LoginService } from "../dist/login/LoginService.js";
 const logService = LoginService.Instance;
-(_a = document.getElementById("logout-button")) === null || _a === void 0 ? void 0 : _a.addEventListener("click", logOut);
+function createNav() {
+    const nav = document.querySelector("nav > ul");
+    nav.innerHTML = "";
+    nav.appendChild(getNavLinkFor("/static/index.html", "Home"));
+    nav.appendChild(getNavLinkFor("/static/task-functions.html", "Tasks"));
+    const logout = getNavLinkFor("/static/login.html", "Logout");
+    logout.addEventListener("click", logOut);
+    nav.appendChild(logout);
+}
+function getNavLinkFor(path, label) {
+    const li = document.createElement("li");
+    const a = document.createElement("a");
+    a.setAttribute("href", path);
+    a.textContent = label;
+    li.appendChild(a);
+    return li;
+}
 function logOut() {
     logService.logout();
 }
+document.addEventListener("DOMContentLoaded", () => {
+    createNav();
+});
 //# sourceMappingURL=app.js.map

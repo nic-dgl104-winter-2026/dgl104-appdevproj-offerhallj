@@ -1,7 +1,6 @@
 import { UserRepository } from "../../dist/user/UserRepository.js";
 import { User } from "../../dist/user/User.js";
 
-
 const AUTHENTICATION: string = "auth"
 const repo = UserRepository.Instance;
 
