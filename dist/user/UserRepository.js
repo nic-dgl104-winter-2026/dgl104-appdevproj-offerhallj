@@ -55,6 +55,22 @@ export class UserRepository {
             callback(false);
         });
     }
+    validateLoginCredentials(username, password, callback) {
+        var _a;
+        const transaction = (_a = this._db) === null || _a === void 0 ? void 0 : _a.transaction([USER_TABLE], "readwrite");
+        const objectStore = transaction === null || transaction === void 0 ? void 0 : transaction.objectStore(USER_TABLE);
+        const index = objectStore === null || objectStore === void 0 ? void 0 : objectStore.index("username");
+        const query = index === null || index === void 0 ? void 0 : index.get(username);
+        query === null || query === void 0 ? void 0 : query.addEventListener("success", () => {
+            let user = query.result;
+            if (user.password == password) {
+                callback(true, this.createToken());
+            }
+            else {
+                callback(false, "");
+            }
+        });
+    }
     createToken() {
         return "token";
     }

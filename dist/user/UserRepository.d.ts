@@ -8,6 +8,7 @@ export declare class UserRepository {
     private openDatabase;
     /** Attempt to add a user to the database and invoke the callback with the result and authorization token */
     createUser(newUser: User, callback: (result: boolean) => void): void;
+    validateLoginCredentials(username: string, password: string, callback: (result: boolean, auth: string) => void): void;
     private createToken;
 }
 //# sourceMappingURL=UserRepository.d.ts.map

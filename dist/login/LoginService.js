@@ -22,7 +22,15 @@ export class LoginService {
     }
     /** Attempt to log the user in with the current credentials and return the result through the callback */
     logIn(username, password, callback) {
-        console.log("created");
+        repo.validateLoginCredentials(username, password, (result, auth) => {
+            if (result) {
+                callback(true);
+                document.cookie = `${AUTHENTICATION_COOKIE}=${auth};max-age=10000`;
+            }
+            else {
+                callback(false);
+            }
+        });
     }
     /** Determines whether a user is currently logged in by getting and validating the authentication cookie */
     isLoggedIn() {

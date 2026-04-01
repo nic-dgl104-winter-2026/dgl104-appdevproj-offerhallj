@@ -55,7 +55,6 @@ export class UserRepository {
     // rather than returning a value, I decided to implement a callback so I can handle the result when the database is finished 
     /** Attempt to add a user to the database and invoke the callback with the result and authorization token */
     public createUser(newUser: User, callback: (result: boolean) => void) {
-
         // perform the database transaction
         const transaction = this._db?.transaction([USER_TABLE], "readwrite");
         const objectStore = transaction?.objectStore(USER_TABLE);
@@ -72,6 +71,24 @@ export class UserRepository {
         })
     }
  
+
+    public validateLoginCredentials(username: string, password: string, callback: (result: boolean, auth: string) => void) {
+        const transaction = this._db?.transaction([USER_TABLE], "readwrite");
+        const objectStore = transaction?.objectStore(USER_TABLE);
+        const index = objectStore?.index("username");
+        const query = index?.get(username);
+
+        query?.addEventListener("success", () => {
+            let user: User = query.result as User;
+            if (user.password == password) {
+                callback(true, this.createToken());
+            }
+
+            else {
+                callback(false, "");
+            }
+        })
+    }
 
     private createToken(): string {
         return "token";
