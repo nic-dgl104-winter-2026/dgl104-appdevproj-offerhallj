@@ -6,7 +6,7 @@ export declare class Task {
     dueDate: Date | undefined;
     status: TaskStatus;
     priority: TaskPriority;
-    constructor(title: string, description: string, dueDate: Date);
+    constructor(title: string, description: string, dueDate: Date, priority: TaskPriority);
 }
 export declare enum TaskStatus {
     ToDo = 0,
@@ -14,8 +14,8 @@ export declare enum TaskStatus {
     Complete = 2
 }
 export declare enum TaskPriority {
-    Low = 0,
-    Medium = 1,
-    High = 2
+    Low = "Low",
+    Medium = "Medium",
+    High = "High"
 }
 //# sourceMappingURL=Task.d.ts.map

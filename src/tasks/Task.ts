@@ -7,10 +7,11 @@ export class Task {
     public status: TaskStatus = TaskStatus.ToDo;
     public priority: TaskPriority = TaskPriority.Low;
 
-    constructor(title: string, description: string, dueDate: Date) {
-        title = title;
-        description = description;
-        dueDate = dueDate;
+    constructor(title: string, description: string, dueDate: Date, priority: TaskPriority) {
+        this.title = title;
+        this.description = description;
+        this.dueDate = dueDate;
+        this.priority = priority;
     }
 }
 
@@ -19,5 +20,5 @@ export enum TaskStatus {
 }
 
 export enum TaskPriority {
-    Low, Medium, High
+    Low = "Low", Medium = "Medium", High = "High"
 }

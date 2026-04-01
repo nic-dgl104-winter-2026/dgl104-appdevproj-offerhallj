@@ -2,6 +2,7 @@ import { LoginService } from "../dist/login/LoginService.js";
 
 const logService = LoginService.Instance;
 
+// I'll remove these two functions later
 function createNav() {
     const nav = document.querySelector("nav > ul") as HTMLElement;
     nav.innerHTML = "";

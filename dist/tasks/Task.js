@@ -1,13 +1,14 @@
 export class Task {
-    constructor(title, description, dueDate) {
+    constructor(title, description, dueDate, priority) {
         this.title = "";
         this.description = "";
         this.createdDate = new Date();
         this.status = TaskStatus.ToDo;
         this.priority = TaskPriority.Low;
-        title = title;
-        description = description;
-        dueDate = dueDate;
+        this.title = title;
+        this.description = description;
+        this.dueDate = dueDate;
+        this.priority = priority;
     }
 }
 export var TaskStatus;
@@ -18,8 +19,8 @@ export var TaskStatus;
 })(TaskStatus || (TaskStatus = {}));
 export var TaskPriority;
 (function (TaskPriority) {
-    TaskPriority[TaskPriority["Low"] = 0] = "Low";
-    TaskPriority[TaskPriority["Medium"] = 1] = "Medium";
-    TaskPriority[TaskPriority["High"] = 2] = "High";
+    TaskPriority["Low"] = "Low";
+    TaskPriority["Medium"] = "Medium";
+    TaskPriority["High"] = "High";
 })(TaskPriority || (TaskPriority = {}));
 //# sourceMappingURL=Task.js.map
