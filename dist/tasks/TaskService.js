@@ -13,11 +13,11 @@ export class TaskService {
     createNewTask(title, description, due, priority, callback) {
         const user = this.getUser();
         if (user == undefined) {
-            callback(false);
+            callback(false, undefined);
             return;
         }
         const newTask = new Task(title, description, new Date(due), priority, user);
-        repo.createTask(newTask, callback);
+        repo.createTask(newTask, (r) => callback(r, newTask));
     }
     /** Get all of the tasks for the current user */
     getAllTasks(callback) {

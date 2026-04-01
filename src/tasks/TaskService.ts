@@ -14,13 +14,14 @@ export class TaskService {
     }
 
     /** Create a new task and add it to the database */
-    public createNewTask(title: string, description: string, due: string, priority: string, callback: (result: boolean) => void) {
+    public createNewTask(title: string, description: string, due: string, priority: string, 
+        callback: (result: boolean, newTask: Task | undefined) => void) {
         const user = this.getUser();
-        if(user == undefined) { callback(false); return; }
+        if(user == undefined) { callback(false, undefined); return; }
 
         const newTask = new Task(title, description, new Date(due), <TaskPriority> priority, user);
 
-        repo.createTask(newTask, callback);
+        repo.createTask(newTask, (r) => callback(r, newTask));
     }
 
     /** Get all of the tasks for the current user */

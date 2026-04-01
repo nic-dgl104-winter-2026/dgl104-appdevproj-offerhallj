@@ -48,12 +48,17 @@ function getAllTasks() {
     });
 }
 
+/** Display all taskViews in the task table body */
 function drawTaskViews() {
     console.log("he");
     taskBody.innerHTML = "";
     for (let task of taskViews) {
         taskBody.appendChild(task.Element);
     }
+}
+
+function drawTaskView(taskview: TaskView) {
+    taskBody.appendChild(taskview.Element);
 }
 
 function createTask(e: SubmitEvent) {
@@ -64,7 +69,16 @@ function createTask(e: SubmitEvent) {
         createDescriptionInput.value,
         createDueInput.value,
         createPriorityInput.value,
-        () => { }
+        (result, newTask) => { 
+            if (result == false || newTask == undefined) {
+                console.log("Error: task could not be created!");
+                return;
+            }
+
+            const newTaskView = new TaskView(newTask);
+            taskViews.push(newTaskView);
+            drawTaskView(newTaskView);
+        }
     )
 }
 

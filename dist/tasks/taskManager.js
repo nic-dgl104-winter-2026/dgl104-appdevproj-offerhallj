@@ -39,6 +39,7 @@ function getAllTasks() {
         drawTaskViews();
     });
 }
+/** Display all taskViews in the task table body */
 function drawTaskViews() {
     console.log("he");
     taskBody.innerHTML = "";
@@ -46,9 +47,20 @@ function drawTaskViews() {
         taskBody.appendChild(task.Element);
     }
 }
+function drawTaskView(taskview) {
+    taskBody.appendChild(taskview.Element);
+}
 function createTask(e) {
     e.preventDefault();
-    service.createNewTask(createTitleInput.value, createDescriptionInput.value, createDueInput.value, createPriorityInput.value, () => { });
+    service.createNewTask(createTitleInput.value, createDescriptionInput.value, createDueInput.value, createPriorityInput.value, (result, newTask) => {
+        if (result == false || newTask == undefined) {
+            console.log("Error: task could not be created!");
+            return;
+        }
+        const newTaskView = new TaskView(newTask);
+        taskViews.push(newTaskView);
+        drawTaskView(newTaskView);
+    });
 }
 const taskViews = [];
 const service = TaskService.Instance;
