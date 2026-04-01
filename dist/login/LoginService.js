@@ -3,7 +3,7 @@ import { User } from "../../dist/user/User.js";
 const AUTHENTICATION = "auth";
 const repo = UserRepository.Instance;
 export class LoginService {
-    static get Intance() {
+    static get Instance() {
         if (LoginService._instance == null)
             LoginService._instance = new LoginService();
         return LoginService._instance;

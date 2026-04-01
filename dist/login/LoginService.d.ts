@@ -1,7 +1,7 @@
 import { User } from "../../dist/user/User.js";
 export declare class LoginService {
     private static _instance;
-    static get Intance(): LoginService;
+    static get Instance(): LoginService;
     /** Attempt to create an account and login */
     createAccountAndLogin(user: User, callback: (result: boolean) => void): void;
     /** Attempt to log the user in with the current credentials and return the result through the callback */

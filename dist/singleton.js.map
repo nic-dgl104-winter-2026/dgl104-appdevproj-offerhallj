@@ -1,1 +1,1 @@
-{"version":3,"file":"singleton.js","sourceRoot":"","sources":["../src/singleton.ts"],"names":[],"mappings":"AAAA,MAAM,OAAO,SAAS;IAGlB,wFAAwF;IACxF,wGAAwG;IACxG,MAAM,CAAC,WAAW,CAAI,IAAkB;QACpC,IAAI,CAAC,SAAS,CAAC,SAAS,EAAE,CAAC;YACvB,SAAS,CAAC,SAAS,GAAG,IAAI,IAAI,CAAC;QACnC,CAAC;QAED,OAAO,SAAS,CAAC,SAAS,CAAC;IAC/B,CAAC;CACJ"}
+{"version":3,"file":"singleton.js","sourceRoot":"","sources":["../src/singleton.ts"],"names":[],"mappings":"AAAA,8BAA8B;AAC9B,qCAAqC;;AAErC,iCAAiC;AACjC,sCAAsC;AACtC,8CAA8C;AAC9C,YAAY;AAEZ,sCAAsC;AACtC,QAAQ;AACR,IAAI"}

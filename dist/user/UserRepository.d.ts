@@ -1,6 +1,7 @@
 import { User } from "../../dist/user/User.js";
 import { Repository } from "../repository.js";
 export declare class UserRepository extends Repository<UserRepository> {
+    private static _instance;
     static get Instance(): UserRepository;
     constructor();
     createTable(callback: () => void): void;

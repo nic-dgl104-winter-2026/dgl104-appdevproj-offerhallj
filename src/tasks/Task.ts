@@ -4,7 +4,8 @@ export class Task {
     public description: string = "";
     public createdDate: Date = new Date();
     public dueDate: Date | undefined;
-    public status: TaskStatus = TaskStatus.NotStarted;
+    public status: TaskStatus = TaskStatus.ToDo;
+    public priority: TaskPriority = TaskPriority.Low;
 
     constructor(title: string, description: string, dueDate: Date) {
         title = title;
@@ -14,5 +15,9 @@ export class Task {
 }
 
 export enum TaskStatus {
-    NotStarted, InProgress, Complete
+    ToDo, InProgress, Complete
+}
+
+export enum TaskPriority {
+    Low, Medium, High
 }

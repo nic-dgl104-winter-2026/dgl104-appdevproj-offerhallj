@@ -1,7 +1,7 @@
 import { LoginService } from "../../dist/login/LoginService.js";
 import { User } from "../../dist/user/User.js";
 
-const loginService = LoginService.Intance;
+const loginService = LoginService.Instance;
 const createUsernameInput = document.querySelector("#create-account-form #username") as HTMLInputElement;
 const createPasswordInput = document.querySelector("#create-account-form #password") as HTMLInputElement;
 const createEmailInput = document.querySelector("#create-account-form #email") as HTMLInputElement;
@@ -28,6 +28,7 @@ function createAccountAndLoginResponse(result: boolean) {
 
 function login(e: SubmitEvent) {
     e.preventDefault();
+    console.log(loginService);
     loginService.logIn(loginUsernameInput.value, loginPasswordInput.value, loginResponse);
 }
 

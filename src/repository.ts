@@ -1,6 +1,4 @@
-import { Singleton } from "../dist/singleton.js";
-
-export abstract class Repository<T> extends Singleton<T> {
+export abstract class Repository<T> {
     protected _db: IDBDatabase | undefined;
     protected _dbIsOpen: boolean = false;
 

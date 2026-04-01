@@ -1,7 +1,7 @@
 var _a, _b;
 import { LoginService } from "../../dist/login/LoginService.js";
 import { User } from "../../dist/user/User.js";
-const loginService = LoginService.Intance;
+const loginService = LoginService.Instance;
 const createUsernameInput = document.querySelector("#create-account-form #username");
 const createPasswordInput = document.querySelector("#create-account-form #password");
 const createEmailInput = document.querySelector("#create-account-form #email");
@@ -24,6 +24,7 @@ function createAccountAndLoginResponse(result) {
 }
 function login(e) {
     e.preventDefault();
+    console.log(loginService);
     loginService.logIn(loginUsernameInput.value, loginPasswordInput.value, loginResponse);
 }
 /** Handle the result of the createUser operation */

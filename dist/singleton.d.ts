@@ -1,7 +1,2 @@
-export declare class Singleton<T> {
-    private static _instance;
-    static getInstance<T>(type: {
-        new (): T;
-    }): T;
-}
+export {};
 //# sourceMappingURL=singleton.d.ts.map

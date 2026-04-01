@@ -1,7 +1,5 @@
-import { Singleton } from "../dist/singleton.js";
-export class Repository extends Singleton {
+export class Repository {
     constructor() {
-        super(...arguments);
         this._dbIsOpen = false;
         /** If a database function is called before the database is open, add the function to this list and invoke it once the database is opened */
         this._delayedExecution = [];

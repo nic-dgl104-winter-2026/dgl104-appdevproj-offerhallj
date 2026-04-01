@@ -1,7 +1,7 @@
 import { LoginService } from "../../dist/login/LoginService.js";
 /** Validate that the user is logged in and redirect to login.html if not */
 export function validateLogin() {
-    LoginService.Intance.isLoggedIn(isLoggedInReponse);
+    LoginService.Instance.isLoggedIn(isLoggedInReponse);
 }
 function isLoggedInReponse(result) {
     // if the user is authenticated, do nothing

@@ -1,13 +1,14 @@
 import { UserRepository } from "../../dist/user/UserRepository.js";
 import { User } from "../../dist/user/User.js";
 
+
 const AUTHENTICATION: string = "auth"
 const repo = UserRepository.Instance;
 
 export class LoginService {
     private static _instance: LoginService;
 
-    static get Intance(): LoginService {
+    static get Instance(): LoginService { 
         if (LoginService._instance == null) LoginService._instance = new LoginService();
         return LoginService._instance;
     }

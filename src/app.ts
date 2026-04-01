@@ -1,6 +1,6 @@
 import { LoginService } from "../dist/login/LoginService.js";
 
-const logService = LoginService.Intance;
+const logService = LoginService.Instance;
 
 document.getElementById("logout-button")?.addEventListener("click", logOut);
 

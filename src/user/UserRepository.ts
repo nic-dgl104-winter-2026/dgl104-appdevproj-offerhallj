@@ -4,17 +4,20 @@ import { Repository } from "../repository.js";
 const USER_TABLE = "user_table";
 
 export class UserRepository extends Repository<UserRepository> {
-    static get Instance(): UserRepository {
-        return this.getInstance<UserRepository>(UserRepository);
+    private static _instance: UserRepository;
+
+    static get Instance(): UserRepository { 
+        if (UserRepository._instance == null) UserRepository._instance = new UserRepository();
+        return UserRepository._instance;
     }
-    
+
     constructor() {
         super();
         this.openDatabase(USER_TABLE, 1);
     }
 
     override createTable(callback: () => void): void {
-         const table = this._db?.createObjectStore(USER_TABLE, { keyPath: "id", autoIncrement:true});
+        const table = this._db?.createObjectStore(USER_TABLE, { keyPath: "id", autoIncrement:true});
         table?.createIndex("username", "username", { unique: true});
         table?.createIndex("password", "password", { unique: false});
         table?.createIndex("email", "email", { unique: true});
@@ -85,8 +88,6 @@ export class UserRepository extends Repository<UserRepository> {
     public validateAuthenticationToken(username: string, token: string, callback: (result: boolean) => void) {
         // if the database is not open, add the method call to delayedExecution so that it can be executed once the database is ready,
         // then return
-        
-        console.log("call");
         if (!this._dbIsOpen) {
             console.log("delay");
             this._delayedExecution.push(() => this.validateAuthenticationToken(username, token, callback));
@@ -97,7 +98,6 @@ export class UserRepository extends Repository<UserRepository> {
         const objectStore = transaction?.objectStore(USER_TABLE);
         const index = objectStore?.index("username");
         const query = index?.get(username);
-        console.log(username + " " + token);
 
         query?.addEventListener("success", () => {
             let user: User = query.result as User;
