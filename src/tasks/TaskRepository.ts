@@ -28,7 +28,7 @@ export class TaskRepository extends Repository<TaskRepository> {
     }
 
     /** Add a new task to the database */
-    public createTask(newTask: Task, callback: (result: boolean) => void) {
+    public createTask(newTask: Task, callback: (result: boolean, id: number) => void) {
         if (!this._dbIsOpen) {
             this._delayedExecution.push(() => this.createTask(newTask, callback));
             return;
@@ -39,11 +39,12 @@ export class TaskRepository extends Repository<TaskRepository> {
         const query = objectStore?.add(newTask);
 
         query?.addEventListener("success", () => {
-            callback(true);
+            console.log(query.result);
+            callback(true, parseInt(query.result.toString()));
         });
 
         query?.addEventListener("error", () => {
-            callback(false);
+            callback(false, -1);
         })
     }
 

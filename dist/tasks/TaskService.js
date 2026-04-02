@@ -18,7 +18,10 @@ export class TaskService {
         }
         console.log(new Date(due));
         const newTask = new Task(title, description, new Date(due), priority, user);
-        repo.createTask(newTask, (r) => callback(r, newTask));
+        repo.createTask(newTask, (r, id) => {
+            newTask.id = id;
+            callback(r, newTask);
+        });
     }
     /** Get all of the tasks for the current user */
     getAllTasks(callback) {

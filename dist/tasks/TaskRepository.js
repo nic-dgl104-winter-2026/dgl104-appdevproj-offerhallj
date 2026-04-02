@@ -32,10 +32,11 @@ export class TaskRepository extends Repository {
         const objectStore = this.getObjectStore(TASK_TABLE, "readwrite");
         const query = objectStore === null || objectStore === void 0 ? void 0 : objectStore.add(newTask);
         query === null || query === void 0 ? void 0 : query.addEventListener("success", () => {
-            callback(true);
+            console.log(query.result);
+            callback(true, parseInt(query.result.toString()));
         });
         query === null || query === void 0 ? void 0 : query.addEventListener("error", () => {
-            callback(false);
+            callback(false, -1);
         });
     }
     // I used this article to figure out how to use cursors in indexedDB to iterate over the table

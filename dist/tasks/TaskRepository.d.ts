@@ -6,7 +6,7 @@ export declare class TaskRepository extends Repository<TaskRepository> {
     constructor();
     createTable(): void;
     /** Add a new task to the database */
-    createTask(newTask: Task, callback: (result: boolean) => void): void;
+    createTask(newTask: Task, callback: (result: boolean, id: number) => void): void;
     /** Retrieve all tasks from the database which were created by the provided user */
     getAllTasksForUser(user: string, callback: (result: boolean, tasks: Task[]) => void): void;
     updateTask(task: Task, callback: (result: boolean) => void): void;
