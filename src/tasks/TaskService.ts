@@ -34,7 +34,9 @@ export class TaskService {
     }
 
 
-    public editTask(task: Task, callback: (result: boolean) => void) {
+    public editTask(id: number, title: string, description: string, due: string, priority: string, user: string, callback: (result: boolean) => void) {        
+        const task = new Task(title, description, new Date(due), <TaskPriority> priority, user);
+        task.id = id;
         repo.updateTask(task, callback);
     }
 

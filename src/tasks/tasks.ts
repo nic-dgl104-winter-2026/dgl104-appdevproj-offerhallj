@@ -35,6 +35,7 @@ function drawTaskElement(taskElement: TaskElement) {
     taskBody.appendChild(taskElement.Element);
 }
 
+/** Create a new task and add it to the view */
 function createTask(e: SubmitEvent) {
     e.preventDefault();
     
@@ -56,12 +57,6 @@ function createTask(e: SubmitEvent) {
     )
 }
 
-function saveTask(e: SubmitEvent) {
-    e.preventDefault();
-
-
-}
-
 function editTask(taskElement: TaskElement) {
     let task = taskElement.Task;
     if (task.id != undefined) editIDInput.value = task.id.toString();
@@ -69,6 +64,21 @@ function editTask(taskElement: TaskElement) {
     editDescriptionInput.value = task.description;
     editDueInput.value = task.getFormattedDate();
     editPriorityInput.value = task.priority;
+    editUserInput.value = task.user;
+}
+
+function saveTask(e: SubmitEvent) {
+    e.preventDefault();
+    service.editTask(
+        parseInt(editIDInput.value),
+        editTitleInput.value,
+        editDescriptionInput.value,
+        editDueInput.value,
+        editPriorityInput.value,
+        editUserInput.value,
+        () => {}
+    )    
+
 }
 
 function deleteTask(taskElement: TaskElement) {
@@ -91,6 +101,7 @@ const createDueInput = document.getElementById("create-duedate") as HTMLInputEle
 const createPriorityInput = document.getElementById("create-priority") as HTMLInputElement;
 
 const editIDInput = document.getElementById("edit-id") as HTMLInputElement;
+const editUserInput = document.getElementById("edit-user") as HTMLInputElement;
 const editTitleInput = document.getElementById("edit-title") as HTMLInputElement;
 const editDescriptionInput = document.getElementById("edit-description") as HTMLInputElement;
 const editDueInput = document.getElementById("edit-duedate") as HTMLInputElement;
@@ -100,4 +111,5 @@ const taskBody = document.getElementById("task-table-body") as HTMLElement;
 
 document.getElementById("create-task")?.addEventListener("submit", createTask)
 document.getElementById("edit-task")?.addEventListener("submit", saveTask)
+
 getAllTasks();

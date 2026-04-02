@@ -1,30 +1,26 @@
-import { Observable } from "../interfaces/Observable.js";
-import { Task } from "./Task.js";
-export class TaskViewModel extends Observable {
-    constructor() {
-        super(...arguments);
-        this._tasks = [];
-    }
-    static get Instance() {
-        if (TaskViewModel._instance == null)
-            TaskViewModel._instance = new TaskViewModel();
-        return TaskViewModel._instance;
-    }
-    setTasks(tasks) {
-        this._tasks = tasks;
-        this.notify(TaskUpdateEvent.NewTaskList);
-    }
-    setSelectedTask(task) {
-        this._selectedTask = task;
-        this.notify(TaskUpdateEvent.NewSelectedTask);
-    }
-    deleteTask(task) {
-    }
-}
-export var TaskUpdateEvent;
-(function (TaskUpdateEvent) {
-    TaskUpdateEvent[TaskUpdateEvent["NewTaskList"] = 0] = "NewTaskList";
-    TaskUpdateEvent[TaskUpdateEvent["NewSelectedTask"] = 1] = "NewSelectedTask";
-    TaskUpdateEvent[TaskUpdateEvent["DeletedTask"] = 2] = "DeletedTask";
-})(TaskUpdateEvent || (TaskUpdateEvent = {}));
+// import { Observable } from "../interfaces/Observable.js";
+// import { Task } from "./Task.js";
+export {};
+// export class TaskViewModel extends Observable<TaskUpdateEvent> {
+//     private static _instance: TaskViewModel;
+//     static get Instance(): TaskViewModel {
+//         if (TaskViewModel._instance == null) TaskViewModel._instance = new TaskViewModel();
+//         return TaskViewModel._instance;
+//     }
+//     private _tasks: Task[] = [];
+//     private _selectedTask: Task | undefined;
+//     public setTasks(tasks: Task[]) {
+//         this._tasks = tasks;
+//         this.notify(TaskUpdateEvent.NewTaskList);
+//     }
+//     public setSelectedTask(task: Task) {
+//         this._selectedTask = task;
+//         this.notify(TaskUpdateEvent.NewSelectedTask);
+//     }
+//     public deleteTask(task: Task) {
+//     }
+// }
+// export enum TaskUpdateEvent {
+//     NewTaskList, NewSelectedTask, DeletedTask
+// }
 //# sourceMappingURL=TaskViewModel.js.map

@@ -29,6 +29,7 @@ function drawTaskElements() {
 function drawTaskElement(taskElement) {
     taskBody.appendChild(taskElement.Element);
 }
+/** Create a new task and add it to the view */
 function createTask(e) {
     e.preventDefault();
     service.createNewTask(createTitleInput.value, createDescriptionInput.value, createDueInput.value, createPriorityInput.value, (result, newTask) => {
@@ -41,9 +42,6 @@ function createTask(e) {
         drawTaskElement(newTaskElement);
     });
 }
-function saveTask(e) {
-    e.preventDefault();
-}
 function editTask(taskElement) {
     let task = taskElement.Task;
     if (task.id != undefined)
@@ -52,6 +50,11 @@ function editTask(taskElement) {
     editDescriptionInput.value = task.description;
     editDueInput.value = task.getFormattedDate();
     editPriorityInput.value = task.priority;
+    editUserInput.value = task.user;
+}
+function saveTask(e) {
+    e.preventDefault();
+    service.editTask(parseInt(editIDInput.value), editTitleInput.value, editDescriptionInput.value, editDueInput.value, editPriorityInput.value, editUserInput.value, () => { });
 }
 function deleteTask(taskElement) {
     service.deleteTask(taskElement.Task, r => {
@@ -71,6 +74,7 @@ const createDescriptionInput = document.getElementById("create-description");
 const createDueInput = document.getElementById("create-duedate");
 const createPriorityInput = document.getElementById("create-priority");
 const editIDInput = document.getElementById("edit-id");
+const editUserInput = document.getElementById("edit-user");
 const editTitleInput = document.getElementById("edit-title");
 const editDescriptionInput = document.getElementById("edit-description");
 const editDueInput = document.getElementById("edit-duedate");

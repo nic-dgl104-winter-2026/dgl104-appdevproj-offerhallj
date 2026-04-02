@@ -29,7 +29,9 @@ export class TaskService {
         }
         repo.getAllTasksForUser(user, callback);
     }
-    editTask(task, callback) {
+    editTask(id, title, description, due, priority, user, callback) {
+        const task = new Task(title, description, new Date(due), priority, user);
+        task.id = id;
         repo.updateTask(task, callback);
     }
     /** Remove a task from the database */
