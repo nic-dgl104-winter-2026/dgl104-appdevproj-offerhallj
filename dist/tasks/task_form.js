@@ -56,7 +56,7 @@ function saveTask(e) {
 }
 /** Redirect to the tasks page */
 function redirect() {
-    window.location.replace("/static/tasks.html");
+    window.location.replace("/static/index.html");
 }
 const service = TaskService.Instance;
 const idInput = document.getElementById("id");

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home | Task Manager</title>
+    <title>Tasks | Task Manager</title>
     <link rel="stylesheet" href="/static/styles/styles.css">
 </head>
 <body>
@@ -17,9 +17,25 @@
         </nav>
     </header>
     <main>
-        
+        <a href="/static/taskform.html" id="new-task">Create a New Task</a>
+        <table>
+            <caption>Tasks</caption>
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Description</th>
+                    <th>Due Date</th>
+                    <th>Priority</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="task-table-body">
+            </tbody>
+        </table>
     </main>
 </body>
 <script type="module" src="../dist/login/validateLogin.js"></script>
+<script type="module" src="../dist/tasks/tasks.js"></script>
 <script type="module" src="../dist/app.js"></script>
 </html>
