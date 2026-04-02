@@ -5,7 +5,7 @@ function createNav() {
     const nav = document.querySelector("nav > ul");
     nav.innerHTML = "";
     nav.appendChild(getNavLinkFor("/static/index.html", "Home"));
-    nav.appendChild(getNavLinkFor("/static/task-functions.html", "Tasks"));
+    nav.appendChild(getNavLinkFor("/static/tasks.html", "Tasks"));
     const logout = getNavLinkFor("/static/login.html", "Logout");
     logout.addEventListener("click", logOut);
     nav.appendChild(logout);

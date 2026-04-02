@@ -2,7 +2,6 @@ import { TaskElementFactory, TaskElementType } from "../task_elements/TaskElemen
 import { TaskElement } from "../task_elements/TaskElement.js";
 import { TaskService } from "./TaskService.js";
 
-const factory = new TaskElementFactory(TaskElementType.Basic, editTask, deleteTask);
 
 /** Retrieve all tasks for the current user from the database, convert them to taskElements, and draw them */
 function getAllTasks() {
@@ -36,56 +35,16 @@ function drawTaskElement(taskElement: TaskElement) {
     taskBody.appendChild(taskElement.Element);
 }
 
-/** Create a new task and add it to the view */
-function createTask(e: SubmitEvent) {
-    e.preventDefault();
-    
-    service.createNewTask(
-        createTitleInput.value,
-        createDescriptionInput.value,
-        createDueInput.value,
-        createPriorityInput.value,
-        (result, newTask) => { 
-            if (result == false || newTask == undefined) {
-                console.log("Error: task could not be created!");
-                return;
-            }
 
-            const newTaskElement = factory.create(newTask);
-            taskElements.push(newTaskElement);
-            drawTaskElement(newTaskElement);
-        }
-    )
-}
-
+/** Navigate to the taskform with the current task selected */
 function editTask(taskElement: TaskElement) {
     let task = taskElement.Task;
-    if (task.id != undefined) editIDInput.value = task.id.toString();
-    editUserInput.value = task.user;
-    editTitleInput.value = task.title;
-    editDescriptionInput.value = task.description;
-    editDueInput.value = task.getFormattedDate();
-    editPriorityInput.value = task.priority;
+    if (task.id == undefined) return;
+    sessionStorage.setItem("id", task.id.toString());
+    window.location.replace("/static/taskform.html");
 }
 
-function saveTask(e: SubmitEvent) {
-    e.preventDefault();
-    console.log(editIDInput.value);
-    console.log(editUserInput.value);
-    service.editTask(
-        parseInt(editIDInput.value),
-        editTitleInput.value,
-        editDescriptionInput.value,
-        editDueInput.value,
-        editPriorityInput.value,
-        editUserInput.value,
-        () => {
-            getAllTasks();
-        }
-    )    
-
-}
-
+/** Delete the selected task */
 function deleteTask(taskElement: TaskElement) {
     service.deleteTask(taskElement.Task, r => {
         if (r == true) {
@@ -97,24 +56,17 @@ function deleteTask(taskElement: TaskElement) {
     })
 }
 
+/** Navigate to the taskform to create a new task */
+function createTask() {
+    // clear the session storage
+    sessionStorage.setItem("id", "-1");
+    window.location.replace("/static/taskform.html");
+}
+
 const service = TaskService.Instance;
 const taskElements: TaskElement[] = [];
-
-const createTitleInput = document.getElementById("create-title") as HTMLInputElement;
-const createDescriptionInput = document.getElementById("create-description") as HTMLInputElement;
-const createDueInput = document.getElementById("create-duedate") as HTMLInputElement;
-const createPriorityInput = document.getElementById("create-priority") as HTMLInputElement;
-
-const editIDInput = document.getElementById("edit-id") as HTMLInputElement;
-const editUserInput = document.getElementById("edit-user") as HTMLInputElement;
-const editTitleInput = document.getElementById("edit-title") as HTMLInputElement;
-const editDescriptionInput = document.getElementById("edit-description") as HTMLInputElement;
-const editDueInput = document.getElementById("edit-duedate") as HTMLInputElement;
-const editPriorityInput = document.getElementById("edit-priority") as HTMLInputElement;
+const factory = new TaskElementFactory(TaskElementType.Basic, editTask, deleteTask);
 
 const taskBody = document.getElementById("task-table-body") as HTMLElement;
-
-document.getElementById("create-task")?.addEventListener("submit", createTask)
-document.getElementById("edit-task")?.addEventListener("submit", saveTask)
-
+document.getElementById("new-task")?.addEventListener("click", () => createTask());
 getAllTasks();
