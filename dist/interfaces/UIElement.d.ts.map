@@ -1,1 +1,1 @@
-{"version":3,"file":"UIElement.d.ts","sourceRoot":"","sources":["../../src/interfaces/UIElement.ts"],"names":[],"mappings":"AAAA,MAAM,WAAW,SAAS;IACtB,MAAM,IAAI,WAAW,CAAC;CACzB"}
+{"version":3,"file":"UIElement.d.ts","sourceRoot":"","sources":["../../src/interfaces/UIElement.ts"],"names":[],"mappings":"AAAA,MAAM,WAAW,SAAS;IACtB,OAAO,EAAE,WAAW,CAAC;IAErB,MAAM,IAAI,WAAW,CAAC;CACzB"}

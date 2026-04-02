@@ -4,8 +4,7 @@ export class TaskElement {
     set onDelete(callback) { this.delete = callback; }
     constructor(task) {
         this.Task = task;
-        this._element = this.create();
+        this.Element = this.create();
     }
-    get Element() { return this._element; }
 }
 //# sourceMappingURL=TaskElement.js.map

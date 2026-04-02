@@ -3,7 +3,7 @@ import { Task } from "../tasks/Task.js";
 
 export abstract class TaskElement implements UIElement {
     public readonly Task: Task;
-    protected _element: HTMLElement;
+    Element: HTMLElement;
     
     protected edit!: ((element: TaskElement) => void);
     protected delete!: ((element: TaskElement) => void);
@@ -13,10 +13,8 @@ export abstract class TaskElement implements UIElement {
 
     constructor(task: Task) {
         this.Task = task;
-        this._element = this.create();
+        this.Element = this.create();
     }
-
-    public get Element() { return this._element; }
 
     abstract create(): HTMLElement;
 }

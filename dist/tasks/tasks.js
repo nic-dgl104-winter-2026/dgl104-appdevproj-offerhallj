@@ -1,5 +1,6 @@
 var _a;
-import { TaskElementFactory, TaskElementType } from "../task_elements/TaskElementFactory.js";
+import { TaskTableFactory, TaskDisplayType } from "../task_tables/TaskTableFactory.js";
+import { TaskElementFactory } from "../task_elements/TaskElementFactory.js";
 import { TaskElement } from "../task_elements/TaskElement.js";
 import { SESSION_TASK_KEY } from "../global.js";
 import { TaskService } from "./TaskService.js";
@@ -58,7 +59,7 @@ function createTask() {
 }
 const service = TaskService.Instance;
 const taskElements = [];
-const factory = new TaskElementFactory(TaskElementType.Basic, editTask, deleteTask);
+const factory = new TaskElementFactory(TaskDisplayType.Basic, editTask, deleteTask);
 const taskBody = document.getElementById("task-table-body");
 (_a = document.getElementById("new-task")) === null || _a === void 0 ? void 0 : _a.addEventListener("click", () => createTask());
 getAllTasks();

@@ -1,3 +1,4 @@
+import { TaskDisplayType } from "../task_tables/TaskTableFactory.js";
 import { BasicTaskElement } from "./BasicTaskElement.js";
 import { TaskElement } from "./TaskElement.js";
 import { Task } from "../tasks/Task.js";
@@ -10,7 +11,7 @@ export class TaskElementFactory {
     create(task) {
         let newElement = new BasicTaskElement(task);
         switch (this._type) {
-            case TaskElementType.Basic:
+            case TaskDisplayType.Basic:
                 newElement = new BasicTaskElement(task);
                 break;
         }
@@ -19,9 +20,4 @@ export class TaskElementFactory {
         return newElement;
     }
 }
-export var TaskElementType;
-(function (TaskElementType) {
-    TaskElementType[TaskElementType["Basic"] = 0] = "Basic";
-    TaskElementType[TaskElementType["Urgent"] = 1] = "Urgent";
-})(TaskElementType || (TaskElementType = {}));
 //# sourceMappingURL=TaskElementFactory.js.map
