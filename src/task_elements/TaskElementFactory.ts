@@ -2,6 +2,8 @@ import { TaskDisplayType } from "../task_tables/TaskTableFactory.js";
 import { BasicTaskElement } from "./BasicTaskElement.js";
 import { TaskElement } from "./TaskElement.js";
 import { Task } from "../tasks/Task.js";
+import { OverdueTaskElement } from "./OverdueTaskElement.js";
+import { DetailedTaskElement } from "./DetailedTaskElement.js";
 
 export class TaskElementFactory {
     private _type: TaskDisplayType;
@@ -16,11 +18,18 @@ export class TaskElementFactory {
             this._type = type;
     }
 
+    public setDisplayType(type: TaskDisplayType) {
+        this._type = type;
+    }
+
     public create(task: Task): TaskElement {
-        let newElement: TaskElement = new BasicTaskElement(task);
+        let newElement: TaskElement;
         switch (this._type) {
-            case TaskDisplayType.Basic: newElement = new BasicTaskElement(task); break;           
+            case TaskDisplayType.Detailed: newElement = new DetailedTaskElement(task); break;   
+            default: newElement = new BasicTaskElement(task)        
         }
+
+        if (task.isOverdue) { newElement = new OverdueTaskElement(newElement); }
 
         newElement.onEdit = this._onEdit;
         newElement.onDelete = this._onDelete;

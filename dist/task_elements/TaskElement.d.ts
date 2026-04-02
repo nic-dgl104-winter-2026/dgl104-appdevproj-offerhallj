@@ -9,5 +9,9 @@ export declare abstract class TaskElement implements UIElement {
     set onDelete(callback: (element: TaskElement) => void);
     constructor(task: Task);
     abstract create(): HTMLElement;
+    protected createCellForValue(val: string): HTMLElement;
+    protected createButtonCell(): HTMLElement;
+    protected createEditButton(): HTMLElement;
+    protected createDeleteButton(): HTMLElement;
 }
 //# sourceMappingURL=TaskElement.d.ts.map

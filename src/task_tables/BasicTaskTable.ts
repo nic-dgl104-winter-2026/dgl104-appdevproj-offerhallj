@@ -1,4 +1,4 @@
-import { TaskTable } from "./TaskTable";
+import { TaskTable } from "./TaskTable.js";
 
 export class BasicTaskTable extends TaskTable {
     create(): HTMLElement {

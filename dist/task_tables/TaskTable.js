@@ -6,14 +6,15 @@ export class TaskTable {
         const table = document.createElement("table");
         const thead = document.createElement("thead");
         const tr = document.createElement("tr");
-        for (let header in headers) {
+        for (let header of headers) {
             let th = document.createElement("th");
             th.textContent = header;
             tr.appendChild(th);
         }
         thead.appendChild(tr);
         table.appendChild(thead);
-        table.appendChild(document.createElement("tbody"));
+        this.Body = document.createElement("tbody");
+        table.appendChild(this.Body);
         return table;
     }
 }

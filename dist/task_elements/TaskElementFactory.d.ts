@@ -6,6 +6,7 @@ export declare class TaskElementFactory {
     private _onEdit;
     private _onDelete;
     constructor(type: TaskDisplayType, onEdit: (element: TaskElement) => void, onDelete: (element: TaskElement) => void);
+    setDisplayType(type: TaskDisplayType): void;
     create(task: Task): TaskElement;
 }
 //# sourceMappingURL=TaskElementFactory.d.ts.map

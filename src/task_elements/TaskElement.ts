@@ -17,4 +17,31 @@ export abstract class TaskElement implements UIElement {
     }
 
     abstract create(): HTMLElement;
+
+    protected createCellForValue(val: string): HTMLElement {
+        let td = document.createElement("td");
+        td.textContent = val;
+        return td;
+    }
+
+    protected createButtonCell(): HTMLElement {
+        const buttonCell = document.createElement("td");
+        buttonCell.appendChild(this.createEditButton());
+        buttonCell.appendChild(this.createDeleteButton());
+        return buttonCell;
+    }
+
+    protected createEditButton(): HTMLElement {
+        const editButton = document.createElement("button");
+        editButton.textContent = "Edit";
+        editButton.addEventListener("click", () => this.edit(this));
+        return editButton;
+    }
+
+    protected createDeleteButton(): HTMLElement {
+        const deleteButton = document.createElement("button");
+        deleteButton.textContent = "Delete";
+        deleteButton.addEventListener("click", () => this.delete(this));
+        return deleteButton;
+    }
 }

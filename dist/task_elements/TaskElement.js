@@ -6,5 +6,28 @@ export class TaskElement {
         this.Task = task;
         this.Element = this.create();
     }
+    createCellForValue(val) {
+        let td = document.createElement("td");
+        td.textContent = val;
+        return td;
+    }
+    createButtonCell() {
+        const buttonCell = document.createElement("td");
+        buttonCell.appendChild(this.createEditButton());
+        buttonCell.appendChild(this.createDeleteButton());
+        return buttonCell;
+    }
+    createEditButton() {
+        const editButton = document.createElement("button");
+        editButton.textContent = "Edit";
+        editButton.addEventListener("click", () => this.edit(this));
+        return editButton;
+    }
+    createDeleteButton() {
+        const deleteButton = document.createElement("button");
+        deleteButton.textContent = "Delete";
+        deleteButton.addEventListener("click", () => this.delete(this));
+        return deleteButton;
+    }
 }
 //# sourceMappingURL=TaskElement.js.map

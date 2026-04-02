@@ -31,6 +31,10 @@ export class Task {
         if (formattedDate != undefined) return  formattedDate;
         else return "";
     }
+
+    public get isOverdue(): boolean {
+        return false;
+    }
 }
 
 export enum TaskStatus {

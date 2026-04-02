@@ -6,6 +6,9 @@ import { TaskService } from "./TaskService.js";
 
 /** Retrieve all tasks for the current user from the database, convert them to taskElements, and draw them */
 function getAllTasks() {
+    taskTableContainer.innerHTML = "";
+    taskTableContainer.appendChild(tableFactory.Element);
+    
     taskElements.splice(0, taskElements.length);
     service.getAllTasks((result, tasks) => {
         if (result == false) {
@@ -15,7 +18,7 @@ function getAllTasks() {
  
         // once we've got all of the tasks, create the taskElements
         for (let task of tasks) {
-            taskElements.push(factory.create(task));
+            taskElements.push(elementFactory.create(task));
         }
 
         // finally, draw the taskElements
@@ -25,15 +28,16 @@ function getAllTasks() {
 
 /** All all taskElements to the task table body */
 function drawTaskElements() {
-    taskBody.innerHTML = "";
+    const body = tableFactory.Body;
+    body.innerHTML = "";
     for (let task of taskElements) {
-        drawTaskElement(task);
+        body.appendChild(task.Element);
     }
 }
 
 /** Add a single taskElement to the task table body  */
 function drawTaskElement(taskElement: TaskElement) {
-    taskBody.appendChild(taskElement.Element);
+    tableFactory.Body.appendChild(taskElement.Element);
 }
 
 /** Navigate to the taskform with the current task selected */
@@ -65,8 +69,12 @@ function createTask() {
 
 const service = TaskService.Instance;
 const taskElements: TaskElement[] = [];
-const factory = new TaskElementFactory(TaskDisplayType.Basic, editTask, deleteTask);
+
+const tableFactory = new TaskTableFactory(TaskDisplayType.Detailed);
+const elementFactory = new TaskElementFactory(TaskDisplayType.Detailed, editTask, deleteTask);
 
 const taskBody = document.getElementById("task-table-body") as HTMLElement;
+const taskTableContainer = document.getElementById("task-table-container") as HTMLElement;
+
 document.getElementById("new-task")?.addEventListener("click", () => createTask());
 getAllTasks();

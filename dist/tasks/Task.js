@@ -30,6 +30,9 @@ export class Task {
         else
             return "";
     }
+    get isOverdue() {
+        return false;
+    }
 }
 export var TaskStatus;
 (function (TaskStatus) {
