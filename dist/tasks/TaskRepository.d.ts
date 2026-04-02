@@ -7,8 +7,11 @@ export declare class TaskRepository extends Repository<TaskRepository> {
     createTable(): void;
     /** Add a new task to the database */
     createTask(newTask: Task, callback: (result: boolean, id: number) => void): void;
+    /** Retrieve the task with the given ID if the user matches the task user */
+    getTask(id: number, user: string, callback: (result: boolean, task: Task | undefined) => void): void;
     /** Retrieve all tasks from the database which were created by the provided user */
     getAllTasksForUser(user: string, callback: (result: boolean, tasks: Task[]) => void): void;
+    createTaskFromAny(result: any, user: string): Task | undefined;
     updateTask(task: Task, callback: (result: boolean) => void): void;
     /** Remove the task with the given ID from the database */
     deleteTask(taskID: number, callback: (result: boolean) => void): void;

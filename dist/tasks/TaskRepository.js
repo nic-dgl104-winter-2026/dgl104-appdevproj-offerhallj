@@ -39,6 +39,22 @@ export class TaskRepository extends Repository {
             callback(false, -1);
         });
     }
+    /** Retrieve the task with the given ID if the user matches the task user */
+    getTask(id, user, callback) {
+        if (!this._dbIsOpen) {
+            this._delayedExecution.push(() => this.getTask(id, user, callback));
+            return;
+        }
+        const objectStore = this.getObjectStore(TASK_TABLE, "readonly");
+        const query = objectStore === null || objectStore === void 0 ? void 0 : objectStore.get(id);
+        query === null || query === void 0 ? void 0 : query.addEventListener("success", () => {
+            const newTask = this.createTaskFromAny(query.result, user);
+            callback(newTask != undefined, newTask);
+        });
+        query === null || query === void 0 ? void 0 : query.addEventListener("error", () => {
+            callback(false, undefined);
+        });
+    }
     // I used this article to figure out how to use cursors in indexedDB to iterate over the table
     // https://medium.com/@kamresh485/a-comprehensive-guide-to-cursors-in-indexeddb-navigating-and-manipulating-data-with-ease-2793a2e01ba3
     /** Retrieve all tasks from the database which were created by the provided user */
@@ -53,17 +69,30 @@ export class TaskRepository extends Repository {
         cursorRequest === null || cursorRequest === void 0 ? void 0 : cursorRequest.addEventListener("success", (e) => {
             const cursor = e.target.result;
             if (cursor) {
-                const raw = cursor.value;
-                if (raw != undefined && raw.user == user) {
-                    const task = new Task(raw.title, raw.description, raw.dueDate, raw.priority, raw.user);
-                    task.id = raw.id;
-                    tasks.push(task);
-                }
+                // I used copilot to help revise this code after I experienced a bug which was being caused by
+                // casing cursor.value as a Task rather than explicitly creating a new task. I had assumed
+                // those would operate in the same way but apparently using const task = cursor.value as Task
+                // only creates a data object which doesn't contain any of Task's functions.
+                // I ultimately went with a slightly different method from what it suggested
+                // https://copilot.microsoft.com/shares/uyZawt3i8e5dBe4neqFcv
+                const newTask = this.createTaskFromAny(cursor.value, user);
+                if (newTask != undefined)
+                    tasks.push(newTask);
                 cursor.continue();
                 return;
             }
             callback(true, tasks);
         });
+    }
+    createTaskFromAny(result, user) {
+        const task = result;
+        if (task != undefined && task.user == user) {
+            const newTask = new Task(task.title, task.description, task.dueDate, task.priority, task.user);
+            newTask.createdDate = task.createdDate;
+            newTask.priority = task.priority;
+            newTask.id = task.id;
+            return newTask;
+        }
     }
     // I referenced this post on stackoverflow to implement the update method
     // https://stackoverflow.com/questions/11217309/how-do-i-update-data-in-indexeddb

@@ -1,0 +1,2 @@
+export const SESSION_TASK_KEY = "id";
+//# sourceMappingURL=global.js.map

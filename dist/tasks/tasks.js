@@ -1,6 +1,7 @@
 var _a;
 import { TaskElementFactory, TaskElementType } from "../task_elements/TaskElementFactory.js";
 import { TaskElement } from "../task_elements/TaskElement.js";
+import { SESSION_TASK_KEY } from "../global.js";
 import { TaskService } from "./TaskService.js";
 /** Retrieve all tasks for the current user from the database, convert them to taskElements, and draw them */
 function getAllTasks() {
@@ -34,7 +35,7 @@ function editTask(taskElement) {
     let task = taskElement.Task;
     if (task.id == undefined)
         return;
-    sessionStorage.setItem("id", task.id.toString());
+    sessionStorage.setItem(SESSION_TASK_KEY, task.id.toString());
     window.location.replace("/static/taskform.html");
 }
 /** Delete the selected task */

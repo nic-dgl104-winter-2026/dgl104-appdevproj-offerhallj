@@ -1,6 +1,7 @@
 import { LoginService } from "../login/LoginService.js";
 import { TaskRepository } from "./TaskRepository.js";
 import { Task, TaskPriority } from "./Task.js";
+import { SESSION_TASK_KEY } from "../global.js";
 
 const repo = TaskRepository.Instance;
 const logService = LoginService.Instance;
@@ -36,6 +37,12 @@ export class TaskService {
         repo.getAllTasksForUser(user, callback);
     }
 
+    public getTask(id: number, callback: (result: boolean, task: Task | undefined) => void) {
+        const user = this.getUser();
+        if(user == undefined) { callback(false, undefined); return; }
+        
+        repo.getTask(id, user, callback);
+    }
 
     public editTask(id: number, title: string, description: string, due: string, priority: string, user: string, callback: (result: boolean) => void) {        
         const task = new Task(title, description, new Date(due), <TaskPriority> priority, user);

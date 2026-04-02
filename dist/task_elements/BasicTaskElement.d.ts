@@ -1,4 +1,4 @@
-import { TaskElement } from "../../dist/task_elements/TaskElement.js";
+import { TaskElement } from "./TaskElement.js";
 export declare class BasicTaskElement extends TaskElement {
     create(): HTMLElement;
     private createCellForValue;
