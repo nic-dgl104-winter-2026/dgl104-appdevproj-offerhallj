@@ -2,11 +2,16 @@ import { SESSION_TASK_KEY } from "../global.js";
 import { TaskService } from "./TaskService.js";
 import { Task } from "./Task.js";
 
+/** Get the cached id as an integer */
+function getCachedID(): number {
+    const cachedID = sessionStorage.getItem(SESSION_TASK_KEY);
+    if (cachedID == null) return -1;
+    return parseInt(cachedID);
+}
+
 /** Try to get the cached task id from session storage and populate the edit fields */
 function tryGetSelectedTask() {
-    const cachedID = sessionStorage.getItem(SESSION_TASK_KEY);
-    if (cachedID == null) return;
-    const id = parseInt(cachedID);
+    const id = getCachedID();
     if (id < 0) return;
 
     service.getTask(id, (r, task) => {
@@ -43,11 +48,12 @@ function createTask(e: SubmitEvent) {
         dueInput.value,
         priorityInput.value,
         (result, newTask) => { 
-
+            if (result) redirect();
         }
     )
 }
 
+/** Save an edited task to the database */
 function saveTask(e: SubmitEvent) {
     e.preventDefault();
     console.log(idInput.value);
@@ -59,10 +65,16 @@ function saveTask(e: SubmitEvent) {
         dueInput.value,
         priorityInput.value,
         userInput.value,
-        () => {
+        (result) => {
+            if (result) redirect();
         }
     )    
 
+}
+
+/** Redirect to the tasks page */
+function redirect() {
+    window.location.replace("/static/tasks.html");
 }
 
 const service = TaskService.Instance;
@@ -75,5 +87,11 @@ const dueInput = document.getElementById("duedate") as HTMLInputElement;
 const createdDate = document.getElementById("createdate") as HTMLInputElement;
 const priorityInput = document.getElementById("priority") as HTMLInputElement;
 const statusInput = document.getElementById("status") as HTMLInputElement;
+
+document.querySelector("form")?.addEventListener("submit", (e) => {
+    const id = getCachedID();
+    if (id < 0) createTask(e);
+    else saveTask(e);
+})
 
 tryGetSelectedTask();

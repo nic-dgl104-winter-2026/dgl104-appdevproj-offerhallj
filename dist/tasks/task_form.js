@@ -1,12 +1,17 @@
+var _a;
 import { SESSION_TASK_KEY } from "../global.js";
 import { TaskService } from "./TaskService.js";
 import { Task } from "./Task.js";
-/** Try to get the cached task id from session storage and populate the edit fields */
-function tryGetSelectedTask() {
+/** Get the cached id as an integer */
+function getCachedID() {
     const cachedID = sessionStorage.getItem(SESSION_TASK_KEY);
     if (cachedID == null)
-        return;
-    const id = parseInt(cachedID);
+        return -1;
+    return parseInt(cachedID);
+}
+/** Try to get the cached task id from session storage and populate the edit fields */
+function tryGetSelectedTask() {
+    const id = getCachedID();
     if (id < 0)
         return;
     service.getTask(id, (r, task) => {
@@ -35,14 +40,23 @@ function populateEditFields(task) {
 function createTask(e) {
     e.preventDefault();
     service.createNewTask(titleInput.value, descriptionInput.value, dueInput.value, priorityInput.value, (result, newTask) => {
+        if (result)
+            redirect();
     });
 }
+/** Save an edited task to the database */
 function saveTask(e) {
     e.preventDefault();
     console.log(idInput.value);
     console.log(userInput.value);
-    service.editTask(parseInt(idInput.value), titleInput.value, descriptionInput.value, dueInput.value, priorityInput.value, userInput.value, () => {
+    service.editTask(parseInt(idInput.value), titleInput.value, descriptionInput.value, dueInput.value, priorityInput.value, userInput.value, (result) => {
+        if (result)
+            redirect();
     });
+}
+/** Redirect to the tasks page */
+function redirect() {
+    window.location.replace("/static/tasks.html");
 }
 const service = TaskService.Instance;
 const idInput = document.getElementById("id");
@@ -53,5 +67,12 @@ const dueInput = document.getElementById("duedate");
 const createdDate = document.getElementById("createdate");
 const priorityInput = document.getElementById("priority");
 const statusInput = document.getElementById("status");
+(_a = document.querySelector("form")) === null || _a === void 0 ? void 0 : _a.addEventListener("submit", (e) => {
+    const id = getCachedID();
+    if (id < 0)
+        createTask(e);
+    else
+        saveTask(e);
+});
 tryGetSelectedTask();
 //# sourceMappingURL=task_form.js.map
