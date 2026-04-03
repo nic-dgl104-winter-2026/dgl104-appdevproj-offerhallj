@@ -1,4 +1,6 @@
+import type { TaskHeader } from "../task_tables/TaskHeader.js";
 import { TaskStatus, TaskPriority } from "../tasks/Task.js";
+import type { Order } from "../utils/TaskSorter.js";
 
 // I referenced this post to initiaize the map with initial values
 // https://stackoverflow.com/questions/41769955/initialize-a-map-containing-arrays-in-typescript
@@ -15,4 +17,7 @@ export class View {
         [TaskPriority.Medium, true],
         [TaskPriority.Low, true]
     ]);
+
+    public sortHeader: TaskHeader | undefined;
+    public sortOrder: Order | undefined;
 }

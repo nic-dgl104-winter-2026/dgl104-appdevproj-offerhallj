@@ -1,19 +1,19 @@
 import type { UIElement } from "../interfaces/UIElement.js";
-import type { TaskElement } from "../task_elements/TaskElement.js";
 import { canSort, Order } from "../utils/TaskSorter.js";
+import { ViewHolder } from "../views/ViewHolder.js";
 import { TaskHeader } from "./TaskHeader.js";
 
+const viewHolder = ViewHolder.Instance;
+
 export abstract class TaskTable implements UIElement {
+    abstract readonly displayHeaders: TaskHeader[];
+
     private static _activeHeaderElement: HTMLElement | undefined;
-    Element: HTMLElement;
+    Element!: HTMLElement;
     Body!: HTMLElement;
     
     public onSort!: ((header: TaskHeader, order: Order) => void);
     public sort(header: TaskHeader, order: Order): void { this.onSort(header, order); }
-
-    constructor() {
-        this.Element = this.create();
-    }
 
     abstract create(): HTMLElement;
 
@@ -60,15 +60,10 @@ export abstract class TaskTable implements UIElement {
                 th.classList.add("asc");
             }
             
+            viewHolder.view.sortOrder = order;
+            viewHolder.view.sortHeader = header;
             TaskTable._activeHeaderElement = th;
             this.sort(header, order);
         });
-    }
-
-    public filterElements(elements: TaskElement[]) {
-        for (let element of elements) {
-            if (!element.isFilteredOut) continue;
-            this.Body.removeChild(element.Element);
-        }
     }
 }

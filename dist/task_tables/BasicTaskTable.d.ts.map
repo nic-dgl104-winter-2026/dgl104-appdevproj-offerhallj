@@ -1,1 +1,1 @@
-{"version":3,"file":"BasicTaskTable.d.ts","sourceRoot":"","sources":["../../src/task_tables/BasicTaskTable.ts"],"names":[],"mappings":"AACA,OAAO,EAAE,SAAS,EAAE,MAAM,gBAAgB,CAAC;AAE3C,qBAAa,cAAe,SAAQ,SAAS;IACzC,MAAM,IAAI,WAAW;CAUxB"}
+{"version":3,"file":"BasicTaskTable.d.ts","sourceRoot":"","sources":["../../src/task_tables/BasicTaskTable.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,UAAU,EAAE,MAAM,iBAAiB,CAAC;AAC7C,OAAO,EAAE,SAAS,EAAE,MAAM,gBAAgB,CAAC;AAE3C,qBAAa,cAAe,SAAQ,SAAS;IACzC,QAAQ,CAAC,cAAc,EAAE,UAAU,EAAE,CAOnC;;IAOF,MAAM,IAAI,WAAW;CAGxB"}

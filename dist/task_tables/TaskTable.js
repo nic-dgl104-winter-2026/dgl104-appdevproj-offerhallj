@@ -1,10 +1,9 @@
 import { canSort, Order } from "../utils/TaskSorter.js";
+import { ViewHolder } from "../views/ViewHolder.js";
 import { TaskHeader } from "./TaskHeader.js";
+const viewHolder = ViewHolder.Instance;
 export class TaskTable {
     sort(header, order) { this.onSort(header, order); }
-    constructor() {
-        this.Element = this.create();
-    }
     getTableWithHeaders(...headers) {
         const table = document.createElement("table");
         const thead = document.createElement("thead");
@@ -42,16 +41,11 @@ export class TaskTable {
                 th.classList.remove("dsc");
                 th.classList.add("asc");
             }
+            viewHolder.view.sortOrder = order;
+            viewHolder.view.sortHeader = header;
             TaskTable._activeHeaderElement = th;
             this.sort(header, order);
         });
-    }
-    filterElements(elements) {
-        for (let element of elements) {
-            if (!element.isFilteredOut)
-                continue;
-            this.Body.removeChild(element.Element);
-        }
     }
 }
 //# sourceMappingURL=TaskTable.js.map

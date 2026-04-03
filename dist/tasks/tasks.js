@@ -1,5 +1,6 @@
 import { TaskTableFactory, TaskDisplayType } from "../task_tables/TaskTableFactory.js";
 import { TaskElementFactory } from "../task_elements/TaskElementFactory.js";
+import { TaskHeader } from "../task_tables/TaskHeader.js";
 import { TaskElement } from "../task_elements/TaskElement.js";
 import { Order, sort } from "../utils/TaskSorter.js";
 import { TaskPriority, TaskStatus } from "./Task.js";
@@ -22,19 +23,6 @@ function getAllTasks() {
         // finally, draw the taskElements
         drawTaskElements();
     });
-}
-/** All all taskElements to the task table body */
-function drawTaskElements() {
-    taskTableContainer.innerHTML = "";
-    taskTableContainer.appendChild(taskTable.Element);
-    const body = taskTable.Body;
-    body.innerHTML = "";
-    for (let task of taskElements) {
-        if (task.isFilteredOut)
-            continue;
-        body.appendChild(task.Element);
-    }
-    // taskTable.filterElements(taskElements);
 }
 /** Navigate to the taskform with the current task selected */
 function editTask(taskElement) {
@@ -62,6 +50,19 @@ function createTask() {
     sessionStorage.setItem("id", "-1");
     window.location.replace("/static/taskform.html");
 }
+/** All all taskElements to the task table body */
+function drawTaskElements() {
+    taskTableContainer.innerHTML = "";
+    taskTableContainer.appendChild(taskTable.Element);
+    const body = taskTable.Body;
+    body.innerHTML = "";
+    for (let task of taskElements) {
+        if (task.isFilteredOut)
+            continue;
+        body.appendChild(task.Element);
+    }
+}
+/** */
 function changeTableDisplay(type) {
     console.log(type);
     tableFactory.setDisplayType(type);
@@ -70,6 +71,7 @@ function changeTableDisplay(type) {
     console.log(taskElements);
     taskElements = elementFactory.convertElements(taskElements);
     console.log(taskElements);
+    drawSearchFilterOptions();
     drawTaskElements();
 }
 function sortElements(header, order) {
@@ -109,6 +111,20 @@ function createFilterElement(parent, value, checkboxEvent) {
     parent.appendChild(checkbox);
     parent.appendChild(label);
 }
+function drawSearchFilterOptions() {
+    searchFilterOptions.innerHTML = "";
+    for (let header of taskTable.displayHeaders) {
+        if (header == TaskHeader.Actions)
+            continue;
+        searchFilterOptions.appendChild(createOptionForTaskHeader(header));
+    }
+}
+function createOptionForTaskHeader(header) {
+    const option = document.createElement("option");
+    option.textContent = header;
+    option.value = header;
+    return option;
+}
 const service = TaskService.Instance;
 let taskElements = [];
 const tableFactory = new TaskTableFactory(TaskDisplayType.Basic, sortElements);
@@ -117,11 +133,13 @@ let taskTable = tableFactory.create();
 const taskTableContainer = document.getElementById("task-table-container");
 const priorityFilters = document.getElementById("priority-filter-container");
 const statusFilters = document.getElementById("status-filter-container");
+const searchFilterOptions = document.getElementById("filter-options");
 const viewHolder = ViewHolder.Instance;
 viewHolder.setView(new View);
 document.getElementById("detailed-view")?.addEventListener("click", () => changeTableDisplay(TaskDisplayType.Detailed));
 document.getElementById("basic-view")?.addEventListener("click", () => changeTableDisplay(TaskDisplayType.Basic));
 document.getElementById("new-task")?.addEventListener("click", () => createTask());
+drawSearchFilterOptions();
 getAllTasks();
 document.addEventListener("DOMContentLoaded", () => {
     drawPriorityFilter();
