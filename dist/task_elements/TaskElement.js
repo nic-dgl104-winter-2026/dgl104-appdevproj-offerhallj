@@ -1,3 +1,4 @@
+import { isFilteredOut } from "../utils/TaskFilter.js";
 import { ViewHolder } from "../views/ViewHolder.js";
 import { Task } from "../tasks/Task.js";
 const viewHolder = ViewHolder.Instance;
@@ -33,13 +34,7 @@ export class TaskElement {
         return deleteButton;
     }
     get isFilteredOut() {
-        console.log(this.Task.priority);
-        console.log(viewHolder.view);
-        if (viewHolder.view.priorityFilters.get(this.Task.priority) == false)
-            return true;
-        if (viewHolder.view.statusFilters.get(this.Task.status) == false)
-            return true;
-        return false;
+        return isFilteredOut(this.Task);
     }
 }
 //# sourceMappingURL=TaskElement.js.map

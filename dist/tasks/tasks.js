@@ -4,9 +4,10 @@ import { TaskHeader } from "../task_tables/TaskHeader.js";
 import { TaskElement } from "../task_elements/TaskElement.js";
 import { Order, sort } from "../utils/TaskSorter.js";
 import { TaskPriority, TaskStatus } from "./Task.js";
+import { ViewHolder } from "../views/ViewHolder.js";
+import { canFilter } from "../utils/TaskFilter.js";
 import { SESSION_TASK_KEY } from "../global.js";
 import { TaskService } from "./TaskService.js";
-import { ViewHolder } from "../views/ViewHolder.js";
 import { View } from "../views/View.js";
 /** Retrieve all tasks for the current user from the database, convert them to taskElements, and draw them */
 function getAllTasks() {
@@ -114,7 +115,7 @@ function createFilterElement(parent, value, checkboxEvent) {
 function drawSearchFilterOptions() {
     searchFilterOptions.innerHTML = "";
     for (let header of taskTable.displayHeaders) {
-        if (header == TaskHeader.Actions)
+        if (!canFilter(header))
             continue;
         searchFilterOptions.appendChild(createOptionForTaskHeader(header));
     }
@@ -125,6 +126,21 @@ function createOptionForTaskHeader(header) {
     option.value = header;
     return option;
 }
+function filterBySearch(e) {
+    if (e.target.id == searchFilterOptions.id) {
+        viewHolder.view.searchFilter = searchFilterOptions.value;
+        viewHolder.view.searchValue = "";
+        searchBar.setAttribute("placeholder", `Filter by ${searchFilterOptions.value}`);
+        searchBar.value = "";
+    }
+    else {
+        viewHolder.view.searchValue = searchBar.value;
+    }
+    drawTaskElements();
+}
+function applySearchFilter() {
+    console.log("ad");
+}
 const service = TaskService.Instance;
 let taskElements = [];
 const tableFactory = new TaskTableFactory(TaskDisplayType.Basic, sortElements);
@@ -133,9 +149,11 @@ let taskTable = tableFactory.create();
 const taskTableContainer = document.getElementById("task-table-container");
 const priorityFilters = document.getElementById("priority-filter-container");
 const statusFilters = document.getElementById("status-filter-container");
-const searchFilterOptions = document.getElementById("filter-options");
+const searchFilterOptions = document.getElementById("search-options");
+const searchBar = document.getElementById("search-bar");
 const viewHolder = ViewHolder.Instance;
 viewHolder.setView(new View);
+document.getElementById("search-form")?.addEventListener("input", filterBySearch);
 document.getElementById("detailed-view")?.addEventListener("click", () => changeTableDisplay(TaskDisplayType.Detailed));
 document.getElementById("basic-view")?.addEventListener("click", () => changeTableDisplay(TaskDisplayType.Basic));
 document.getElementById("new-task")?.addEventListener("click", () => createTask());

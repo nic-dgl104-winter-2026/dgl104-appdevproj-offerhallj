@@ -5,7 +5,7 @@ import { TaskHeader } from "../task_tables/TaskHeader.js";
 export function sort(header: TaskHeader, elements: TaskElement[], order: Order) {
     switch (header) {
         case TaskHeader.ID:  
-            return elements.sort((a, b) => alphaNumericSort(a.Task.id, b.Task.id, order));
+            return elements.sort((a, b) => alphaNumericSort(a.Task.id!, b.Task.id!, order));
         case TaskHeader.Title:  
             return elements.sort((a, b) => alphaNumericSort(a.Task.title, b.Task.title, order));
         case TaskHeader.Description:  

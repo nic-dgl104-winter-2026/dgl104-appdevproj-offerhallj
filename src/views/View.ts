@@ -1,4 +1,4 @@
-import type { TaskHeader } from "../task_tables/TaskHeader.js";
+import { TaskHeader } from "../task_tables/TaskHeader.js";
 import { TaskStatus, TaskPriority } from "../tasks/Task.js";
 import type { Order } from "../utils/TaskSorter.js";
 
@@ -20,4 +20,7 @@ export class View {
 
     public sortHeader: TaskHeader | undefined;
     public sortOrder: Order | undefined;
+
+    public searchFilter: TaskHeader = TaskHeader.Title;
+    public searchValue: string = "";
 }
