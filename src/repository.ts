@@ -50,5 +50,14 @@ export abstract class Repository<T> {
         return transaction?.objectStore(table); 
     }
 
+
+    protected delayExecution(fun: () => void): boolean {
+        if (!this._dbIsOpen) {
+            this._delayedExecution.push(fun);
+        }
+
+        return !this._dbIsOpen;
+    }
+
     abstract createTable(): void;
 }

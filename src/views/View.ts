@@ -6,6 +6,9 @@ import type { Order } from "../utils/TaskSorter.js";
 // https://stackoverflow.com/questions/41769955/initialize-a-map-containing-arrays-in-typescript
 /** Saves the sorting and filtering preferences of the task table */
 export class View {
+    public id: number | undefined;
+    public user: string = "";
+    
     public statusFilters: Map<TaskStatus, boolean> = new Map<TaskStatus, boolean>([
         [TaskStatus.InProgress, true],
         [TaskStatus.Complete, true],

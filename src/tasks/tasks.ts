@@ -2,7 +2,7 @@ import { TaskElementFactory, TaskDisplayType } from "../task_elements/TaskElemen
 import { TaskDetail } from "../task_elements/TaskDetail.js";
 import { TaskElement } from "../task_elements/TaskElement.js";
 import { canSort, Order, sort } from "../utils/TaskSorter.js";
-import { TaskPriority, TaskStatus } from "./Task.js";
+import { Task, TaskPriority, TaskStatus } from "./Task.js";
 import { ViewHolder } from "../views/ViewHolder.js";
 import { canFilter } from "../utils/TaskFilter.js";
 import { SESSION_TASK_KEY } from "../global.js";
@@ -24,9 +24,7 @@ function getAllTasks() {
         }
 
         // finally, draw the taskElements and populate options
-        drawSearchFilterOptions();
         drawTaskElements();
-        drawSortOptions();
     });
 }
 
@@ -70,9 +68,7 @@ function drawTaskElements() {
 function changeTableDisplay(type: TaskDisplayType) {
     elementFactory.setDisplayType(type);
     taskElements = elementFactory.convertElements(taskElements);
-    drawSearchFilterOptions();
     drawTaskElements();
-    drawSortOptions();
 }
 
 function sortElements(value: string) {
@@ -123,7 +119,7 @@ function createFilterElement(parent: HTMLElement, value: TaskPriority | TaskStat
 
 function drawSearchFilterOptions() {
     searchFilterOptions.innerHTML = "";
-    for(let detail of TaskElement.details) {
+    for(let detail of Object.values(TaskDetail)) {
         if (!canFilter(detail)) continue;
         searchFilterOptions.appendChild(createOptionForTaskDetail(detail));
     }
@@ -131,7 +127,7 @@ function drawSearchFilterOptions() {
 
 function drawSortOptions() {
     sortOptions.innerHTML = "";
-    for(let detail of TaskElement.details) {
+    for(let detail of Object.values(TaskDetail)) {
         if (!canSort(detail)) continue;
         let asc = createOptionForTaskDetail(detail);
         let dsc = createOptionForTaskDetail(detail);
@@ -193,8 +189,7 @@ document.getElementById("new-task")?.addEventListener("click", () => createTask(
 sortOptions.addEventListener("change", () => sortElements(sortOptions.value));
 
 getAllTasks();
-
-document.addEventListener("DOMContentLoaded", () => {
-    drawPriorityFilter();
-    drawStatusFilter();
-})
+drawSearchFilterOptions();
+drawPriorityFilter();
+drawStatusFilter();
+drawSortOptions();

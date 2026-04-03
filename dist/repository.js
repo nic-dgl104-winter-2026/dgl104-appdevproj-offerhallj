@@ -38,5 +38,11 @@ export class Repository {
         const transaction = this._db?.transaction([table], method);
         return transaction?.objectStore(table);
     }
+    delayExecution(fun) {
+        if (!this._dbIsOpen) {
+            this._delayedExecution.push(fun);
+        }
+        return !this._dbIsOpen;
+    }
 }
 //# sourceMappingURL=repository.js.map

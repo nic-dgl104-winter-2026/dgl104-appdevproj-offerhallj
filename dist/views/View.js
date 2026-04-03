@@ -5,6 +5,7 @@ import { TaskStatus, TaskPriority } from "../tasks/Task.js";
 /** Saves the sorting and filtering preferences of the task table */
 export class View {
     constructor() {
+        this.user = "";
         this.statusFilters = new Map([
             [TaskStatus.InProgress, true],
             [TaskStatus.Complete, true],

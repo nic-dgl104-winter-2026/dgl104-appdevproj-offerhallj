@@ -2,7 +2,7 @@ import { TaskElementFactory, TaskDisplayType } from "../task_elements/TaskElemen
 import { TaskDetail } from "../task_elements/TaskDetail.js";
 import { TaskElement } from "../task_elements/TaskElement.js";
 import { canSort, Order, sort } from "../utils/TaskSorter.js";
-import { TaskPriority, TaskStatus } from "./Task.js";
+import { Task, TaskPriority, TaskStatus } from "./Task.js";
 import { ViewHolder } from "../views/ViewHolder.js";
 import { canFilter } from "../utils/TaskFilter.js";
 import { SESSION_TASK_KEY } from "../global.js";
@@ -21,9 +21,7 @@ function getAllTasks() {
             taskElements.push(elementFactory.create(task));
         }
         // finally, draw the taskElements and populate options
-        drawSearchFilterOptions();
         drawTaskElements();
-        drawSortOptions();
     });
 }
 /** Navigate to the taskform with the current task selected */
@@ -65,9 +63,7 @@ function drawTaskElements() {
 function changeTableDisplay(type) {
     elementFactory.setDisplayType(type);
     taskElements = elementFactory.convertElements(taskElements);
-    drawSearchFilterOptions();
     drawTaskElements();
-    drawSortOptions();
 }
 function sortElements(value) {
     let detail = value.split(",")[0];
@@ -111,7 +107,7 @@ function createFilterElement(parent, value, checkboxEvent) {
 }
 function drawSearchFilterOptions() {
     searchFilterOptions.innerHTML = "";
-    for (let detail of TaskElement.details) {
+    for (let detail of Object.values(TaskDetail)) {
         if (!canFilter(detail))
             continue;
         searchFilterOptions.appendChild(createOptionForTaskDetail(detail));
@@ -119,7 +115,7 @@ function drawSearchFilterOptions() {
 }
 function drawSortOptions() {
     sortOptions.innerHTML = "";
-    for (let detail of TaskElement.details) {
+    for (let detail of Object.values(TaskDetail)) {
         if (!canSort(detail))
             continue;
         let asc = createOptionForTaskDetail(detail);
@@ -169,8 +165,8 @@ document.getElementById("basic-view")?.addEventListener("click", () => changeTab
 document.getElementById("new-task")?.addEventListener("click", () => createTask());
 sortOptions.addEventListener("change", () => sortElements(sortOptions.value));
 getAllTasks();
-document.addEventListener("DOMContentLoaded", () => {
-    drawPriorityFilter();
-    drawStatusFilter();
-});
+drawSearchFilterOptions();
+drawPriorityFilter();
+drawStatusFilter();
+drawSortOptions();
 //# sourceMappingURL=tasks.js.map

@@ -8,6 +8,7 @@ export declare abstract class Repository<T> {
     protected openDatabase(table: string, version: number): void;
     /** Get the objectstore for the provided table using the provided transaction method */
     protected getObjectStore(table: string, method: IDBTransactionMode): IDBObjectStore | undefined;
+    protected delayExecution(fun: () => void): boolean;
     abstract createTable(): void;
 }
 //# sourceMappingURL=repository.d.ts.map
