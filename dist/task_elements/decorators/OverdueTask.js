@@ -1,4 +1,4 @@
-import { TaskElement } from "./TaskElement.js";
+import { TaskElement } from "../TaskElement.js";
 /** Create an overdue wrapper around the given task element */
 export class OverdueTask extends TaskElement {
     constructor(innerTaskElement) {

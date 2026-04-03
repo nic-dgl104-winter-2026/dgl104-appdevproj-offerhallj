@@ -1,18 +1,15 @@
-import { TaskElement } from "./TaskElement.js";
-
+import { TaskElement } from "../TaskElement.js";
 /** Create an overdue wrapper around the given task element */
-export class OverdueTaskElement extends TaskElement {
-    private _innerTaskElement: TaskElement;
-
-    constructor(innerTaskElement: TaskElement) {
+export class DueToday extends TaskElement {
+    constructor(innerTaskElement) {
         super(innerTaskElement.Task);
         this._innerTaskElement = innerTaskElement;
         this.Element = this.create();
     }
-
-    create(): HTMLElement {
+    create() {
         const innerElement = this._innerTaskElement.Element;
-        innerElement.classList.add("overdue");
+        innerElement.classList.add("due-today");
         return innerElement;
     }
 }
+//# sourceMappingURL=DueToday.js.map

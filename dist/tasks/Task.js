@@ -39,7 +39,17 @@ export class Task {
             return false;
         if (date.getMonth() < this.dueDate.getMonth())
             return false;
-        if (date.getDay() <= this.dueDate.getDay())
+        if (date.getDate() <= this.dueDate.getDate())
+            return false;
+        return true;
+    }
+    get isDueToday() {
+        const date = new Date();
+        if (date.getFullYear() != this.dueDate.getFullYear())
+            return false;
+        if (date.getMonth() != this.dueDate.getMonth())
+            return false;
+        if (date.getDate() != this.dueDate.getDate())
             return false;
         return true;
     }

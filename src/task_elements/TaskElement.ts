@@ -13,7 +13,7 @@ export abstract class TaskElement implements UIElement {
 
     constructor(task: Task) {
         this.Task = task;
-        // I realized that calling the create method in the constructor here was causing issues with the create method in overduetaskelements
+        // I realized that calling the create method in the constructor here was causing issues with the create method in overduetasks
         // so I've had to override the constructor in all of the children
     }
 

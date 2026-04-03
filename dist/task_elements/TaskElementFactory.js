@@ -1,9 +1,10 @@
 import { TaskDisplayType } from "../task_tables/TaskTableFactory.js";
+import { DetailedTaskElement } from "./DetailedTaskElement.js";
+import { OverdueTask } from "./decorators/OverdueTask.js";
 import { BasicTaskElement } from "./BasicTaskElement.js";
+import { DueToday } from "./decorators/DueToday.js";
 import { TaskElement } from "./TaskElement.js";
 import { Task } from "../tasks/Task.js";
-import { OverdueTaskElement } from "./OverdueTaskElement.js";
-import { DetailedTaskElement } from "./DetailedTaskElement.js";
 export class TaskElementFactory {
     constructor(type, onEdit, onDelete) {
         this._onEdit = onEdit;
@@ -24,7 +25,10 @@ export class TaskElementFactory {
         newElement.onEdit = this._onEdit;
         newElement.onDelete = this._onDelete;
         if (task.isOverdue) {
-            newElement = new OverdueTaskElement(newElement);
+            newElement = new OverdueTask(newElement);
+        }
+        else if (task.isDueToday) {
+            newElement = new DueToday(newElement);
         }
         return newElement;
     }

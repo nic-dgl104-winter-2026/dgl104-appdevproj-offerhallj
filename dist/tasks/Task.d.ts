@@ -13,6 +13,7 @@ export declare class Task {
     get formattedCreatedDate(): string;
     private getDateAsString;
     get isOverdue(): boolean;
+    get isDueToday(): boolean;
     getTagList(): string[];
     setTagList(...tags: string[]): void;
 }

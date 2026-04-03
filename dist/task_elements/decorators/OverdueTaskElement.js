@@ -1,4 +1,4 @@
-import { TaskElement } from "./TaskElement.js";
+import { TaskElement } from "../TaskElement.js";
 /** Create an overdue wrapper around the given task element */
 export class OverdueTask extends TaskElement {
     constructor(innerTaskElement) {
@@ -12,4 +12,4 @@ export class OverdueTask extends TaskElement {
         return innerElement;
     }
 }
-//# sourceMappingURL=OverdueTask.js.map
+//# sourceMappingURL=OverdueTaskElement.js.map

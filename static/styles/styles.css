@@ -30,3 +30,7 @@ form * {
 .overdue {
     background-color: red;
 }
+
+.due-today {
+    background-color: orange;
+}
