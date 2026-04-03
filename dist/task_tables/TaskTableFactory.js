@@ -2,18 +2,24 @@ import { DetailedTaskTable } from "./DetailedTaskTable.js";
 import { BasicTaskTable } from "./BasicTaskTable.js";
 import { TaskTable } from "./TaskTable.js";
 export class TaskTableFactory {
-    constructor(displayType) {
+    constructor(displayType, onSort) {
         this._displayType = TaskDisplayType.Basic;
         this._displayType = displayType;
+        this._onSort = onSort;
     }
     setDisplayType(displayType) {
         this._displayType = displayType;
     }
     create() {
+        let table;
         switch (this._displayType) {
-            case TaskDisplayType.Detailed: return new DetailedTaskTable();
-            default: return new BasicTaskTable();
+            case TaskDisplayType.Detailed:
+                table = new DetailedTaskTable();
+                break;
+            default: table = new BasicTaskTable();
         }
+        table.onSort = this._onSort;
+        return table;
     }
 }
 export var TaskDisplayType;

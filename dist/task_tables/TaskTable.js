@@ -1,5 +1,7 @@
+import { canSort } from "../utils/TaskSorter.js";
 import { TaskHeader } from "./TaskHeader.js";
 export class TaskTable {
+    sort(header) { this.onSort(header); }
     constructor() {
         this.Element = this.create();
     }
@@ -19,7 +21,13 @@ export class TaskTable {
     createHeaderElement(header) {
         let th = document.createElement("th");
         th.textContent = header;
+        this.addHeaderSort(header, th);
         return th;
+    }
+    addHeaderSort(header, th) {
+        if (!canSort(header))
+            return;
+        th.addEventListener("click", () => this.sort(header));
     }
 }
 //# sourceMappingURL=TaskTable.js.map

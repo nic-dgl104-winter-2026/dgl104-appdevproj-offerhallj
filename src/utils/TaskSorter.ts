@@ -1,6 +1,6 @@
-import { TaskPriority, TaskStatus, Task } from "../tasks/Task";
-import { TaskElement } from "../task_elements/TaskElement";
-import { TaskHeader } from "../task_tables/TaskHeader";
+import { TaskPriority, TaskStatus, Task } from "../tasks/Task.js";
+import { TaskElement } from "../task_elements/TaskElement.js";
+import { TaskHeader } from "../task_tables/TaskHeader.js";
 
 export function sort(header: TaskHeader, elements: TaskElement[], order: Order = Order.Asc) {
     switch (header) {
@@ -39,8 +39,12 @@ function orderFactor(order: Order): number {
 }
 
 function alphaNumericSort(a: number | string, b: number | string, order: Order): number {
+    // convert string values to lowercase to ensure capitalization doesn't effect sorting
+    if (typeof(a) === "string") a = a.toLowerCase();
+    if (typeof(b) === "string") b = b.toLowerCase();
     if (a > b) return orderFactor(order);
-    else return -orderFactor(order);
+    else if (a < b) return -orderFactor(order);
+    else return 0;
 }
 
 function statusSort(a: Task, b: Task, order: Order): number {

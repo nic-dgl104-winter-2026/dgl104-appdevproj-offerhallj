@@ -1,7 +1,9 @@
 import { TaskTable } from "./TaskTable.js";
+import type { TaskHeader } from "./TaskHeader.js";
 export declare class TaskTableFactory {
     private _displayType;
-    constructor(displayType: TaskDisplayType);
+    private _onSort;
+    constructor(displayType: TaskDisplayType, onSort: (header: TaskHeader) => void);
     setDisplayType(displayType: TaskDisplayType): void;
     create(): TaskTable;
 }

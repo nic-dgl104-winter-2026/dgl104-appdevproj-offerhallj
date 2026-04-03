@@ -3,6 +3,7 @@ import { TaskElementFactory } from "../task_elements/TaskElementFactory.js";
 import { TaskElement } from "../task_elements/TaskElement.js";
 import { SESSION_TASK_KEY } from "../global.js";
 import { TaskService } from "./TaskService.js";
+import { sort } from "../utils/TaskSorter.js";
 /** Retrieve all tasks for the current user from the database, convert them to taskElements, and draw them */
 function getAllTasks() {
     taskElements.splice(0, taskElements.length);
@@ -69,9 +70,13 @@ function changeTableDisplay(type) {
     console.log(taskElements);
     drawTaskElements();
 }
+function sortElements(header) {
+    sort(header, taskElements);
+    drawTaskElements();
+}
 const service = TaskService.Instance;
 let taskElements = [];
-const tableFactory = new TaskTableFactory(TaskDisplayType.Basic);
+const tableFactory = new TaskTableFactory(TaskDisplayType.Basic, sortElements);
 const elementFactory = new TaskElementFactory(TaskDisplayType.Basic, editTask, deleteTask);
 let taskTable = tableFactory.create();
 const taskTableContainer = document.getElementById("task-table-container");

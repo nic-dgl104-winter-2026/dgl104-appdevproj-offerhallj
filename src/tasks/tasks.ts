@@ -1,8 +1,10 @@
 import { TaskTableFactory, TaskDisplayType } from "../task_tables/TaskTableFactory.js";
 import { TaskElementFactory } from "../task_elements/TaskElementFactory.js";
+import type { TaskHeader } from "../task_tables/TaskHeader.js";
 import { TaskElement } from "../task_elements/TaskElement.js";
 import { SESSION_TASK_KEY } from "../global.js";
 import { TaskService } from "./TaskService.js";
+import { sort } from "../utils/TaskSorter.js";
 
 /** Retrieve all tasks for the current user from the database, convert them to taskElements, and draw them */
 function getAllTasks() { 
@@ -78,10 +80,15 @@ function changeTableDisplay(type: TaskDisplayType) {
     drawTaskElements();
 }
 
+function sortElements(header: TaskHeader) {
+    sort(header, taskElements);
+    drawTaskElements();
+}
+
 const service = TaskService.Instance;
 let taskElements: TaskElement[] = [];
 
-const tableFactory = new TaskTableFactory(TaskDisplayType.Basic);
+const tableFactory = new TaskTableFactory(TaskDisplayType.Basic, sortElements);
 const elementFactory = new TaskElementFactory(TaskDisplayType.Basic, editTask, deleteTask);
 let taskTable = tableFactory.create();
 
