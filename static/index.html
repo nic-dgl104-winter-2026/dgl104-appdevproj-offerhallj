@@ -5,38 +5,51 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tasks | Task Manager</title>
     <link rel="stylesheet" href="/static/styles/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap" rel="stylesheet">
 </head>
 <body>
-    <header>
-        Task Manager App
-        <nav>
-            <ul>
-                <li><a href="index.html">Home</a></li>
-                <li><a href="login.html" id="logout-button">Logout</a></li>
-            </ul>
-        </nav>
-    </header>
     <main>
-        <button id="save-view">Save View</button>
-        <select id="sort-options">
-            <option>H</option>
-            <option>E</option>
-        </select>
-        <div id="priority-filter-container"></div>
-        <div id="status-filter-container"></div>
-        <div id="search-container">
-            <form id="search-form">
-                <input type="text" id="search-bar" placeholder="Search in Title">
-                <select id="search-options"></select>
-            </form>
-        </div>
-        <a href="/static/taskform.html" id="new-task">Create a New Task</a>
-        <div>
-            <button id="compact-view">Compact View</button>
-            <button id="basic-view">Basic View</button>
-            <button id="detailed-view">Detailed View</button>
-        </div>
-        <div id="task-container">
+        <div class="sidebar">
+            <div class="logo">
+                <img src="./icons/stacks-icon.svg" width="24">
+                <h1>Task Manager</h1>
+            </div>
+            <small>Views</small>
+            <nav>
+                <ul class="views-nav" id="views-nav">
+                    <li><a href="index.html">Dashboard</a></li>
+                    <li><a href="index.html">Homework</a></li>
+                    <li><a href="index.html">Due Today</a></li>
+                </ul>
+                <a href="login.html" id="logout-button">Logout</a>
+            </nav>
+        </div>    
+        <div class="task-view">
+            <div id="search-container">
+                <form id="search-form">
+                    <input type="text" id="search-bar" placeholder="Search in Title">
+                    <select id="search-options"></select>
+                </form>
+            </div>
+            
+            <button id="save-view">Save View</button>
+            <select id="sort-options">
+                <option>H</option>
+                <option>E</option>
+            </select>
+            <div id="priority-filter-container"></div>
+            <div id="status-filter-container"></div>
+
+            <a href="/static/taskform.html" id="new-task">Create a New Task</a>
+            <div>
+                <button id="compact-view">Compact View</button>
+                <button id="basic-view">Basic View</button>
+                <button id="detailed-view">Detailed View</button>
+            </div>
+            <div id="task-container">
+            </div>
         </div>
     </main>
 </body>

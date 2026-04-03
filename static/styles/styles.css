@@ -2,6 +2,12 @@
 
 html {
     font-size: 62.5%;
+    --black: #0b0d13;
+    --off-black: #0d1321;
+    --cool-grey: #1d242f;
+    --mid-blue: #3e5c76;
+    --light-blue: #748cab;
+    --off-white: #f0ebd8;   
 }
 
 body {
@@ -9,8 +15,14 @@ body {
     font-size: 1.6rem;
     padding: 0;
     margin: 0;
-    color: #46223c;
-    background-color: #e7e7e7;
+    color: var(--off-white);
+    font-family: "Nunito", sans-serif;
+    font-optical-sizing: auto;
+}
+
+a {
+    color: var(--off-white);
+    text-decoration: none;
 }
 
 .content {
@@ -22,10 +34,86 @@ body {
     display: none;
 }
 
+main {
+    display: flex;
+    flex-direction: row;
+    min-height: 100vh;
+    background: radial-gradient(var(--cool-grey), var(--off-black));     
+}
+
 /* ===== Forms and Input ===== */
 form * {
     display: block;
 }
+
+
+/* ===== Views Menu ===== */
+
+main .sidebar {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-width: 10%;
+    padding: 24px 32px 32px 16px;
+    background: linear-gradient(0deg, var(--off-black), var(--black));
+    /* background-color: var(--black); */
+    border-bottom-right-radius: 64px;
+    flex-basis: 200px;
+    box-shadow: 0 5px 10px var(--off-black);
+}
+
+main .logo {
+    gap: 8px;
+    display: flex;
+    align-content: center;
+    margin: auto;
+    margin-bottom: 16px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--cool-grey);
+}
+
+main h1 {
+    font-size: 2.0rem;
+}
+
+main .sidebar nav {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.views-nav {
+    flex: 1;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+.views-nav li {
+    padding-left: 4px;
+    margin: 24px 0;
+    font-size: 1.8rem;
+}
+
+.views-nav li:first-of-type {
+    margin-top: 16px;
+}
+
+.views-nav li a {
+    display: block;
+    max-width: 160px;
+}
+
+/* ===== Task View ===== */
+
+main .task-view {
+    flex: 1;
+    padding: 48px 32px;
+}
+
+
+/* ===== Task Elements ===== */
 
 .overdue {
     background-color: red;
