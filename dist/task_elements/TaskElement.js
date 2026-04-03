@@ -1,7 +1,5 @@
 import { isFilteredOut } from "../utils/TaskFilter.js";
-import { ViewHolder } from "../views/ViewHolder.js";
 import { Task } from "../tasks/Task.js";
-const viewHolder = ViewHolder.Instance;
 export class TaskElement {
     edit(element) { this.onEdit(element); }
     delete(element) { this.onDelete(element); }
@@ -37,4 +35,5 @@ export class TaskElement {
         return isFilteredOut(this.Task);
     }
 }
+TaskElement.details = [];
 //# sourceMappingURL=TaskElement.js.map

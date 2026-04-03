@@ -1,4 +1,3 @@
-import { TaskDisplayType } from "../task_tables/TaskTableFactory.js";
 import { DetailedTaskElement } from "./DetailedTaskElement.js";
 import { OverdueTask } from "./decorators/OverdueTask.js";
 import { BasicTaskElement } from "./BasicTaskElement.js";
@@ -47,4 +46,8 @@ export class TaskElementFactory {
 
         return newElements;
     }
+}
+
+export enum TaskDisplayType {
+    Basic, Detailed, Compact
 }

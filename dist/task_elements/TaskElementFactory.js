@@ -1,4 +1,3 @@
-import { TaskDisplayType } from "../task_tables/TaskTableFactory.js";
 import { DetailedTaskElement } from "./DetailedTaskElement.js";
 import { OverdueTask } from "./decorators/OverdueTask.js";
 import { BasicTaskElement } from "./BasicTaskElement.js";
@@ -41,4 +40,10 @@ export class TaskElementFactory {
         return newElements;
     }
 }
+export var TaskDisplayType;
+(function (TaskDisplayType) {
+    TaskDisplayType[TaskDisplayType["Basic"] = 0] = "Basic";
+    TaskDisplayType[TaskDisplayType["Detailed"] = 1] = "Detailed";
+    TaskDisplayType[TaskDisplayType["Compact"] = 2] = "Compact";
+})(TaskDisplayType || (TaskDisplayType = {}));
 //# sourceMappingURL=TaskElementFactory.js.map

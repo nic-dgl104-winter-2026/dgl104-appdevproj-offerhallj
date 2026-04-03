@@ -1,6 +1,8 @@
+import type { TaskDetail } from "./TaskDetail.js";
 import type { UIElement } from "../interfaces/UIElement.js";
 import { Task } from "../tasks/Task.js";
 export declare abstract class TaskElement implements UIElement {
+    static details: TaskDetail[];
     readonly Task: Task;
     Element: HTMLElement;
     onEdit: ((element: TaskElement) => void);

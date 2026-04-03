@@ -1,10 +1,11 @@
+import type { TaskDetail } from "./TaskDetail.js";
 import type { UIElement } from "../interfaces/UIElement.js";
 import { isFilteredOut } from "../utils/TaskFilter.js";
-import { ViewHolder } from "../views/ViewHolder.js";
 import { Task } from "../tasks/Task.js";
 
-const viewHolder = ViewHolder.Instance;
 export abstract class TaskElement implements UIElement {
+    static details: TaskDetail[] = [];
+    
     public readonly Task: Task;
     Element!: HTMLElement;
     

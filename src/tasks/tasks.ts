@@ -1,8 +1,7 @@
-import { TaskTableFactory, TaskDisplayType } from "../task_tables/TaskTableFactory.js";
-import { TaskElementFactory } from "../task_elements/TaskElementFactory.js";
-import { TaskHeader } from "../task_tables/TaskHeader.js";
+import { TaskElementFactory, TaskDisplayType } from "../task_elements/TaskElementFactory.js";
+import { TaskDetail } from "../task_elements/TaskDetail.js";
 import { TaskElement } from "../task_elements/TaskElement.js";
-import { Order, sort } from "../utils/TaskSorter.js";
+import { canSort, Order, sort } from "../utils/TaskSorter.js";
 import { TaskPriority, TaskStatus } from "./Task.js";
 import { ViewHolder } from "../views/ViewHolder.js";
 import { canFilter } from "../utils/TaskFilter.js";
@@ -24,8 +23,10 @@ function getAllTasks() {
             taskElements.push(elementFactory.create(task));
         }
 
-        // finally, draw the taskElements
+        // finally, draw the taskElements and populate options
+        drawSearchFilterOptions();
         drawTaskElements();
+        drawSortOptions();
     });
 }
 
@@ -42,7 +43,7 @@ function deleteTask(taskElement: TaskElement) {
     service.deleteTask(taskElement.Task, r => {
         if (r == true) {
             const element = taskElement.Element;
-            taskTable.Body.removeChild(element);
+            taskContainer.removeChild(element);
             const index = taskElements.indexOf(taskElement);
             if (index >= 0) taskElements.splice(index, 1);
         }
@@ -58,31 +59,27 @@ function createTask() {
 
 /** All all taskElements to the task table body */
 function drawTaskElements() {
-    taskTableContainer.innerHTML = "";
-    taskTableContainer.appendChild(taskTable.Element);
-    const body = taskTable.Body;
-    body.innerHTML = "";
+    taskContainer.innerHTML = "";
     for (let task of taskElements) {
         if (task.isFilteredOut) continue;
-        body.appendChild(task.Element);
+        taskContainer.appendChild(task.Element);
     }
 }
 
 /** */
 function changeTableDisplay(type: TaskDisplayType) {
-    console.log(type);
-    tableFactory.setDisplayType(type);
     elementFactory.setDisplayType(type);
-    taskTable = tableFactory.create();
-    console.log(taskElements);
     taskElements = elementFactory.convertElements(taskElements);
-    console.log(taskElements);
     drawSearchFilterOptions();
     drawTaskElements();
+    drawSortOptions();
 }
 
-function sortElements(header: TaskHeader, order: Order) {
-    sort(header, taskElements, order);
+function sortElements(value: string) {
+    let detail = value.split(",")[0] as TaskDetail;
+    let order = value.split(",")[1] as Order;
+    console.log(detail + ", " + order);
+    sort(detail, taskElements, order);
     drawTaskElements();
 }
 
@@ -126,22 +123,37 @@ function createFilterElement(parent: HTMLElement, value: TaskPriority | TaskStat
 
 function drawSearchFilterOptions() {
     searchFilterOptions.innerHTML = "";
-    for(let header of taskTable.displayHeaders) {
-        if (!canFilter(header)) continue;
-        searchFilterOptions.appendChild(createOptionForTaskHeader(header));
+    for(let detail of TaskElement.details) {
+        if (!canFilter(detail)) continue;
+        searchFilterOptions.appendChild(createOptionForTaskDetail(detail));
     }
 }
 
-function createOptionForTaskHeader(header: TaskHeader): HTMLElement {
+function drawSortOptions() {
+    sortOptions.innerHTML = "";
+    for(let detail of TaskElement.details) {
+        if (!canSort(detail)) continue;
+        let asc = createOptionForTaskDetail(detail);
+        let dsc = createOptionForTaskDetail(detail);
+        asc.value += `,${Order.Asc}`;
+        asc.textContent += ": Ascending";
+        dsc.value += `,${Order.Desc}`;
+        dsc.textContent += ": Descending";
+        sortOptions.appendChild(asc);
+        sortOptions.appendChild(dsc);
+    }
+}
+
+function createOptionForTaskDetail(detail: TaskDetail): HTMLOptionElement {
     const option = document.createElement("option");
-    option.textContent = header;
-    option.value = header;
+    option.textContent = detail;
+    option.value = detail;
     return option;
 }
 
 function filterBySearch(e: InputEvent) {
     if ((e.target as HTMLElement).id == searchFilterOptions.id) {
-        viewHolder.view.searchFilter = searchFilterOptions.value as TaskHeader;
+        viewHolder.view.searchFilter = searchFilterOptions.value as TaskDetail;
         viewHolder.view.searchValue = "";
         searchBar.setAttribute("placeholder", `Filter by ${searchFilterOptions.value}`)
         searchBar.value = "";
@@ -155,21 +167,16 @@ function filterBySearch(e: InputEvent) {
     drawTaskElements();
 }
 
-function applySearchFilter() {
-    console.log("ad");
-}
-
 const service = TaskService.Instance;
 let taskElements: TaskElement[] = [];
 
-const tableFactory = new TaskTableFactory(TaskDisplayType.Basic, sortElements);
 const elementFactory = new TaskElementFactory(TaskDisplayType.Basic, editTask, deleteTask);
-let taskTable = tableFactory.create();
 
-const taskTableContainer = document.getElementById("task-table-container") as HTMLElement;
+const taskContainer = document.getElementById("task-container") as HTMLElement;
 const priorityFilters = document.getElementById("priority-filter-container") as HTMLElement;
 const statusFilters = document.getElementById("status-filter-container") as HTMLElement;
 
+const sortOptions = document.getElementById("sort-options") as HTMLInputElement;
 const searchFilterOptions = document.getElementById("search-options") as HTMLInputElement;
 const searchBar = document.getElementById("search-bar") as HTMLInputElement;
 
@@ -183,7 +190,8 @@ document.getElementById("basic-view")?.addEventListener("click", () => changeTab
 
 document.getElementById("new-task")?.addEventListener("click", () => createTask());
 
-drawSearchFilterOptions();
+sortOptions.addEventListener("change", () => sortElements(sortOptions.value));
+
 getAllTasks();
 
 document.addEventListener("DOMContentLoaded", () => {

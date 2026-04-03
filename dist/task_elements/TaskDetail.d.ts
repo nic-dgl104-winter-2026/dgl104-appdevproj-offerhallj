@@ -10,4 +10,4 @@ export declare enum TaskDetail {
     Tags = "Tags",
     Actions = "Actions"
 }
-//# sourceMappingURL=TaskHeader.d.ts.map
+//# sourceMappingURL=TaskDetail.d.ts.map

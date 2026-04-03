@@ -1,9 +1,9 @@
 import { TaskElement } from "../task_elements/TaskElement.js";
-import { TaskHeader } from "../task_tables/TaskHeader.js";
-export declare function sort(header: TaskHeader, elements: TaskElement[], order: Order): TaskElement[] | undefined;
-export declare function canSort(header: TaskHeader): boolean;
+import { TaskDetail } from "../task_elements/TaskDetail.js";
+export declare function sort(header: TaskDetail, elements: TaskElement[], order: Order): TaskElement[] | undefined;
+export declare function canSort(header: TaskDetail): boolean;
 export declare enum Order {
-    Asc = 0,
-    Desc = 1
+    Asc = "Asc",
+    Desc = "Desc"
 }
 //# sourceMappingURL=TaskSorter.d.ts.map

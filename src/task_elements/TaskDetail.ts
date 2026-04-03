@@ -1,4 +1,4 @@
-export enum TaskHeader {
+export enum TaskDetail {
     ID = "ID", 
     Title = "Title", 
     Description = "Description", 

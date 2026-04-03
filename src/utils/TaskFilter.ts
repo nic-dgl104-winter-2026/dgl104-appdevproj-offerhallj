@@ -1,4 +1,4 @@
-import { TaskHeader } from "../task_tables/TaskHeader.js";
+import { TaskDetail } from "../task_elements/TaskDetail.js";
 import { ViewHolder } from "../views/ViewHolder.js";
 import { Task } from "../tasks/Task.js";
 
@@ -12,22 +12,22 @@ export function isFilteredOut(task: Task) {
 
     // handle search filters
     switch (viewHolder.view.searchFilter) {
-        case TaskHeader.Title: return isTextFiltered(task.title);
-        case TaskHeader.Description: return isTextFiltered(task.description);
-        case TaskHeader.User: return isTextFiltered(task.user);
-        case TaskHeader.Tags: return isTextFiltered(task.tags);
-        case TaskHeader.DueDate: return isDateFiltered(task.dueDate.toDateString());
-        case TaskHeader.CreatedDate: return isDateFiltered(task.createdDate.toDateString());
+        case TaskDetail.Title: return isTextFiltered(task.title);
+        case TaskDetail.Description: return isTextFiltered(task.description);
+        case TaskDetail.User: return isTextFiltered(task.user);
+        case TaskDetail.Tags: return isTextFiltered(task.tags);
+        case TaskDetail.DueDate: return isDateFiltered(task.dueDate.toDateString());
+        case TaskDetail.CreatedDate: return isDateFiltered(task.createdDate.toDateString());
     }
 
     return false;
 }
 
-export function canFilter(header: TaskHeader): boolean {
+export function canFilter(header: TaskDetail): boolean {
     switch (header) {
-        case TaskHeader.Actions:
-        case TaskHeader.Status:
-        case TaskHeader.Priority:
+        case TaskDetail.Actions:
+        case TaskDetail.Status:
+        case TaskDetail.Priority:
             return false;
         default: 
             return true;

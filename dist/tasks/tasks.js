@@ -1,8 +1,7 @@
-import { TaskTableFactory, TaskDisplayType } from "../task_tables/TaskTableFactory.js";
-import { TaskElementFactory } from "../task_elements/TaskElementFactory.js";
-import { TaskHeader } from "../task_tables/TaskHeader.js";
+import { TaskElementFactory, TaskDisplayType } from "../task_elements/TaskElementFactory.js";
+import { TaskDetail } from "../task_elements/TaskDetail.js";
 import { TaskElement } from "../task_elements/TaskElement.js";
-import { Order, sort } from "../utils/TaskSorter.js";
+import { canSort, Order, sort } from "../utils/TaskSorter.js";
 import { TaskPriority, TaskStatus } from "./Task.js";
 import { ViewHolder } from "../views/ViewHolder.js";
 import { canFilter } from "../utils/TaskFilter.js";
@@ -21,8 +20,10 @@ function getAllTasks() {
         for (let task of tasks) {
             taskElements.push(elementFactory.create(task));
         }
-        // finally, draw the taskElements
+        // finally, draw the taskElements and populate options
+        drawSearchFilterOptions();
         drawTaskElements();
+        drawSortOptions();
     });
 }
 /** Navigate to the taskform with the current task selected */
@@ -38,7 +39,7 @@ function deleteTask(taskElement) {
     service.deleteTask(taskElement.Task, r => {
         if (r == true) {
             const element = taskElement.Element;
-            taskTable.Body.removeChild(element);
+            taskContainer.removeChild(element);
             const index = taskElements.indexOf(taskElement);
             if (index >= 0)
                 taskElements.splice(index, 1);
@@ -53,30 +54,26 @@ function createTask() {
 }
 /** All all taskElements to the task table body */
 function drawTaskElements() {
-    taskTableContainer.innerHTML = "";
-    taskTableContainer.appendChild(taskTable.Element);
-    const body = taskTable.Body;
-    body.innerHTML = "";
+    taskContainer.innerHTML = "";
     for (let task of taskElements) {
         if (task.isFilteredOut)
             continue;
-        body.appendChild(task.Element);
+        taskContainer.appendChild(task.Element);
     }
 }
 /** */
 function changeTableDisplay(type) {
-    console.log(type);
-    tableFactory.setDisplayType(type);
     elementFactory.setDisplayType(type);
-    taskTable = tableFactory.create();
-    console.log(taskElements);
     taskElements = elementFactory.convertElements(taskElements);
-    console.log(taskElements);
     drawSearchFilterOptions();
     drawTaskElements();
+    drawSortOptions();
 }
-function sortElements(header, order) {
-    sort(header, taskElements, order);
+function sortElements(value) {
+    let detail = value.split(",")[0];
+    let order = value.split(",")[1];
+    console.log(detail + ", " + order);
+    sort(detail, taskElements, order);
     drawTaskElements();
 }
 // I used this resource to see how to iterate over an enum
@@ -114,16 +111,31 @@ function createFilterElement(parent, value, checkboxEvent) {
 }
 function drawSearchFilterOptions() {
     searchFilterOptions.innerHTML = "";
-    for (let header of taskTable.displayHeaders) {
-        if (!canFilter(header))
+    for (let detail of TaskElement.details) {
+        if (!canFilter(detail))
             continue;
-        searchFilterOptions.appendChild(createOptionForTaskHeader(header));
+        searchFilterOptions.appendChild(createOptionForTaskDetail(detail));
     }
 }
-function createOptionForTaskHeader(header) {
+function drawSortOptions() {
+    sortOptions.innerHTML = "";
+    for (let detail of TaskElement.details) {
+        if (!canSort(detail))
+            continue;
+        let asc = createOptionForTaskDetail(detail);
+        let dsc = createOptionForTaskDetail(detail);
+        asc.value += `,${Order.Asc}`;
+        asc.textContent += ": Ascending";
+        dsc.value += `,${Order.Desc}`;
+        dsc.textContent += ": Descending";
+        sortOptions.appendChild(asc);
+        sortOptions.appendChild(dsc);
+    }
+}
+function createOptionForTaskDetail(detail) {
     const option = document.createElement("option");
-    option.textContent = header;
-    option.value = header;
+    option.textContent = detail;
+    option.value = detail;
     return option;
 }
 function filterBySearch(e) {
@@ -140,17 +152,13 @@ function filterBySearch(e) {
     }
     drawTaskElements();
 }
-function applySearchFilter() {
-    console.log("ad");
-}
 const service = TaskService.Instance;
 let taskElements = [];
-const tableFactory = new TaskTableFactory(TaskDisplayType.Basic, sortElements);
 const elementFactory = new TaskElementFactory(TaskDisplayType.Basic, editTask, deleteTask);
-let taskTable = tableFactory.create();
-const taskTableContainer = document.getElementById("task-table-container");
+const taskContainer = document.getElementById("task-container");
 const priorityFilters = document.getElementById("priority-filter-container");
 const statusFilters = document.getElementById("status-filter-container");
+const sortOptions = document.getElementById("sort-options");
 const searchFilterOptions = document.getElementById("search-options");
 const searchBar = document.getElementById("search-bar");
 const viewHolder = ViewHolder.Instance;
@@ -159,7 +167,7 @@ document.getElementById("search-form")?.addEventListener("input", filterBySearch
 document.getElementById("detailed-view")?.addEventListener("click", () => changeTableDisplay(TaskDisplayType.Detailed));
 document.getElementById("basic-view")?.addEventListener("click", () => changeTableDisplay(TaskDisplayType.Basic));
 document.getElementById("new-task")?.addEventListener("click", () => createTask());
-drawSearchFilterOptions();
+sortOptions.addEventListener("change", () => sortElements(sortOptions.value));
 getAllTasks();
 document.addEventListener("DOMContentLoaded", () => {
     drawPriorityFilter();

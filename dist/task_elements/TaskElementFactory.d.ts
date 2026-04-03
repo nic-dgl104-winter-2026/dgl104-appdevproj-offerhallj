@@ -1,4 +1,3 @@
-import { TaskDisplayType } from "../task_tables/TaskTableFactory.js";
 import { TaskElement } from "./TaskElement.js";
 import { Task } from "../tasks/Task.js";
 export declare class TaskElementFactory {
@@ -10,5 +9,10 @@ export declare class TaskElementFactory {
     create(task: Task): TaskElement;
     /** Convert an existing list of taskElements to a new list according to the current display type */
     convertElements(taskElements: TaskElement[]): TaskElement[];
+}
+export declare enum TaskDisplayType {
+    Basic = 0,
+    Detailed = 1,
+    Compact = 2
 }
 //# sourceMappingURL=TaskElementFactory.d.ts.map

@@ -11,4 +11,4 @@ export var TaskDetail;
     TaskDetail["Tags"] = "Tags";
     TaskDetail["Actions"] = "Actions";
 })(TaskDetail || (TaskDetail = {}));
-//# sourceMappingURL=TaskHeader.js.map
+//# sourceMappingURL=TaskDetail.js.map
