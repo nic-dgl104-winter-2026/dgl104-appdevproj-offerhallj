@@ -1,13 +1,14 @@
 import type { UIElement } from "../interfaces/UIElement.js";
-import { canSort } from "../utils/TaskSorter.js";
+import { canSort, Order } from "../utils/TaskSorter.js";
 import { TaskHeader } from "./TaskHeader.js";
 
 export abstract class TaskTable implements UIElement {
+    private static _activeHeaderElement: HTMLElement | undefined;
     Element: HTMLElement;
     Body!: HTMLElement;
     
-    public onSort!: ((header: TaskHeader) => void);
-    public sort(header: TaskHeader): void { this.onSort(header); }
+    public onSort!: ((header: TaskHeader, order: Order) => void);
+    public sort(header: TaskHeader, order: Order): void { this.onSort(header, order); }
 
     constructor() {
         this.Element = this.create();
@@ -39,6 +40,27 @@ export abstract class TaskTable implements UIElement {
 
     private addHeaderSort(header: TaskHeader, th: HTMLElement) {
         if (!canSort(header)) return; 
-        th.addEventListener("click", () => this.sort(header));
+        
+        th.addEventListener("click", () => {
+            if (TaskTable._activeHeaderElement != undefined && th != TaskTable._activeHeaderElement) {
+                TaskTable._activeHeaderElement.classList.remove("asc");
+                TaskTable._activeHeaderElement.classList.remove("dsc");
+            }
+
+            let order: Order = Order.Asc;
+            if (th.classList.contains("asc")) {
+                th.classList.remove("asc");
+                th.classList.add("dsc");
+                order = Order.Desc;
+            }
+
+            else {
+                th.classList.remove("dsc");
+                th.classList.add("asc");
+            }
+            
+            TaskTable._activeHeaderElement = th;
+            this.sort(header, order);
+        });
     }
 }

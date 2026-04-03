@@ -4,7 +4,7 @@ import type { TaskHeader } from "../task_tables/TaskHeader.js";
 import { TaskElement } from "../task_elements/TaskElement.js";
 import { SESSION_TASK_KEY } from "../global.js";
 import { TaskService } from "./TaskService.js";
-import { sort } from "../utils/TaskSorter.js";
+import { Order, sort } from "../utils/TaskSorter.js";
 
 /** Retrieve all tasks for the current user from the database, convert them to taskElements, and draw them */
 function getAllTasks() { 
@@ -80,8 +80,8 @@ function changeTableDisplay(type: TaskDisplayType) {
     drawTaskElements();
 }
 
-function sortElements(header: TaskHeader) {
-    sort(header, taskElements);
+function sortElements(header: TaskHeader, order: Order) {
+    sort(header, taskElements, order);
     drawTaskElements();
 }
 

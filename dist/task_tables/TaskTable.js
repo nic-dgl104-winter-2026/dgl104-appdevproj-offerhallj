@@ -1,7 +1,7 @@
-import { canSort } from "../utils/TaskSorter.js";
+import { canSort, Order } from "../utils/TaskSorter.js";
 import { TaskHeader } from "./TaskHeader.js";
 export class TaskTable {
-    sort(header) { this.onSort(header); }
+    sort(header, order) { this.onSort(header, order); }
     constructor() {
         this.Element = this.create();
     }
@@ -27,7 +27,24 @@ export class TaskTable {
     addHeaderSort(header, th) {
         if (!canSort(header))
             return;
-        th.addEventListener("click", () => this.sort(header));
+        th.addEventListener("click", () => {
+            if (TaskTable._activeHeaderElement != undefined && th != TaskTable._activeHeaderElement) {
+                TaskTable._activeHeaderElement.classList.remove("asc");
+                TaskTable._activeHeaderElement.classList.remove("dsc");
+            }
+            let order = Order.Asc;
+            if (th.classList.contains("asc")) {
+                th.classList.remove("asc");
+                th.classList.add("dsc");
+                order = Order.Desc;
+            }
+            else {
+                th.classList.remove("dsc");
+                th.classList.add("asc");
+            }
+            TaskTable._activeHeaderElement = th;
+            this.sort(header, order);
+        });
     }
 }
 //# sourceMappingURL=TaskTable.js.map

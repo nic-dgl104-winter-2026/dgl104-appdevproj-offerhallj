@@ -2,7 +2,7 @@ import { TaskPriority, TaskStatus, Task } from "../tasks/Task.js";
 import { TaskElement } from "../task_elements/TaskElement.js";
 import { TaskHeader } from "../task_tables/TaskHeader.js";
 
-export function sort(header: TaskHeader, elements: TaskElement[], order: Order = Order.Asc) {
+export function sort(header: TaskHeader, elements: TaskElement[], order: Order) {
     switch (header) {
         case TaskHeader.ID:  
             return elements.sort((a, b) => alphaNumericSort(a.Task.id, b.Task.id, order));

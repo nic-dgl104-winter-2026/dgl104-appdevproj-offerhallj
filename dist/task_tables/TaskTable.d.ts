@@ -1,10 +1,12 @@
 import type { UIElement } from "../interfaces/UIElement.js";
+import { Order } from "../utils/TaskSorter.js";
 import { TaskHeader } from "./TaskHeader.js";
 export declare abstract class TaskTable implements UIElement {
+    private static _activeHeaderElement;
     Element: HTMLElement;
     Body: HTMLElement;
-    onSort: ((header: TaskHeader) => void);
-    sort(header: TaskHeader): void;
+    onSort: ((header: TaskHeader, order: Order) => void);
+    sort(header: TaskHeader, order: Order): void;
     constructor();
     abstract create(): HTMLElement;
     protected getTableWithHeaders(...headers: TaskHeader[]): HTMLElement;
