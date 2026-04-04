@@ -162,7 +162,7 @@ function filterBySearch(e) {
     if (e.target.id == searchFilterOptions.id) {
         viewHolder.rwView.searchFilter = searchFilterOptions.value;
         viewHolder.rwView.searchValue = "";
-        searchBar.setAttribute("placeholder", `Filter by ${searchFilterOptions.value}`);
+        searchBar.setAttribute("placeholder", `Search ${searchFilterOptions.value}`);
         searchBar.value = "";
     }
     else {

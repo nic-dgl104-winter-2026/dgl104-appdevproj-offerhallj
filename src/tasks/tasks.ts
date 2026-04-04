@@ -179,7 +179,7 @@ function filterBySearch(e: InputEvent) {
     if ((e.target as HTMLElement).id == searchFilterOptions.id) {
         viewHolder.rwView.searchFilter = searchFilterOptions.value as TaskDetail;
         viewHolder.rwView.searchValue = "";
-        searchBar.setAttribute("placeholder", `Filter by ${searchFilterOptions.value}`)
+        searchBar.setAttribute("placeholder", `Search ${searchFilterOptions.value}`)
         searchBar.value = "";
     } 
 
