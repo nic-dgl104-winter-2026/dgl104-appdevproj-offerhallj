@@ -23,17 +23,19 @@ export class ViewService {
         view.isChanged = false;
         this._repo.createView(view, callback);
     }
-    saveView(view) {
+    saveView(view, callback) {
+        console.log("here");
         const user = this.getUser();
         if (user == undefined) {
             console.log("Error: no user was found");
             return;
         }
         this._repo.saveView(view, (r, msg) => {
-            console.log(msg);
             if (r) {
                 view.isChanged = false;
             }
+            console.log(msg);
+            callback(r);
         });
     }
     getAllViewsForUser(callback) {

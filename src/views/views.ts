@@ -6,10 +6,13 @@ const viewHolder = ViewHolder.Instance;
 const viewService = ViewService.Instance;
 viewHolder.subscribe(onNewView);
 
-viewHolder.onViewIsChanged = (b) => { 
-    if (b) viewTitle.textContent = `${viewHolder.rView.title} *`;
-    if (!b) viewTitle.textContent = viewHolder.rView.title;
-};
+viewHolder.onViewIsChanged = (b) => updateViewTitle(b);
+
+function updateViewTitle(isViewChanged: boolean) {
+    if (isViewChanged) viewTitle.textContent = `${viewHolder.rView.title} *`;
+    if (!isViewChanged) viewTitle.textContent = viewHolder.rView.title;
+
+}
 
 let viewsList: View[] = [];
 
@@ -51,14 +54,16 @@ function createNewView() {
 }
 
 function saveCurrentView() {
-    viewService.saveView(viewHolder.rView);
+    viewService.saveView(viewHolder.rView, (b) => {
+        if (b) updateViewTitle(false);
+    });
 }
 
 function onNewView(view: View) {
     viewTitle.textContent = view.title;
 }
 
-document.getElementById("save-view")?.addEventListener("click", saveCurrentView);
+document.getElementById("save-view")?.addEventListener("click", () => saveCurrentView());
 document.getElementById("new-view")?.addEventListener("click", createNewView);
 const viewContainerNav = document.getElementById("views-nav") as HTMLElement;
 const viewTitle = document.getElementById("view-title") as HTMLElement;

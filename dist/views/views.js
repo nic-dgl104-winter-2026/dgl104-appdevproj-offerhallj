@@ -4,12 +4,13 @@ import { View } from "./View.js";
 const viewHolder = ViewHolder.Instance;
 const viewService = ViewService.Instance;
 viewHolder.subscribe(onNewView);
-viewHolder.onViewIsChanged = (b) => {
-    if (b)
+viewHolder.onViewIsChanged = (b) => updateViewTitle(b);
+function updateViewTitle(isViewChanged) {
+    if (isViewChanged)
         viewTitle.textContent = `${viewHolder.rView.title} *`;
-    if (!b)
+    if (!isViewChanged)
         viewTitle.textContent = viewHolder.rView.title;
-};
+}
 let viewsList = [];
 function getAllViewsForUser() {
     viewService.getAllViewsForUser((r, msg, views) => {
@@ -51,12 +52,15 @@ function createNewView() {
     });
 }
 function saveCurrentView() {
-    viewService.saveView(viewHolder.rView);
+    viewService.saveView(viewHolder.rView, (b) => {
+        if (b)
+            updateViewTitle(false);
+    });
 }
 function onNewView(view) {
     viewTitle.textContent = view.title;
 }
-document.getElementById("save-view")?.addEventListener("click", saveCurrentView);
+document.getElementById("save-view")?.addEventListener("click", () => saveCurrentView());
 document.getElementById("new-view")?.addEventListener("click", createNewView);
 const viewContainerNav = document.getElementById("views-nav");
 const viewTitle = document.getElementById("view-title");

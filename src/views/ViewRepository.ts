@@ -37,13 +37,13 @@ export class ViewRepository extends Repository<ViewRepository> {
     }
 
     public saveView(view: View, callback: (r: boolean, msg: string) => void): void {
-        if (this.delayExecution(() => this.saveView(view, callback)));
+        if (this.delayExecution(() => this.saveView(view, callback))) return;
+        console.log("hr");
 
         const objectStore = this.getObjectStore(VIEW_TABLE, "readwrite");
         const query = objectStore?.put(view);
         
         query?.addEventListener("success", () => {
-            view.id = query.result as number;
             callback(true, "View was sucessfully updated");
         })
         
