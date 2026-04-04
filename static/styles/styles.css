@@ -7,7 +7,10 @@ html {
     --dark-blue: #1a315c;
     --mid-blue: #2f4c80;
     --light-blue: #416da7;
-    --off-white: #f0ebd8;   
+    --dark-grey: #777a88; 
+    --off-white: #f0ebd8; 
+    --green: #018f4e; 
+    --purple: #62367d;
 }
 
 body {
@@ -71,6 +74,10 @@ form * {
     flex-direction: column;
 }
 
+.option-container:hover {
+    cursor: pointer;
+}
+
 .option-container label {
     font-size: 1.2rem;
     margin: 0;
@@ -89,18 +96,6 @@ form * {
     font-size: 1.8rem;
     flex: 1;
 }
-
-/* .option-container img {
-    position: absolute;
-}
-
-.option-container img + label {
-    padding-left: 24px;
-}
-
-.option-container img + label + select {
-    padding-left: 28px;
-} */
 
 /* ===== Views Menu ===== */
 main .sidebar {
@@ -298,6 +293,7 @@ input:-webkit-autofill:active{
     align-items: center;
     justify-content: flex-end;
     gap: 8px;
+    margin-bottom: 32px;
 }
 
 #sort-options {
@@ -309,13 +305,6 @@ input:-webkit-autofill:active{
     padding-top: 16px;
 }
 
-::picker(select) {
-    border-radius: 16px;
-    border: none;
-    outline: none;
-    box-shadow: 0 0 8px var(--off-black);
-}
-
 #sort-options option {
     background-color: var(--mid-blue);
     outline: none;
@@ -325,10 +314,6 @@ input:-webkit-autofill:active{
 .sort-options-container label {
     top: 0;
 }
-
-/* .filter-options {
-    display: flex;
-} */
 
 .filter-options label {
     min-width: 80px;
@@ -386,4 +371,131 @@ input:-webkit-autofill:active{
 
 .due-today {
     background-color: orange;
+}
+
+.task-element {
+    box-sizing: border-box;
+    width: 100%;
+    background: linear-gradient(270deg, var(--off-black), var(--black));
+    /* background-color: var(--off-black); */
+    border-radius: 32px;
+    box-shadow: 0 0 8px var(--black);
+    display: flex;
+    align-items: center;
+    padding: 12px 12px 12px 32px;
+    border-bottom: 2px solid var(--mid-blue);
+    margin-top: 16px;
+    gap: 32px
+}
+
+.task-element .main-content {
+    flex: 1;
+    padding: 12px 0 4px;
+    align-items: center;
+}
+
+.task-element .main-content .header-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 8px;
+    border-bottom: 1px solid var(--mid-blue);
+}
+
+.due-date-container {
+    display: flex;
+    align-items: center;
+}
+
+.task-element .main-content h3 {
+    margin: 0;
+}
+
+.task-element .main-content p {
+    margin: 4px;
+}
+
+.tag-container {
+    margin-top: 4px;
+    display: flex;
+    gap: 8px;
+}
+
+.tag-container small {
+    padding: 4px 16px;
+    border-radius: 16px;
+    background-color: var(--purple);
+    box-shadow: 0 2px 4px var(--black);
+    border-bottom: 1px solid var(--dark-blue);
+}
+
+.task-detail-content {
+    display: flex;
+    align-items: center;
+}
+
+.task-detail-content img {
+    opacity: 75%;
+}
+
+.task-detail-content p {
+    margin-left: 8px;
+    margin-right: 8px;
+    opacity: 75%;
+}
+
+.task-detail-content p:not(:last-of-type)::after {
+    padding-left: 16px;
+    content: "|";
+    opacity: 25%;
+}
+
+.task-element .action-container {
+    display: flex;
+    flex-direction: column;
+    height: stretch;
+    gap: 4px;
+}
+
+.action-button {
+    display: flex;
+    min-width: 240px;
+    flex: 1;
+    padding: 0 16px;
+    border-radius: 32px;
+    background-color: var(--black);
+    align-items: center;
+    box-sizing: content-box;
+    border: 2px solid var(--black);
+}
+
+.action-button:hover {
+    cursor: pointer;
+    border: 2px solid var(--mid-blue);
+    box-shadow: 0 0px 8px black;
+}
+
+.action-button p {
+    margin: 0;
+    margin-left: 16px;
+}
+
+.task-element.overdue {
+    box-shadow: 0 0 8px red;
+    border-bottom: 1px solid red;
+}
+
+.task-element.overdue .header-container {
+    border-bottom: 1px solid red;
+    filter: invert(23%) sepia(80%) saturate(7493%) hue-rotate(356deg) brightness(105%) contrast(118%);
+}
+
+.task-element.due-today {
+    box-shadow: 0 0 8px orange;
+    border-bottom: 1px solid orange;
+}
+
+.task-element.due-today .header-container {
+    border-bottom: 1px solid white;
+    filter: invert(24%) sepia(42%) saturate(4970%) hue-rotate(359deg) brightness(101%) contrast(107%);
 }
