@@ -104,9 +104,30 @@ function createFilterElement(parent, value, checkboxEvent) {
     label.textContent = value;
     label.setAttribute("for", value);
     checkbox.addEventListener("change", () => checkboxEvent(checkbox.checked));
+    filterCheckboxes.set(value, checkbox);
     parent.appendChild(checkbox);
     parent.appendChild(label);
 }
+/** After loading a view, set the value of the filter checkboxes to the values in the view */
+function setFilterValues() {
+    // since we don't want the view to register any changes when the checkbox change event is triggered, 
+    // cache the current state of the view and reassign it when the operation is finished
+    const initalState = viewHolder.rView.isChanged;
+    setFilterValue(TaskPriority.Low, viewHolder.rView.priorityFilters.get(TaskPriority.Low));
+    setFilterValue(TaskPriority.Medium, viewHolder.rView.priorityFilters.get(TaskPriority.Medium));
+    setFilterValue(TaskPriority.High, viewHolder.rView.priorityFilters.get(TaskPriority.High));
+    setFilterValue(TaskStatus.ToDo, viewHolder.rView.statusFilters.get(TaskStatus.ToDo));
+    setFilterValue(TaskStatus.InProgress, viewHolder.rView.statusFilters.get(TaskStatus.InProgress));
+    setFilterValue(TaskStatus.Complete, viewHolder.rView.statusFilters.get(TaskStatus.Complete));
+    viewHolder.rView.isChanged = initalState;
+}
+function setFilterValue(detail, value) {
+    let checkbox = filterCheckboxes.get(detail);
+    if (checkbox == undefined || value == undefined)
+        return;
+    checkbox.checked = value;
+}
+const filterCheckboxes = new Map();
 function drawSearchFilterOptions() {
     searchFilterOptions.innerHTML = "";
     for (let detail of Object.values(TaskDetail)) {
@@ -154,6 +175,7 @@ function onNewView(view) {
     sortOptions.value = `${view.sortHeader},${view.sortOrder}`;
     searchFilterOptions.value = view.searchFilter;
     searchBar.value = view.searchValue;
+    setFilterValues();
     drawTaskElements();
 }
 const service = TaskService.Instance;

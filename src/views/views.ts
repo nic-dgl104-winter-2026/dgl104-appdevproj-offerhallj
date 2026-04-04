@@ -16,7 +16,7 @@ let viewsList: View[] = [];
 function getAllViewsForUser() {
     viewService.getAllViewsForUser((r, msg, views) => {
         if (!r) { console.log(msg); return; }
-        if (viewsList == undefined || viewsList.length == 0) {
+        if (views == undefined || views.length == 0) {
             viewHolder.setView(new View());
             createNewView();
             return;
@@ -51,7 +51,7 @@ function createNewView() {
 }
 
 function saveCurrentView() {
-
+    viewService.saveView(viewHolder.rView);
 }
 
 function onNewView(view: View) {

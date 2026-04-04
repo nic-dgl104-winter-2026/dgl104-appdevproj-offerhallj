@@ -21,13 +21,26 @@ export class ViewRepository extends Repository {
         if (this.delayExecution(() => this.createView(view, callback)))
             return;
         const objectStore = this.getObjectStore(VIEW_TABLE, "readwrite");
-        const query = objectStore?.put(view);
+        const query = objectStore?.add(view);
         query?.addEventListener("success", () => {
             view.id = query.result;
             callback(true, view);
         });
         query?.addEventListener("error", () => {
             callback(false, undefined);
+        });
+    }
+    saveView(view, callback) {
+        if (this.delayExecution(() => this.saveView(view, callback)))
+            ;
+        const objectStore = this.getObjectStore(VIEW_TABLE, "readwrite");
+        const query = objectStore?.put(view);
+        query?.addEventListener("success", () => {
+            view.id = query.result;
+            callback(true, "View was sucessfully updated");
+        });
+        query?.addEventListener("error", () => {
+            callback(false, "Error: This view could not be updated");
         });
     }
     getAllViewsForUser(user, callback) {

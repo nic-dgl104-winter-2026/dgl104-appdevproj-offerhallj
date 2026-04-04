@@ -24,7 +24,7 @@ export class ViewRepository extends Repository<ViewRepository> {
     public createView(view: View, callback: (result: boolean, view: View | undefined) => void): void {
         if (this.delayExecution(() => this.createView(view, callback))) return;
         const objectStore = this.getObjectStore(VIEW_TABLE, "readwrite");
-        const query = objectStore?.put(view);
+        const query = objectStore?.add(view);
 
         query?.addEventListener("success", () => {
             view.id = query.result as number;
@@ -33,6 +33,22 @@ export class ViewRepository extends Repository<ViewRepository> {
         
         query?.addEventListener("error", () => {
             callback(false, undefined);
+        })
+    }
+
+    public saveView(view: View, callback: (r: boolean, msg: string) => void): void {
+        if (this.delayExecution(() => this.saveView(view, callback)));
+
+        const objectStore = this.getObjectStore(VIEW_TABLE, "readwrite");
+        const query = objectStore?.put(view);
+        
+        query?.addEventListener("success", () => {
+            view.id = query.result as number;
+            callback(true, "View was sucessfully updated");
+        })
+        
+        query?.addEventListener("error", () => {
+            callback(false, "Error: This view could not be updated");
         })
     }
 

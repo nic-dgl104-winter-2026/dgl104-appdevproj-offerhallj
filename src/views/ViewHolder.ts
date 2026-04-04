@@ -9,6 +9,7 @@ export class ViewHolder extends Observable<View> {
     }
     
     private _view!: View;
+    
     /** Access the view with intent to read and write; notify that changes have been made */
     get rwView(): View { 
         if (!this._view.isChanged) {

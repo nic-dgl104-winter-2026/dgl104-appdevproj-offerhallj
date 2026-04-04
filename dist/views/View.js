@@ -24,5 +24,33 @@ export class View {
         this.searchValue = "";
         this.isChanged = false;
     }
+    static newFromExistingView(view) {
+        let newView = new View();
+        newView.user = view.user;
+        newView.title = view.title;
+        newView.sortHeader = view.sortHeader;
+        newView.sortOrder = view.sortOrder;
+        newView.searchFilter = view.searchFilter;
+        newView.searchValue = view.searchValue;
+        let todo = view.statusFilters.get(TaskStatus.ToDo);
+        let prog = view.statusFilters.get(TaskStatus.InProgress);
+        let comp = view.statusFilters.get(TaskStatus.Complete);
+        if (todo != undefined)
+            newView.statusFilters.set(TaskStatus.ToDo, todo);
+        if (prog != undefined)
+            newView.statusFilters.set(TaskStatus.InProgress, prog);
+        if (comp != undefined)
+            newView.statusFilters.set(TaskStatus.Complete, comp);
+        let low = view.priorityFilters.get(TaskPriority.Low);
+        let mid = view.priorityFilters.get(TaskPriority.Medium);
+        let hi = view.priorityFilters.get(TaskPriority.High);
+        if (low != undefined)
+            newView.priorityFilters.set(TaskPriority.Low, low);
+        if (mid != undefined)
+            newView.priorityFilters.set(TaskPriority.Medium, mid);
+        if (hi != undefined)
+            newView.priorityFilters.set(TaskPriority.High, hi);
+        return newView;
+    }
 }
 //# sourceMappingURL=View.js.map

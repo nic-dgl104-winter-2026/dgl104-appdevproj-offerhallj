@@ -16,12 +16,20 @@ export class ViewService {
     createView(view: View, callback: (result: boolean, view: View | undefined) => void) {
         const user = this.getUser();
         if (user == undefined) { callback(false, undefined); return; }
+        // remove the view's ID to ensure it saves as a new view and doesn't override the existing view
+        view = View.newFromExistingView(view);
         view.user = user;
+        view.isChanged = false;
         this._repo.createView(view, callback);
     }
 
-    saveView(view: View, callback: (result: boolean, msg: string, views: View) => void) {
-
+    saveView(view: View) {
+        const user = this.getUser();
+        if (user == undefined) { console.log("Error: no user was found") ; return; }
+        this._repo.saveView(view, (r, msg) => {
+            console.log(msg);
+            if (r) { view.isChanged = false; }
+        });
     }
 
     getAllViewsForUser(callback: (result: boolean, msg: string, views: View[]) => void) {

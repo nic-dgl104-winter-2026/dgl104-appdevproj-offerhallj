@@ -13,5 +13,6 @@ export declare class View {
     searchFilter: TaskDetail;
     searchValue: string;
     isChanged: boolean;
+    static newFromExistingView(view: View): View;
 }
 //# sourceMappingURL=View.d.ts.map
