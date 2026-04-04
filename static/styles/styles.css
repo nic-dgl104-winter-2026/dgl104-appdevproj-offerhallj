@@ -81,7 +81,7 @@ form * {
 .option-container select {
     background-color: transparent;
     border: none;
-    padding: 16px;
+    padding: 8px;
     padding-top: 32px;
     margin-right: 16px;
     color: var(--off-white);
@@ -90,7 +90,7 @@ form * {
     flex: 1;
 }
 
-.option-container img {
+/* .option-container img {
     position: absolute;
 }
 
@@ -100,7 +100,7 @@ form * {
 
 .option-container img + label + select {
     padding-left: 28px;
-}
+} */
 
 /* ===== Views Menu ===== */
 main .sidebar {
@@ -273,7 +273,7 @@ main .task-view {
 #search-options {
     background-color: var(--black);
     border-radius: 32px;  
-    width: 240px;
+    width: 260px;
 }
 
 /* https://stackoverflow.com/questions/2781549/removing-input-background-colour-for-chrome-autocomplete */
@@ -295,6 +295,7 @@ input:-webkit-autofill:active{
 .filter-options-container {
     display: flex;
     width: 100%;
+    align-items: center;
     justify-content: flex-end;
     gap: 8px;
 }
@@ -304,6 +305,7 @@ input:-webkit-autofill:active{
     font-size: 1.6rem;
     border-radius: 32px;
     width: 232px;
+    padding: 0;
     padding-top: 16px;
 }
 
@@ -322,6 +324,59 @@ input:-webkit-autofill:active{
 
 .sort-options-container label {
     top: 0;
+}
+
+/* .filter-options {
+    display: flex;
+} */
+
+.filter-options label {
+    min-width: 80px;
+    font-size: 1.4rem;
+    text-align: center;
+    cursor: pointer;
+    display: inline-block;
+    flex: 1;
+    transform: translateY(6px);
+
+}
+
+.filter-options * {
+    padding: 4px 16px;
+    background-color: var(--dark-blue);
+    box-shadow: inset 0 2px 4px var(--off-black);
+}
+
+.filter-options label:first-of-type {
+    border-radius: 16px 0 0 16px;
+    margin-right: 2px;
+}
+
+.filter-options label:last-of-type {
+    border-radius: 0 16px 16px 0;
+    margin-left: 2px;
+}
+
+.filter-options input[type="checkbox"] {
+    display: none;
+}
+
+.filter-options input[type="checkbox"]:checked + label {
+    background-color: var(--off-black);
+    box-shadow: 0 2px 4px var(--off-black), 0 0 4px var(--light-blue);
+    transform: translateY(5px);
+}
+
+.filter-options-field {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    position: relative;
+}
+
+.filter-options-field small {
+    position: absolute;
+    top: -8px;
 }
 
 /* ===== Task Elements ===== */
