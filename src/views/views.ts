@@ -92,12 +92,26 @@ function onNewView(view: View) {
     viewNameInput.value = view.title;
 }
 
-document.getElementById("delete-view")?.addEventListener("click", deleteActiveView);
-document.getElementById("save-view")?.addEventListener("click", saveCurrentView);
-document.getElementById("new-view")?.addEventListener("click", createNewView);
+
+const viewActionLabel = document.getElementById("view-action") as HTMLElement;
+const saveViewButton = document.getElementById("save-view") as HTMLElement;
+
+setButtonActions("delete-view", "Delete this View", deleteActiveView);
+setButtonActions("save-view", "Save this View", saveCurrentView);
+setButtonActions("new-view", "Create from View", createNewView);
+setButtonActions("edit-view", "Edit this View", createNewView);
+
+function setButtonActions(buttonID: string, hoverTxt: string, clickAction: () => void) {
+    let btn = document.getElementById(buttonID);
+    btn?.addEventListener("click", clickAction);
+    btn?.addEventListener("mouseenter", () => viewActionLabel.textContent = hoverTxt);
+    btn?.addEventListener("mouseout", () => viewActionLabel.textContent = "");
+}
+
 
 const viewNameInput = document.getElementById("view-name") as HTMLInputElement;
 const viewContainerNav = document.getElementById("views-nav") as HTMLElement;
 const viewTitle = document.getElementById("view-title") as HTMLElement;
 
 getAllViewsForUser();
+

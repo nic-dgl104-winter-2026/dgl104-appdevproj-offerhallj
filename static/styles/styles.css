@@ -3,9 +3,9 @@
 html {
     font-size: 62.5%;
     --black: #0b0d13;
-    --off-black: #0d1321;
-    --cool-grey: #1d242f;
-    --mid-blue: #3e5c76;
+    --off-black: #272a33;
+    --dark-blue: #1f4079;
+    --mid-blue: #2d569c;
     --light-blue: #748cab;
     --off-white: #f0ebd8;   
 }
@@ -38,7 +38,7 @@ main {
     display: flex;
     flex-direction: row;
     min-height: 100vh;
-    background: radial-gradient(var(--cool-grey), var(--off-black));     
+    background: radial-gradient(var(--mid-blue), var(--dark-blue));     
 }
 
 /* ===== Forms and Input ===== */
@@ -46,17 +46,32 @@ form * {
     display: block;
 }
 
+.icon-button {
+    padding: 8px;
+    border-radius: 8px;
+    width: 24px;
+    height: 24px;
+    opacity: 100%;
+}
+
+.icon-button:not(.inactive):hover {
+    cursor: pointer;
+    background-color: var(--off-black);
+}
+
+.icon-button.inactive {
+    opacity: 50%;
+    background-color: transparent;
+}
 
 /* ===== Views Menu ===== */
-
 main .sidebar {
     display: flex;
     flex-direction: column;
     justify-content: center;
     min-width: 10%;
-    padding: 24px 32px 32px 16px;
-    background: linear-gradient(0deg, var(--off-black), var(--black));
-    /* background-color: var(--black); */
+    padding: 24px 0 32px 0;
+    background-color: var(--black);
     border-bottom-right-radius: 64px;
     flex-basis: 200px;
     box-shadow: 0 5px 10px var(--off-black);
@@ -69,7 +84,7 @@ main .logo {
     margin: auto;
     margin-bottom: 16px;
     padding-bottom: 8px;
-    border-bottom: 1px solid var(--cool-grey);
+    border-bottom: 1px solid var(--dark-blue);
 }
 
 main h1 {
@@ -96,30 +111,97 @@ main .sidebar nav {
     font-size: 1.8rem;
     width: 100%;
     max-width: 216px;
+    transition: all 0.1s;
+    border-radius: 0 16px 16px 0;
 }
 
 .views-nav li:hover {
     text-decoration: underline;
 }
 
-.views-nav li:first-of-type {
-    padding-top: 8px;
-}
-
-.views-nav .active {
-    border: 1px solid white;
+.views-nav li.active {
+    background-color: var(--off-black);
 }
 
 /* ===== Task View ===== */
-
 main .task-view {
     flex: 1;
     padding: 48px 32px;
+    position: relative;
 }
 
+.view-title-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.task-view h2 {
+    font-size: 3.2rem;
+    margin: 0;
+    padding-left: 8px;
+}
+
+.floating-corner {
+    position: absolute;
+    overflow: hidden;
+    width: 64px;
+    height: 64px;
+    left: 0;
+    top: 0;
+}
+
+.floating-corner div {
+    width: 200%;
+    height: 200%;
+    border-radius: 100%;
+    box-shadow: -64px -64px 0 var(--black);
+}
+
+.view-button-container {
+    border-radius: 16px;  
+    background-color: var(--dark-blue);
+  
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    overflow: hidden;
+    
+    width: 160px;
+    transition: all 0.3s;
+}
+
+.view-button-container:hover {
+    background-color: var(--black);
+    width: 360px;
+}
+
+.view-button-container p {
+    min-width: 200px;
+    font-size: 16px;
+    margin: 0;
+    margin-left: 16px;
+}
+
+/* ===== Search Container ===== */
+#search-form {
+    width: 100%;
+    display: flex;
+    max-width: 75vw;
+    padding: 16px;
+    background-color: var(--off-black);
+    border-radius: 16px;
+}
+
+#search-bar {
+    flex: 1;
+    background-color: transparent;
+    border: none;
+    outline: none;
+    font-size: 2.0rem;
+    color: var(--off-white);
+}
 
 /* ===== Task Elements ===== */
-
 .overdue {
     background-color: red;
 }
