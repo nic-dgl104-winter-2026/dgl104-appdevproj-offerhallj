@@ -69,12 +69,15 @@ function createNewView() {
         viewHolder.setView(v);
         viewsList.push(v);
         drawViewOptions();
+        openViewTitleInput();
+
     })
 }
 
 function saveCurrentView() {
     viewService.saveView(viewHolder.rView, viewNameInput.value, (b) => {
         if (b) updateViewTitle(false);
+        closeViewTitleInput();
         drawViewOptions();
     });
 }
@@ -91,23 +94,29 @@ function deleteActiveView() {
     })
 }
 
-function deleteView() {
-
-}
-
 function onNewView(view: View) {
     viewTitle.textContent = view.title;
     viewNameInput.value = view.title;
 }
 
-
 const viewActionLabel = document.getElementById("view-action") as HTMLElement;
-const saveViewButton = document.getElementById("save-view") as HTMLElement;
 
 setButtonActions("delete-view", "Delete this View", deleteActiveView);
 setButtonActions("save-view", "Save this View", saveCurrentView);
 setButtonActions("new-view", "Create from View", createNewView);
-setButtonActions("edit-view", "Edit this View", createNewView);
+setButtonActions("edit-view", "Edit this View", openViewTitleInput);
+
+function openViewTitleInput() {
+    viewTitle.classList.add("hidden");
+    viewTitleInputContainer.classList.remove("hidden");
+    viewNameInput.value = viewHolder.rView.title;
+    viewNameInput.focus();
+}
+
+function closeViewTitleInput() {
+    viewTitle.classList.remove("hidden");
+    viewTitleInputContainer.classList.add("hidden");
+}
 
 function setButtonActions(buttonID: string, hoverTxt: string, clickAction: () => void) {
     let btn = document.getElementById(buttonID);
@@ -116,10 +125,32 @@ function setButtonActions(buttonID: string, hoverTxt: string, clickAction: () =>
     btn?.addEventListener("mouseout", () => viewActionLabel.textContent = "");
 }
 
+document.getElementById("cancel-view-title")?.addEventListener("click", closeViewTitleInput);
+document.getElementById("save-view-title")?.addEventListener("click", () => {
+    setViewTitle();
+});
+
+document.addEventListener("keypress", (e) => {
+    if(e.key == "Enter" && viewNameInput == document.activeElement) {
+        setViewTitle();
+    }
+});
+
+function setViewTitle() {
+    viewHolder.rView.title = viewNameInput.value;
+    saveCurrentView();
+}
+
+function addNewView() {
+    // console.log("here");
+    createNewView();
+}
 
 const viewNameInput = document.getElementById("view-name") as HTMLInputElement;
 const viewContainerNav = document.getElementById("views-nav") as HTMLElement;
 const viewTitle = document.getElementById("view-title") as HTMLElement;
+const viewTitleInputContainer = document.getElementById("view-title-input") as HTMLElement;
+document.getElementById("add-new-view")?.addEventListener("click", addNewView);
 
 getAllViewsForUser();
 

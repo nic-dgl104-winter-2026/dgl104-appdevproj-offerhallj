@@ -23,21 +23,35 @@
                     <li><a href="index.html">Homework</a></li>
                     <li><a href="index.html">Due Today</a></li>
                 </ul>
-                <a href="login.html" id="logout-button">Logout</a>
+                <div class="add-view">
+                    <div id="add-new-view" class="action-button">
+                        <img src="./icons/add.svg" width="20">
+                        <a>Add View</a>
+                    </div>
+                </div>
+                <div class="other-options">
+                    <p>User: </p>
+                    <a href="login.html" id="logout-button">Logout</a>
+                </div>
             </nav>
-        </div>    
+        </div>   
+
         <div class="task-view">
             <div class="floating-corner"><div></div></div>
-            <div class="flex space-between">
+            <div class="flex space-between task-view-header">
                 <div class="view-title-container">
                     <div class="view-button-container">
                         <img src="./icons/bookmark-check.svg" class="icon-button inactive" width="24" id="save-view" title="Save this View">
-                        <!-- <img src="./icons/bookmark-add.svg" class="icon-button" width="24" id="new-view" title="Create a new View">  -->
                         <img src="./icons/edit-square.svg" class="icon-button" width="24" id="edit-view" title="Edit this View">
                         <img src="./icons/delete.svg" class="icon-button" width="24"  id="delete-view" title="Delete this View">
-                        <p id="view-action">Test</p>
+                        <p id="view-action"></p>
                     </div>
                     <h2 id="view-title">Dashboard</h2>
+                    <div id="view-title-input" class="hidden">
+                        <input type="text" id="view-name" placeholder="New View Title">
+                        <img src="./icons/check.svg" class="icon-button" width="20" id="save-view-title">
+                        <img src="./icons/close.svg" class="icon-button" width="20" id="cancel-view-title">
+                    </div>
                 </div>
                 <div class="filter-options-container">
                     <div class="filter-options-field">
@@ -87,14 +101,13 @@
             
             <div id="task-container">
             </div>
-            <input type="text" id="view-name">
         </div>
 
         <div class="hidden" id="form-window-container">
             <form class="task-form">
                 <div class="flex space-between">
                     <h2 id="task-form-title">New Task</h2>
-                    <img src="/docs/icons/add.svg" class="icon-button" id="close-form-btn">
+                    <img src="./icons/add.svg" class="icon-button" id="close-form-btn">
                 </div>
                 <input type="number" id="id" value="-1" class="hidden">
                 <input type="text" id="user" class="hidden">
