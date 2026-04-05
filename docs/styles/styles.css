@@ -118,6 +118,8 @@ form textarea {
     font-size: 1.6rem;
     padding: 8px;
     border-radius: 8px;
+    color-scheme: dark;
+    box-sizing: border-box;
 }
 
 form label {
@@ -651,10 +653,14 @@ select {
     background-color: var(--black);
     border-radius: 16px;
     margin: auto;
-    width: 50%;
+    width: 30%;
     padding: 32px;
     box-shadow: 0 0 16px black, 0 0 8px var(--light-blue);
-    background-color: var(--black);
+    /* background-color: var(--off-black); */
+}
+
+.task-form label {
+    margin-bottom: 4px;
 }
 
 .task-form h2 {
@@ -669,4 +675,37 @@ select {
     100% {
         opacity: 100;
     }
+}
+
+.task-form .action-button select, 
+.task-form .action-button {
+    background-color: var(--off-black);
+    width: auto;
+    min-width: auto;
+    max-width: auto;
+}
+
+.task-form .action-button select {
+    width: 100%;
+}
+
+button.action-button {
+    color: var(--off-white);
+    font-size: 1.6rem;
+    margin-top: 0;
+}
+
+.task-form .button-container {
+    margin-top: 16px;
+    gap: 8px;
+}
+
+.task-form .icon-button {
+    border-radius: 64px;
+    background-color: var(--off-black);
+    transform: rotate(45deg);
+}
+
+.task-form .button-container button:first-child:not(:hover) {
+    border-color: red;
 }

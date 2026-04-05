@@ -11,8 +11,10 @@ function getCachedID() {
 /** Try to get the cached task id from session storage and populate the edit fields */
 export function tryGetSelectedTask() {
     const id = getCachedID();
-    if (id < 0)
+    if (id < 0) {
+        clearFields();
         return;
+    }
     service.getTask(id, (r, task) => {
         console.log("here");
         if (r && task != undefined) {
@@ -28,6 +30,7 @@ function populateEditFields(task) {
     if (task.id != undefined)
         idInput.value = task.id.toString();
     userInput.value = task.user;
+    formTitle.textContent = task.title;
     titleInput.value = task.title;
     descriptionInput.value = task.description;
     dueInput.value = task.formattedDueDate;
@@ -35,6 +38,18 @@ function populateEditFields(task) {
     createdDate.value = task.formattedCreatedDate;
     statusInput.value = task.status;
     tagsInput.value = task.tags;
+}
+function clearFields() {
+    formTitle.textContent = "New Task";
+    idInput.value = "-1";
+    userInput.value = "";
+    titleInput.value = "";
+    descriptionInput.value = "";
+    dueInput.value = "";
+    priorityInput.value = "";
+    createdDate.value = "";
+    statusInput.value = "";
+    tagsInput.value = "";
 }
 /** Create a new task and add it to the view */
 function createTask() {
@@ -70,6 +85,8 @@ const createdDate = document.getElementById("createdate");
 const priorityInput = document.getElementById("priority");
 const statusInput = document.getElementById("status");
 const tagsInput = document.getElementById("tags");
+const form = document.getElementById("form-window-container");
+const formTitle = document.getElementById("task-form-title");
 tagsInput.addEventListener("input", parseTags);
 document.querySelector("form.task-form")?.addEventListener("submit", (e) => {
     e.preventDefault();
@@ -79,5 +96,13 @@ document.querySelector("form.task-form")?.addEventListener("submit", (e) => {
     else
         saveTask();
 });
+document.querySelector("form.task-form")?.addEventListener("reset", (e) => {
+    e.preventDefault();
+    closeForm();
+});
+document.getElementById("close-form-btn")?.addEventListener("click", closeForm);
+function closeForm() {
+    form?.classList.add("hidden");
+}
 tryGetSelectedTask();
 //# sourceMappingURL=task_form.js.map

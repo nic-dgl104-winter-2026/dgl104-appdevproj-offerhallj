@@ -12,7 +12,10 @@ function getCachedID(): number {
 /** Try to get the cached task id from session storage and populate the edit fields */
 export function tryGetSelectedTask() {
     const id = getCachedID();
-    if (id < 0) return;
+    if (id < 0) {
+        clearFields();
+        return;
+    }
 
     service.getTask(id, (r, task) => {
         console.log("here");
@@ -30,6 +33,7 @@ export function tryGetSelectedTask() {
 function populateEditFields(task: Task) {
     if (task.id != undefined) idInput.value = task.id.toString();
     userInput.value = task.user;
+    formTitle.textContent = task.title;
     titleInput.value = task.title;
     descriptionInput.value = task.description;
     dueInput.value = task.formattedDueDate;
@@ -37,6 +41,19 @@ function populateEditFields(task: Task) {
     createdDate.value = task.formattedCreatedDate;
     statusInput.value = task.status;
     tagsInput.value = task.tags;
+}
+
+function clearFields() {
+    formTitle.textContent = "New Task";
+    idInput.value = "-1";
+    userInput.value = "";
+    titleInput.value = "";
+    descriptionInput.value = "";
+    dueInput.value = "";
+    priorityInput.value = "";
+    createdDate.value = "";
+    statusInput.value = "";
+    tagsInput.value = "";
 }
 
 /** Create a new task and add it to the view */
@@ -93,8 +110,10 @@ const createdDate = document.getElementById("createdate") as HTMLInputElement;
 const priorityInput = document.getElementById("priority") as HTMLInputElement;
 const statusInput = document.getElementById("status") as HTMLInputElement;
 const tagsInput = document.getElementById("tags") as HTMLInputElement;
-tagsInput.addEventListener("input", parseTags);
+const form = document.getElementById("form-window-container");
+const formTitle = document.getElementById("task-form-title") as HTMLElement;
 
+tagsInput.addEventListener("input", parseTags);
 
 document.querySelector("form.task-form")?.addEventListener("submit", (e) => {
     e.preventDefault();
@@ -102,5 +121,16 @@ document.querySelector("form.task-form")?.addEventListener("submit", (e) => {
     if (id < 0) createTask();
     else saveTask();
 })
+
+document.querySelector("form.task-form")?.addEventListener("reset", (e) => {
+    e.preventDefault();
+    closeForm();
+})
+
+document.getElementById("close-form-btn")?.addEventListener("click", closeForm);
+
+function closeForm() {
+    form?.classList.add("hidden");
+}
 
 tryGetSelectedTask();
