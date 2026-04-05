@@ -37,7 +37,9 @@ function editTask(taskElement) {
     formWindowContainer.classList.remove("hidden");
     tryGetSelectedTask();
     // formWindow.src = "./taskform.html";
-    // window.location.replace("/static/taskform.html");
+    // window.location.replace("/docs/taskform.html");
+}
+function setTaskStatus(taskElement, status) {
 }
 /** Delete the selected task */
 function deleteTask(taskElement) {
@@ -58,7 +60,7 @@ function createTask() {
     formWindowContainer.classList.remove("hidden");
     tryGetSelectedTask();
     // formWindow.src = "./taskform.html";
-    // window.location.replace("/static/taskform.html");
+    // window.location.replace("/docs/taskform.html");
 }
 /** All all taskElements to the task table body */
 function drawTaskElements() {

@@ -41,7 +41,11 @@ function editTask(taskElement: TaskElement) {
     formWindowContainer.classList.remove("hidden");
     tryGetSelectedTask();
     // formWindow.src = "./taskform.html";
-    // window.location.replace("/static/taskform.html");
+    // window.location.replace("/docs/taskform.html");
+}
+
+function setTaskStatus(taskElement: TaskElement, status: TaskStatus) {
+    
 }
 
 /** Delete the selected task */
@@ -63,7 +67,7 @@ function createTask() {
     formWindowContainer.classList.remove("hidden");
     tryGetSelectedTask();
     // formWindow.src = "./taskform.html";
-    // window.location.replace("/static/taskform.html");
+    // window.location.replace("/docs/taskform.html");
 }
 
 /** All all taskElements to the task table body */

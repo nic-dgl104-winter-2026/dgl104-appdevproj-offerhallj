@@ -79,7 +79,7 @@ function parseTags() {
 /** Redirect to the tasks page */
 function redirect() {
     window.location.reload();
-    // window.location.replace("/static/index.html");
+    // window.location.replace("/docs/index.html");
 }
 
 const service = TaskService.Instance;
