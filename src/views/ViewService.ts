@@ -1,7 +1,6 @@
 import { LoginService } from "../login/LoginService.js";
 import { ViewRepository } from "./ViewRepository.js";
 import { View } from "./View.js";
-import { ViewHolder } from "./ViewHolder.js";
 
 const logService = LoginService.Instance;
 

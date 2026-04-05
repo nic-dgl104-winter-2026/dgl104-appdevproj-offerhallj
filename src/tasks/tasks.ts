@@ -8,6 +8,7 @@ import { canFilter } from "../utils/TaskFilter.js";
 import { SESSION_TASK_KEY } from "../global.js";
 import { TaskService } from "./TaskService.js";
 import type { View } from "../views/View.js";
+import { BasicTaskElement } from "../task_elements/BasicTaskElement.js";
 
 /** Retrieve all tasks for the current user from the database, convert them to taskElements, and draw them */
 function getAllTasks() { 
@@ -68,9 +69,18 @@ function drawTaskElements() {
 }
 
 /** */
-function changeTableDisplay(type: TaskDisplayType) {
+function changeTableDisplay(type: TaskDisplayType, e: HTMLElement) {
+    viewHolder.rwView.displayType = type;
+    updateDisplay(type, e);
+}
+
+function updateDisplay(type: TaskDisplayType, e: HTMLElement) {
     elementFactory.setDisplayType(type);
     taskElements = elementFactory.convertElements(taskElements);
+    if (compactbtn != e) compactbtn?.classList.remove("active");
+    if (detailedBtn != e) detailedBtn?.classList.remove("active");
+    if (basicbtn != e) basicbtn?.classList.remove("active");
+    e.classList.add("active");
     drawTaskElements();
 }
 
@@ -195,6 +205,11 @@ function onNewView(view: View) {
     sortOptions.value = `${view.sortHeader},${view.sortOrder}`;    
     searchFilterOptions.value = view.searchFilter;
     searchBar.value = view.searchValue;
+    
+    if (view.displayType == TaskDisplayType.Basic) updateDisplay(view.displayType, basicbtn!);
+    if (view.displayType == TaskDisplayType.Compact) updateDisplay(view.displayType, compactbtn!)
+    if (view.displayType == TaskDisplayType.Detailed) updateDisplay(view.displayType, detailedBtn!)    
+    
     setFilterValues();
     drawTaskElements();
 }
@@ -216,9 +231,14 @@ const viewHolder = ViewHolder.Instance;
 viewHolder.subscribe(onNewView);
 
 document.getElementById("search-form")?.addEventListener("input", filterBySearch);
-document.getElementById("detailed-view")?.addEventListener("click", () => changeTableDisplay(TaskDisplayType.Detailed));
-document.getElementById("compact-view")?.addEventListener("click", () => changeTableDisplay(TaskDisplayType.Compact));
-document.getElementById("basic-view")?.addEventListener("click", () => changeTableDisplay(TaskDisplayType.Basic));
+
+const detailedBtn = document.getElementById("detailed-view")
+detailedBtn?.addEventListener("click", (e) => changeTableDisplay(TaskDisplayType.Detailed, detailedBtn));
+const compactbtn = document.getElementById("compact-view")
+compactbtn?.addEventListener("click", (e) => changeTableDisplay(TaskDisplayType.Compact, compactbtn));
+const basicbtn = document.getElementById("basic-view")
+basicbtn?.addEventListener("click", (e) => changeTableDisplay(TaskDisplayType.Basic, basicbtn));
+
 document.getElementById("new-task")?.addEventListener("click", () => createTask());
 sortOptions.addEventListener("change", () => sortElements(sortOptions.value));
 

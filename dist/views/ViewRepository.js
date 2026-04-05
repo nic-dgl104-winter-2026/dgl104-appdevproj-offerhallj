@@ -86,6 +86,7 @@ export class ViewRepository extends Repository {
             view.sortOrder = rawView.sortOrder;
             view.searchFilter = rawView.searchFilter;
             view.searchValue = rawView.searchValue;
+            view.displayType = rawView.displayType;
             return view;
         }
     }

@@ -41,7 +41,16 @@ main {
     display: flex;
     flex-direction: row;
     min-height: 100vh;
-    background: radial-gradient(var(--mid-blue), var(--dark-blue));     
+    background: radial-gradient(var(--dark-grey), var(--dark-blue));     
+    /* background: radial-gradient(var(--mid-blue), var(--dark-blue));      */
+}
+
+.flex {
+    display: flex;
+}
+
+.space-between {
+    justify-content: space-between;
 }
 
 /* ===== Forms and Input ===== */
@@ -51,14 +60,16 @@ form * {
 
 .icon-button {
     padding: 8px;
-    border-radius: 8px;
+    border-radius: 16px;
     width: 24px;
     height: 24px;
     opacity: 100%;
+    border: 2px solid transparent;
 }
 
 .icon-button:not(.inactive):hover {
     cursor: pointer;
+    border: 2px solid var(--off-white);
     background-color: var(--off-black);
 }
 
@@ -167,14 +178,20 @@ main .sidebar small {
 /* ===== Task View ===== */
 main .task-view {
     flex: 1;
-    padding: 48px 40px;
+    padding: 48px 40px 0;
     position: relative;
-    max-width: 75vw;
+}
+
+#task-container {
+    max-height: 68vh;
+    overflow-y: auto;
+    padding: 0 16px 0 8px;
 }
 
 .view-title-container {
     display: flex;
     flex-direction: column;
+    flex: 1;
 }
 
 .task-view h2 {
@@ -207,7 +224,7 @@ main .task-view {
     justify-content: flex-start;
     align-items: center;
     overflow: hidden;
-    width: 160px;
+    width: 180px;
     transition: all 0.3s;
 }
 
@@ -289,11 +306,10 @@ input:-webkit-autofill:active{
 
 .filter-options-container {
     display: flex;
-    width: 100%;
-    align-items: center;
+    align-items: flex-end;
     justify-content: flex-end;
     gap: 8px;
-    margin-bottom: 32px;
+    margin-bottom: 8px;
 }
 
 #sort-options {
@@ -311,35 +327,61 @@ input:-webkit-autofill:active{
     border: none;
 }
 
+.view-options {
+    display: flex;
+    justify-content: flex-end;
+    /* align-items: ce; */
+}
+
+.display-type-buttons {
+    display: flex;
+    align-content: center;
+    margin-right: 32px;
+    gap: 8px;
+}
+
+.display-type-buttons .icon-button:hover {
+    background-color: var(--mid-blue);
+}
+
+.display-type-buttons .icon-button.active {
+    background-color: var(--black);
+}
+
+.display-type-buttons .icon-button.active:hover {
+    background-color: var(--off-black);
+}
+
 .sort-options-container label {
     top: 0;
 }
 
 .filter-options label {
+    border-radius: 2px;
     min-width: 80px;
     font-size: 1.4rem;
     text-align: center;
     cursor: pointer;
     display: inline-block;
     flex: 1;
-    transform: translateY(6px);
+    transform: translateY(-1px);
 
 }
 
 .filter-options * {
     padding: 4px 16px;
-    background-color: var(--dark-blue);
-    box-shadow: inset 0 2px 4px var(--off-black);
+    background-color: var(--dark-grey);
+    box-shadow: 0 2px 4px var(--off-black), 0 0 4px var(--light-blue);
 }
 
 .filter-options label:first-of-type {
-    border-radius: 16px 0 0 16px;
+    border-radius: 16px 2px 2px 16px;
     margin-right: 2px;
 }
 
 .filter-options label:last-of-type {
-    border-radius: 0 16px 16px 0;
-    margin-left: 2px;
+    border-radius: 2px 16px 16px 2px;
+    margin-left: 4px;
 }
 
 .filter-options input[type="checkbox"] {
@@ -348,8 +390,8 @@ input:-webkit-autofill:active{
 
 .filter-options input[type="checkbox"]:checked + label {
     background-color: var(--off-black);
-    box-shadow: 0 2px 4px var(--off-black), 0 0 4px var(--light-blue);
-    transform: translateY(5px);
+    box-shadow: inset 0 2px 8px var(--black);
+    transform: translateY(0);
 }
 
 .filter-options-field {
@@ -361,7 +403,7 @@ input:-webkit-autofill:active{
 
 .filter-options-field small {
     position: absolute;
-    top: -8px;
+    top: -24px;
 }
 
 /* ===== Task Elements ===== */
@@ -475,30 +517,21 @@ input:-webkit-autofill:active{
     min-height: 42px;
 }
 
-.action-button:has(select) {
-    background-color: var(--dark-blue);
-    border: 2px solid var(--light-blue);
-}
-
 .action-button select {
     width: 100%;
     outline: none;
     border: none;
     color: var(--off-white);
-    background-color: var(--dark-blue);
+    background-color: var(--black);
     margin-left: 4px;
     font-size: 1.6rem;
 }
 
 .action-button:hover {
     cursor: pointer;
-    border: 2px solid var(--mid-blue);
+    border: 2px solid var(--off-white);
     box-shadow: 0 0px 8px black;
 }
-
-.action-button:has(select):hover {
-    border: 2px solid var(--off-white);
-} 
 
 .action-button p {
     margin: 0;
@@ -543,8 +576,6 @@ input:-webkit-autofill:active{
     border: none;
     margin: 0;
 }
-
-
 
 .task-element.compact .compact-action-container .action-button:first-of-type {
     min-width: 135px;
