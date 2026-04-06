@@ -61,7 +61,7 @@ export class TaskElement {
         headerContainer.appendChild(h3);
         const dueDate = this.createHTMLElement("div", "due-date-container");
         headerContainer.appendChild(dueDate);
-        const clockImg = this.createImage("./icons/clock.svg", 20);
+        const clockImg = this.createImage("docs/icons/clock.svg", 20);
         dueDate.appendChild(clockImg);
         const dueP = document.createElement("p");
         dueP.textContent = `Due: ${this.Task.dueDate.toDateString()}`;
@@ -72,13 +72,13 @@ export class TaskElement {
     }
     createDetailContent() {
         const parent = this.createHTMLElement("div", "task-detail-content");
-        const clockImg = this.createImage("./icons/clock.svg", 20);
+        const clockImg = this.createImage("docs/icons/clock.svg", 20);
         const created = this.createTextElement("p", `Created: ${this.Task.createdDate.toDateString()}`);
-        const priorityImg = this.createImage("./icons/priority.svg", 20);
+        const priorityImg = this.createImage("docs/icons/priority.svg", 20);
         const priority = this.createTextElement("p", `Priority: ${this.Task.priority}`);
-        const checklistImg = this.createImage("./icons/checklist.svg", 20);
+        const checklistImg = this.createImage("docs/icons/checklist.svg", 20);
         const status = this.createTextElement("p", `Status: ${this.Task.status}`);
-        const userImg = this.createImage("./icons/user.svg", 20);
+        const userImg = this.createImage("docs/icons/user.svg", 20);
         const user = this.createTextElement("p", `Created by: ${this.Task.user}`);
         parent.appendChild(clockImg);
         parent.appendChild(created);
@@ -109,9 +109,9 @@ export class TaskElement {
     }
     createActionContainer(type) {
         const parent = this.createHTMLElement("div", "action-container");
-        const deleteButton = this.createActionButton("Delete", "./icons/delete.svg", () => this.delete(this), type != "compact");
-        const editButton = this.createActionButton("Edit", "./icons/edit-square.svg", () => this.edit(this), type != "compact");
-        const statusSelector = this.createStatusSetter("./icons/checklist.svg");
+        const deleteButton = this.createActionButton("Delete", "docs/icons/delete.svg", () => this.delete(this), type != "compact");
+        const editButton = this.createActionButton("Edit", "docs/icons/edit-square.svg", () => this.edit(this), type != "compact");
+        const statusSelector = this.createStatusSetter("docs/icons/checklist.svg");
         if (type != "detailed") {
             const compactContainer = this.createHTMLElement("div", "compact-action-container");
             parent.appendChild(compactContainer);
