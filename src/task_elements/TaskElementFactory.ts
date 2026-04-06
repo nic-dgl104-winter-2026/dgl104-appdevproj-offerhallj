@@ -4,7 +4,8 @@ import { OverdueTask } from "./decorators/OverdueTask.js";
 import { BasicTaskElement } from "./BasicTaskElement.js";
 import { DueToday } from "./decorators/DueToday.js";
 import { TaskElement } from "./TaskElement.js";
-import { Task } from "../tasks/Task.js";
+import { Task, TaskStatus } from "../tasks/Task.js";
+import { CompletedTask } from "./decorators/CompletedTask.js";
 
 export class TaskElementFactory {
     private _type: TaskDisplayType;
@@ -38,7 +39,8 @@ export class TaskElementFactory {
         newElement.onDelete = this._onDelete;
         newElement.onSetStatus = this._onChangeStatus;
         
-        if (task.isOverdue) { newElement = new OverdueTask(newElement); }
+        if (task.status == TaskStatus.Complete) { newElement = new CompletedTask(newElement); }
+        else if (task.isOverdue) { newElement = new OverdueTask(newElement); }
         else if (task.isDueToday) { newElement = new DueToday(newElement); }
         return newElement;
     }

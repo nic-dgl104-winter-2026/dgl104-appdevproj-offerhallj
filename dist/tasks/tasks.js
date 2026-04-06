@@ -40,7 +40,11 @@ function editTask(taskElement) {
     // window.location.replace("/docs/taskform.html");
 }
 function setTaskStatus(taskElement) {
-    service.updateTask(taskElement.Task, () => { });
+    service.updateTask(taskElement.Task, () => {
+        const newTaskElement = elementFactory.create(taskElement.Task);
+        taskContainer.appendChild(newTaskElement.Element);
+        taskContainer.replaceChild(newTaskElement.Element, taskElement.Element);
+    });
 }
 /** Delete the selected task */
 function deleteTask(taskElement) {

@@ -45,7 +45,11 @@ function editTask(taskElement: TaskElement) {
 }
 
 function setTaskStatus(taskElement: TaskElement) {
-    service.updateTask(taskElement.Task, () => {});
+    service.updateTask(taskElement.Task, () => {
+        const newTaskElement = elementFactory.create(taskElement.Task);
+        taskContainer.appendChild(newTaskElement.Element);
+        taskContainer.replaceChild(newTaskElement.Element, taskElement.Element);
+    });
 }
 
 /** Delete the selected task */

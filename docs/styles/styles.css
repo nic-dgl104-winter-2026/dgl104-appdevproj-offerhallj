@@ -664,6 +664,17 @@ input:-webkit-autofill:active{
     filter: invert(24%) sepia(42%) saturate(4970%) hue-rotate(359deg) brightness(101%) contrast(107%);
 }
 
+.task-element.complete {
+    box-shadow: 0 0 8px green;
+    border-bottom: 1px solid green;
+}
+
+.task-element.complete .header-container {
+    border-bottom: 1px solid white;
+    filter: invert(24%) sepia(42%) saturate(4970%) hue-rotate(60deg) brightness(101%) contrast(107%);
+}
+
+
 .task-element .compact-action-container {
     flex: 1;
     display: flex;
