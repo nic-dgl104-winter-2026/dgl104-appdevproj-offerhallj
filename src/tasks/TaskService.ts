@@ -1,7 +1,6 @@
 import { LoginService } from "../login/LoginService.js";
 import { TaskRepository } from "./TaskRepository.js";
 import { Task, TaskPriority } from "./Task.js";
-import { SESSION_TASK_KEY } from "../global.js";
 
 const repo = TaskRepository.Instance;
 const logService = LoginService.Instance;
