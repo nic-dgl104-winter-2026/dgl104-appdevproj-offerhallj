@@ -40,10 +40,9 @@ function editTask(taskElement: TaskElement) {
     sessionStorage.setItem(SESSION_TASK_KEY, task.id.toString());
     formWindowContainer.classList.remove("hidden");
     tryGetSelectedTask();
-    // formWindow.src = "./taskform.html";
-    // window.location.replace("/docs/taskform.html");
 }
 
+/** Set the status of the given task */
 function setTaskStatus(taskElement: TaskElement) {
     service.updateTask(taskElement.Task, () => {
         const newTaskElement = elementFactory.create(taskElement.Task);
@@ -70,8 +69,6 @@ function createTask() {
     sessionStorage.setItem("id", "-1");
     formWindowContainer.classList.remove("hidden");
     tryGetSelectedTask();
-    // formWindow.src = "./taskform.html";
-    // window.location.replace("/docs/taskform.html");
 }
 
 /** All all taskElements to the task table body */
@@ -83,12 +80,13 @@ function drawTaskElements() {
     }
 }
 
-/** */
+/** Set the task display type in the current View and update the UI */
 function changeTableDisplay(type: TaskDisplayType, e: HTMLElement) {
     viewHolder.rwView.displayType = type;
     updateDisplay(type, e);
 }
 
+/** Update the UI and task element factory according to the current task display type and redaw all task elements */
 function updateDisplay(type: TaskDisplayType, e: HTMLElement) {
     elementFactory.setDisplayType(type);
     taskElements = elementFactory.convertElements(taskElements);
@@ -99,6 +97,7 @@ function updateDisplay(type: TaskDisplayType, e: HTMLElement) {
     drawTaskElements();
 }
 
+/** Sort all task elements according to the sorting option provided */
 function sortElements(value: string) {
     let detail = value.split(",")[0] as TaskDetail;
     let order = value.split(",")[1] as Order;
@@ -110,6 +109,7 @@ function sortElements(value: string) {
 
 // I used this resource to see how to iterate over an enum
 // https://blog.logrocket.com/iterate-over-enums-typescript/
+/** Draw the html elements for the priority filter options and assign functionality */
 function drawPriorityFilter() {
     priorityFilters.innerHTML = "";
     for(let priority of Object.values(TaskPriority)) {
@@ -120,6 +120,7 @@ function drawPriorityFilter() {
     }
 }
 
+/** Draw the html elements for the status filter options and assign functionality */
 function drawStatusFilter() {
     statusFilters.innerHTML = "";
     for(let status of Object.values(TaskStatus)) {
@@ -131,6 +132,7 @@ function drawStatusFilter() {
     }
 }
 
+/** Create the html element for a priority or status filter option */
 function createFilterElement(parent: HTMLElement, value: TaskPriority | TaskStatus, checkboxEvent: (isChecked: boolean) => void) {
     let checkbox = document.createElement("input");
     checkbox.type = "checkbox";
@@ -162,6 +164,7 @@ function setFilterValues() {
     viewHolder.rView.isChanged = initalState;
 }
 
+/** Set the value of the checkbox for the given filter option */
 function setFilterValue(detail: TaskPriority | TaskStatus, value: boolean | undefined) {
     let checkbox = filterCheckboxes.get(detail);
     if (checkbox == undefined || value == undefined) return;
@@ -170,6 +173,7 @@ function setFilterValue(detail: TaskPriority | TaskStatus, value: boolean | unde
 
 const filterCheckboxes: Map<string, HTMLInputElement> = new Map();
 
+/** Populate the options for the filter dropdown in the searchbar */
 function drawSearchFilterOptions() {
     searchFilterOptions.innerHTML = "";
     for(let detail of Object.values(TaskDetail)) {
@@ -178,6 +182,7 @@ function drawSearchFilterOptions() {
     }
 }
 
+/** Population the options for the sorting dropdown */
 function drawSortOptions() {
     sortOptions.innerHTML = "";
     for(let detail of Object.values(TaskDetail)) {
@@ -193,6 +198,7 @@ function drawSortOptions() {
     }
 }
 
+/** Create an Option HTML element for the given TaskDetail (title, description, etc.) */
 function createOptionForTaskDetail(detail: TaskDetail): HTMLOptionElement {
     const option = document.createElement("option");
     option.textContent = detail;
@@ -200,6 +206,7 @@ function createOptionForTaskDetail(detail: TaskDetail): HTMLOptionElement {
     return option;
 }
 
+/** Apply the current value in the searchbar to the view and redraw task elements according the results of the filter */
 function filterBySearch(e: InputEvent) {
     if ((e.target as HTMLElement).id == searchFilterOptions.id) {
         viewHolder.rwView.searchFilter = searchFilterOptions.value as TaskDetail;
@@ -216,6 +223,7 @@ function filterBySearch(e: InputEvent) {
     drawTaskElements();
 }
 
+/** When the Viewholder notifies us that a new View has been set, update the UI according to the view's filters and sorting options and redraw all elements */
 function onNewView(view: View) {
     sortOptions.value = `${view.sortHeader},${view.sortOrder}`;    
     searchFilterOptions.value = view.searchFilter;
@@ -256,7 +264,6 @@ const basicbtn = document.getElementById("basic-view")
 basicbtn?.addEventListener("click", (e) => changeTableDisplay(TaskDisplayType.Basic, basicbtn));
 
 const formWindowContainer = document.getElementById("form-window-container") as HTMLElement;
-const formWindow = document.getElementById("form-window") as HTMLIFrameElement;
 
 document.getElementById("new-task")?.addEventListener("click", () => createTask());
 sortOptions.addEventListener("change", () => sortElements(sortOptions.value));

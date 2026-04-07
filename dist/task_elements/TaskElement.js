@@ -1,40 +1,13 @@
 import { isFilteredOut } from "../utils/TaskFilter.js";
 import { Task, TaskStatus } from "../tasks/Task.js";
 export class TaskElement {
-    edit(element) { this.onEdit(element); }
-    delete(element) { this.onDelete(element); }
-    setStatus(element) { this.onSetStatus(element); }
     constructor(task) {
         this.Task = task;
-        // I realized that calling the create method in the constructor here was causing issues with the create method in overduetasks
-        // so I've had to override the constructor in all of the children
-    }
-    createCellForValue(val) {
-        let td = document.createElement("td");
-        td.textContent = val;
-        return td;
-    }
-    createButtonCell() {
-        const buttonCell = document.createElement("td");
-        buttonCell.appendChild(this.createEditButton());
-        buttonCell.appendChild(this.createDeleteButton());
-        return buttonCell;
-    }
-    createEditButton() {
-        const editButton = document.createElement("button");
-        editButton.textContent = "Edit";
-        editButton.addEventListener("click", () => this.edit(this));
-        return editButton;
-    }
-    createDeleteButton() {
-        const deleteButton = document.createElement("button");
-        deleteButton.textContent = "Delete";
-        deleteButton.addEventListener("click", () => this.delete(this));
-        return deleteButton;
     }
     get isFilteredOut() {
         return isFilteredOut(this.Task);
     }
+    /** Create an HTML Element with an arbitrary number of classes */
     createHTMLElement(element, ...classes) {
         const el = document.createElement(element);
         if (classes != undefined) {
@@ -44,12 +17,14 @@ export class TaskElement {
         }
         return el;
     }
+    /** Create an image element referencing the given resource, with the given width, and an arbitrary number of classes */
     createImage(res, width, ...classes) {
         const img = this.createHTMLElement("img", ...classes);
         img.src = res;
         img.width = width;
         return img;
     }
+    /** Create the basic parent element which all TaskElements will implement */
     createParentElement(type) {
         const taskElement = this.createHTMLElement("div", "task-element", type);
         const mainContent = this.createHTMLElement("div", "main-content");
@@ -70,6 +45,7 @@ export class TaskElement {
         taskElement?.appendChild(actionContainer);
         return taskElement;
     }
+    /** Create the detail content for the Task */
     createDetailContent() {
         const parent = this.createHTMLElement("div", "task-detail-content");
         const clockImg = this.createImage("docs/icons/clock.svg", 20);
@@ -90,6 +66,7 @@ export class TaskElement {
         parent.appendChild(user);
         return parent;
     }
+    /** Create the tags and tag container for the Task */
     createTagElement() {
         const parent = this.createHTMLElement("div", "tag-container");
         parent.appendChild(this.createTextElement("p", "Tags: "));
@@ -102,15 +79,17 @@ export class TaskElement {
         }
         return parent;
     }
+    /** Create a text element with the given string value */
     createTextElement(type, content) {
         const text = document.createElement(type);
         text.textContent = content;
         return text;
     }
+    /** Create the action button container according to the given type */
     createActionContainer(type) {
         const parent = this.createHTMLElement("div", "action-container");
-        const deleteButton = this.createActionButton("Delete", "docs/icons/delete.svg", () => this.delete(this), type != "compact");
-        const editButton = this.createActionButton("Edit", "docs/icons/edit-square.svg", () => this.edit(this), type != "compact");
+        const deleteButton = this.createActionButton("Delete", "docs/icons/delete.svg", () => this.onDelete(this), type != "compact");
+        const editButton = this.createActionButton("Edit", "docs/icons/edit-square.svg", () => this.onEdit(this), type != "compact");
         const statusSelector = this.createStatusSetter("docs/icons/checklist.svg");
         if (type != "detailed") {
             const compactContainer = this.createHTMLElement("div", "compact-action-container");
@@ -131,6 +110,7 @@ export class TaskElement {
         }
         return parent;
     }
+    /** Create an action button with the given label, icon, and action applied */
     createActionButton(label, rsc, action, withLabel = true) {
         const button = this.createHTMLElement("div", "action-button");
         const icon = this.createImage(rsc, 24);
@@ -142,6 +122,7 @@ export class TaskElement {
         button.addEventListener("click", action);
         return button;
     }
+    /** Create the task status dropdown selector */
     createStatusSetter(rsc) {
         const button = this.createHTMLElement("div", "action-button");
         const icon = this.createImage(rsc, 24);
@@ -156,10 +137,11 @@ export class TaskElement {
         select.addEventListener("change", () => {
             console.log(select.value);
             this.Task.status = select.value;
-            this.setStatus(this);
+            this.onSetStatus(this);
         });
         return button;
     }
+    /** Create an option for the task status dropdown selector */
     createStatusOption(status) {
         const option = document.createElement("option");
         option.textContent = status;

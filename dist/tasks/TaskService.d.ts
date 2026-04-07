@@ -6,8 +6,11 @@ export declare class TaskService {
     createNewTask(title: string, description: string, due: string, priority: string, tags: string, callback: (result: boolean, newTask: Task | undefined) => void): void;
     /** Get all of the tasks for the current user */
     getAllTasks(callback: (result: boolean, tasks: Task[]) => void): void;
+    /** Get the task with the provided ID value */
     getTask(id: number, callback: (result: boolean, task: Task | undefined) => void): void;
+    /** Edit the task with the provided ID value */
     editTask(id: number, title: string, description: string, due: string, priority: string, user: string, tags: string, callback: (result: boolean) => void): void;
+    /** Update the provided task in the database */
     updateTask(task: Task, callback: (r: boolean, msg: string) => void): void;
     /** Remove a task from the database */
     deleteTask(task: Task, callback: (result: boolean) => void): void;

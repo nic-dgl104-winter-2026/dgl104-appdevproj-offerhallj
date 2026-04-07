@@ -36,6 +36,7 @@ export class TaskService {
         repo.getAllTasksForUser(user, callback);
     }
 
+    /** Get the task with the provided ID value */
     public getTask(id: number, callback: (result: boolean, task: Task | undefined) => void) {
         const user = this.getUser();
         if(user == undefined) { callback(false, undefined); return; }
@@ -43,6 +44,7 @@ export class TaskService {
         repo.getTask(id, user, callback);
     }
 
+    /** Edit the task with the provided ID value */
     public editTask(id: number, title: string, description: string, due: string, priority: string, user: string, tags: string,
         callback: (result: boolean) => void) {        
             
@@ -51,6 +53,7 @@ export class TaskService {
         repo.updateTask(task, callback);
     }
 
+    /** Update the provided task in the database */
     public updateTask(task: Task, callback: (r: boolean, msg: string) => void) {
         repo.updateTask(task, (r) => {
             if (!r) callback(r, "Failed to update task");

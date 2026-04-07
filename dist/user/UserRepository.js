@@ -93,6 +93,7 @@ export class UserRepository extends Repository {
             callback(false);
         });
     }
+    /** Create a randomly generated UUI string to use as the user's authentication token after a successful login */
     createToken() {
         // https://stackoverflow.com/questions/43837659/guid-uuid-in-typescript-node-js-app
         return crypto.randomUUID();

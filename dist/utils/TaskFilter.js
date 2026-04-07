@@ -74,6 +74,7 @@ function translateDateKeyword(searchFilter) {
         yesterday.setDate(yesterday.getDate() - 1);
         return yesterday.toDateString();
     }
+
     return "";
 }
 //# sourceMappingURL=TaskFilter.js.map

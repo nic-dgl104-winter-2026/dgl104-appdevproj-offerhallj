@@ -11,6 +11,7 @@ export declare class UserRepository extends Repository<UserRepository> {
     validateLoginCredentials(username: string, password: string, callback: (result: boolean, auth: string) => void): void;
     /** Determine whether the token assigned to this user in the database matches the username and token pair provided */
     validateAuthenticationToken(username: string, token: string, callback: (result: boolean) => void): void;
+    /** Create a randomly generated UUI string to use as the user's authentication token after a successful login */
     private createToken;
 }
 //# sourceMappingURL=UserRepository.d.ts.map

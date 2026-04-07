@@ -12,49 +12,18 @@ export abstract class TaskElement implements UIElement {
     public onEdit!: ((element: TaskElement) => void);
     public onDelete!: ((element: TaskElement) => void);
     public onSetStatus!: ((element: TaskElement) => void);
-    public edit(element: TaskElement): void { this.onEdit(element); }
-    public delete(element: TaskElement): void { this.onDelete(element); }
-    public setStatus(element: TaskElement): void { this.onSetStatus(element); }
 
     constructor(task: Task) {
         this.Task = task;
-        // I realized that calling the create method in the constructor here was causing issues with the create method in overduetasks
-        // so I've had to override the constructor in all of the children
     }
 
     abstract create(): HTMLElement;
-
-    protected createCellForValue(val: string): HTMLElement {
-        let td = document.createElement("td");
-        td.textContent = val;
-        return td;
-    }
-
-    protected createButtonCell(): HTMLElement {
-        const buttonCell = document.createElement("td");
-        buttonCell.appendChild(this.createEditButton());
-        buttonCell.appendChild(this.createDeleteButton());
-        return buttonCell;
-    }
-
-    protected createEditButton(): HTMLElement {
-        const editButton = document.createElement("button");
-        editButton.textContent = "Edit";
-        editButton.addEventListener("click", () => this.edit(this));
-        return editButton;
-    }
-
-    protected createDeleteButton(): HTMLElement {
-        const deleteButton = document.createElement("button");
-        deleteButton.textContent = "Delete";
-        deleteButton.addEventListener("click", () => this.delete(this));
-        return deleteButton;
-    }
 
     public get isFilteredOut(): boolean {
         return isFilteredOut(this.Task);
     }
 
+    /** Create an HTML Element with an arbitrary number of classes */
     protected createHTMLElement(element: string, ...classes: string[]): HTMLElement {
         const el = document.createElement(element);
         if (classes != undefined) {
@@ -66,6 +35,7 @@ export abstract class TaskElement implements UIElement {
         return el;
     }
 
+    /** Create an image element referencing the given resource, with the given width, and an arbitrary number of classes */
     protected createImage(res: string, width: number, ...classes: string[]): HTMLImageElement {
         const img = this.createHTMLElement("img", ...classes) as HTMLImageElement;
         img.src = res;
@@ -73,6 +43,7 @@ export abstract class TaskElement implements UIElement {
         return img;
     }
 
+    /** Create the basic parent element which all TaskElements will implement */
     protected createParentElement(type: string): HTMLElement {
         const taskElement = this.createHTMLElement("div", "task-element", type);
         const mainContent = this.createHTMLElement("div", "main-content");
@@ -95,6 +66,7 @@ export abstract class TaskElement implements UIElement {
         return taskElement;
     }
 
+    /** Create the detail content for the Task */
     protected createDetailContent(): HTMLElement {
         const parent = this.createHTMLElement("div", "task-detail-content");
         const clockImg = this.createImage("docs/icons/clock.svg", 20);
@@ -116,6 +88,7 @@ export abstract class TaskElement implements UIElement {
         return parent;
     }
 
+    /** Create the tags and tag container for the Task */
     protected createTagElement(): HTMLElement {
         const parent = this.createHTMLElement("div", "tag-container");
         parent.appendChild(this.createTextElement("p", "Tags: "));
@@ -129,16 +102,18 @@ export abstract class TaskElement implements UIElement {
         return parent;
     }
 
+    /** Create a text element with the given string value */
     protected createTextElement(type: string, content: string): HTMLElement {
         const text = document.createElement(type);
         text.textContent = content;
         return text;
     }
 
+    /** Create the action button container according to the given type */
     protected createActionContainer(type: string): HTMLElement {
         const parent = this.createHTMLElement("div", "action-container");
-        const deleteButton = this.createActionButton("Delete", "docs/icons/delete.svg", () => this.delete(this), type != "compact");
-        const editButton = this.createActionButton("Edit", "docs/icons/edit-square.svg", () => this.edit(this), type != "compact");
+        const deleteButton = this.createActionButton("Delete", "docs/icons/delete.svg", () => this.onDelete(this), type != "compact");
+        const editButton = this.createActionButton("Edit", "docs/icons/edit-square.svg", () => this.onEdit(this), type != "compact");
         const statusSelector = this.createStatusSetter("docs/icons/checklist.svg");
 
         if (type != "detailed") {
@@ -165,6 +140,7 @@ export abstract class TaskElement implements UIElement {
         return parent;
     }
 
+    /** Create an action button with the given label, icon, and action applied */
     protected createActionButton(label: string, rsc: string, action: () => void, withLabel: boolean = true): HTMLElement {
         const button = this.createHTMLElement("div", "action-button");
         const icon = this.createImage(rsc, 24);
@@ -177,6 +153,7 @@ export abstract class TaskElement implements UIElement {
         return button;
     }
 
+    /** Create the task status dropdown selector */
     protected createStatusSetter(rsc: string) {
         const button = this.createHTMLElement("div", "action-button");
         const icon = this.createImage(rsc, 24);
@@ -191,11 +168,12 @@ export abstract class TaskElement implements UIElement {
         select.addEventListener("change", () => {
             console.log(select.value);
             this.Task.status = select.value as TaskStatus;
-            this.setStatus(this);
+            this.onSetStatus(this);
         });
         return button;
     }
 
+    /** Create an option for the task status dropdown selector */
     private createStatusOption(status: TaskStatus): HTMLElement {
         const option = document.createElement("option");
         option.textContent = status;

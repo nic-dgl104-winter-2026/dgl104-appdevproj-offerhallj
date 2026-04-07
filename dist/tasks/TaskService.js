@@ -33,6 +33,7 @@ export class TaskService {
         }
         repo.getAllTasksForUser(user, callback);
     }
+    /** Get the task with the provided ID value */
     getTask(id, callback) {
         const user = this.getUser();
         if (user == undefined) {
@@ -41,11 +42,13 @@ export class TaskService {
         }
         repo.getTask(id, user, callback);
     }
+    /** Edit the task with the provided ID value */
     editTask(id, title, description, due, priority, user, tags, callback) {
         const task = new Task(title, description, this.getDate(due), priority, user, tags);
         task.id = id;
         repo.updateTask(task, callback);
     }
+    /** Update the provided task in the database */
     updateTask(task, callback) {
         repo.updateTask(task, (r) => {
             if (!r)

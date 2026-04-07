@@ -204,6 +204,7 @@ By default, all tasks added to the Tasklist are displayed in Basic format. User 
 
 ### Saving, Editing, and Creating Views
 ![Saving the view](images/saving-view.png)
+
 Any change made to the sorting, filtering, or display settings in the current view will be undone when the page is reloaded. To make those changes permanent, the View must be saved. In the top-left of the screen, the user will see an asterisk (*) next to the View's title if changes have been made which need to be saved. Users can click the "Save this View" button above the view title to save any pending changes to the view. Once saved, these changes will be applied every time the view is loaded.
 
 ![Editing a view](images/editing-view.png)
